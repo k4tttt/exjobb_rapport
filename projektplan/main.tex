@@ -1,0 +1,104 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{url}
+
+%%%% Make a copy of the overleaf project to start using it %%%%%
+
+% Redefine the following variables
+\def\projecttitle{Electricity Consumption Forecasting Using High-Resolution Customer Data and External Data Sources}
+\def\myname{Tyra Wodén}
+\def\semester{VT 26} % When you are planning to do your thesis
+\def\epartner{Umeå Energi} % Enter a company, organisation, researcher, or 'none'
+\def\myemail{id21twn@cs.umu.se}
+\def\pnumber{021215-7440} % Your personal identification number
+\begin{document}
+
+\begin{center}
+  \large{\textsc{Master's Thesis Project Specification}}\\
+   \bigskip
+   \huge{\textsc{\projecttitle}}\\
+   \bigskip
+   \large{\myname{} (\pnumber)}\\
+   \medskip
+   \large{\myemail}
+\end{center}
+
+\noindent \today
+
+\noindent Semester: \semester
+
+\noindent External partner: \epartner
+
+\section*{Introduction}
+%What is your project all about? What is the surrounding area of technology and/or computer science? Why is the project interesting? Will it be performed in cooperation with a company, organisation, research group, or similar?
+
+In recent years, the electricity market has been affected by large variations in price and periodically very high electricity prices. This has increased the need for customers to understand and influence their electricity consumption and future electricity costs. To address this need, Umeå Energi has worked on developing and improving their interfaces for customers, for example by developing an application for private customers. Customers wish to, before the invoice arrives, receive an estimation of the electricity cost. A first step towards a cost forecast is forecasting the electricity consumption. Currently, Umeå Energi has developed a linear regression model to forecast the consumption for the current month. The model is based on historical consumption and temperature, aggregated by month. For certain customer groups, Umeå Energi has access to high definition measurement data where electricity consumption is registered on a 15 minute level, which creates opportunities for more advanced modeling. There may also be other factors, apart from historical consumption, that affect the electricity consumption, for example weather data, calendar information (holidays etc.), and energy prices.
+
+The goal with this Master's thesis is to develop and evaluate forecasting models that show the predicted energy consumption for the current month. The forecast will be updated continuously during the month, and as actual observed values of electricity consumption become available, these values will be used to improve the forecast. The main subject of the thesis is data analysis, with a focus on Machine Learning (ML) and statistical analysis.
+
+%Elmarknaden har under de senaste åren präglats av stora prisvariationer och periodvis mycket höga elpriser. Detta har ökat behovet hos elkunder att kunna förstå och påverka sin elanvändning, och i förlängningen framtida elkostnader. Umeå Energi har därför jobbat med att utveckla och förbättra sina kundgränssnitt. En del av detta har exempelvis varit framtagandet av en app för privatkunder. En önskan från kunder är att, innan fakturan kommer, få en uppskattning på vad kostnaden kommer att bli. Ett första steg till en kostnadsprognos, är att prognostisera förbrukningen. Umeå Energi har i dagsläget tagit fram en linjär regressionsmodell för att prognostisera förbrukningen för innevarande månad. Den är gjord baserad på historisk förbrukning och temperatur, aggregerat per månad. För vissa kundgrupper har Umeå Energi tillgång till högupplöst mätdata där elförbrukning registreras på kvartstidsnivå (15 minuter). Det skapar förutsättningar för mer avancerad modellering. Det kan även finnas fler faktorer som påverkar elanvändningen förutom historisk användning – till exempel väderdata, kalenderinformation (helgdagar, semestrar) eller energipriser. Målet med examensarbetet är att utveckla och utvärdera prognosmodeller som visar förväntad elförbrukning för innevarande månad. Prognosen ska uppdateras löpande under månaden, och i takt med att faktiska förbrukningsvärden blir tillgängliga kan dessa värden användas för att förbättra prognosen.
+
+\section*{Problem formulation}
+%What is the problem that the project will solve? Or, in other words, what questions will be answered within the project? What will we have learned about the technological or scientific area when the project is concluded?
+
+This project aims solve the problem of accurately predicting customers' electricity consumption based on consumption data and external data sources. The forecasts will have a monthly scope. Several research questions are posed:
+\begin{itemize}
+    \item What type of forecasting model gives the best results for predicting electricity usage of the current month?
+    \item Which external sources of data contribute to the accuracy of the forecast, and which sources provide little to no improvement?
+    \item How can the accuracy of the forecasts be validated over time after the models are implemented in production?
+\end{itemize}
+
+%Vilken typ av prognosmodell ger bäst resultat för att prognostisera elanvändning för innevarande månad?
+%Vilka externa datakällor bidrar till prognosens träffsäkerhet, och vilka tillför begränsad eller ingen förbättring?
+%Hur kan prognosernas träffsäkerhet följas upp och säkerställas över tid efter att modellerna satts i produktion?
+
+\section*{Method}
+%How will the questions formulated above be answered? Examples of methods include literature studies, simulation, experiments, user studies, deductive (mathematical) reasoning, etc. Describe the method or methods you intend to use in as much detail as possible.
+
+To answer the research questions, the following main steps will be performed:
+
+\begin{itemize}
+    \item \textbf{Literature study}: Review existing work in the field of electricity consumption forecasting, in order to gain valuable theoretical background and insights on suitable statistical/ML models.
+    \item \textbf{Data gathering}: Assemble 15 minute level electricity consumption data, as well as relevant external data sources (such as weather data, calendar data, and electricity prices).
+    \item \textbf{Development and evaluation of models}: Implement and evaluate several different statistical and ML (possibly DL) forecasting models. 
+    \item \textbf{Evaluation of data sources}: Analyze and evaluate how different combinations of the data sources contribute to the accuracy of the forecasts. The goal is to identify data sources that add significant value, and sources that are not able to motivate the increased complexity. 
+    \item \textbf{Continuous forecast updates}: Develop a method for improving the forecasts during the current month by continuously replacing predicted values with actual observations. 
+    \item \textbf{Integration perspectives}: Develop a prototype that demonstrates how the forecasting models can be integrated into Umeå Energi's existing environments (Microsoft SQL Server). The prototype includes reading of input data from database tables, execution of forecasting models in Python, and storing of results.
+    \item \textbf{Quality assurance}: Develop a suggestion on how to continuously follow up the accuracy of the models after implementing them in production. 
+\end{itemize}
+%Datahämtning och transformering: Insamling av förbrukningsdata på kvartstidsnivå samt relevanta externa datakällor.
+
+%Modellutveckling och jämförelse: Implementering av flera olika prognosmodeller, exempelvis statistiska metoder, maskininlärningsmodeller och eventuellt djupinlärning. Modellerna jämförs mot varandra, samt mot den befintliga månadsprognosen baserad på linjär regression.
+
+%Utvärdering av datakällors bidrag: Analys av hur olika kombinationer av indata påverkar prognosernas resultat. Syftet är att identifiera vilka datakällor som faktiskt adderar värde och vilka som inte motiverar den ökade komplexiteten.
+
+%Löpande uppdatering av prognoser: Metodik utvecklas för hur prognoserna kan förbättras under pågående månad genom att successivt ersätta prognostiserade värden med faktiska observationer.
+
+%Integrations- och produktionsperspektiv: Som en del av examensarbetet utvecklas en prototyp som demonstrerar hur prognosmodellerna kan integreras med Umeå Energis befintliga miljöer (Microsoft SQL Server). Prototypen omfattar inläsning av indata från databastabeller, körning av prognosmodeller i Python samt lagring av resultat.
+
+%Uppföljning och kvalitetssäkring över tid: Ett förslag på uppföljning som möjliggör kontinuerlig övervakning av modellernas träffsäkerhet efter produktionssättning.
+
+\subsection*{Evaluation methods}
+%How will the results, i.e., the answers to the posed questions obtained through your chosen methods be evaluated? For instance, if you are using an experimental method, how will you determine whether your results are statistically significant?
+
+Evaluation will mainly be performed on the data sources' contributions and the different models' performance. As a baseline comparison, an existing linear regression electricity consumption model (based on historical monthly consumption and temperature data) will be utilized. The different statistical/ML/DL models will also be evaluated and compared against each other. For the data sources, different combinations will be investigated, and their contribution to the forecast accuracy will be evaluated both individually and in the different combinations. Results will be evaluated for statistical significance.
+
+\section*{Self assessment}
+%Why are you the right person for this project? How does it relate to the courses you have taken, particularly on advanced level? What other competencies do you have that are valuable for the project?
+
+I am suitable for this project since I have taken fundamental courses in statistics and Machine Learning, as well as having an interest in how raw data can transformed into useful insights. On advanced level, I have taken a course in database management which will help me in the integration part of the project. During the Student Conference in Computing Science course, I worked on a project where the main focus was Machine Learning/Deep Learning. I have also taken an advanced course in applications and methods of Artificial Intelligence, which gives me good insights in how to reason about knowledge. My background in Human-Computer Interaction helps me keep end-users in mind when developing, focusing on insights that are valuable for the customers. 
+
+\section*{Resources}
+%Aside from your own work, what resources will be needed in order to complete the project? Will you need access to particularly powerful, or in some other way unusual, hardware? Software or data sets that are not publicly available? An external advisor? Interview or test subjects (how many)? A place to work? 
+
+%Which computing science competence will the external supervisor contribute? Describe the requirements and how they are to be met. In cases where it is unclear whether you will get access to a resource, describe how the project will be affected if you do not.
+
+For completing this project, the following resources are needed: 
+
+\begin{itemize}
+    \item \textbf{Internal data:} Electricity consumption data from Umeå Energi on a 15-minute level. 
+    \item \textbf{External data:} For example, weather data, calendar information, and energy prices. The external data sources are the largest uncertainty of the project, since the availability and quality of API:s are not thoroughly explored before starting the project. At the very least, SMHI\footnote{SMHI Weather Forecast API: \url{https://opendata.smhi.se/metfcst/snow1gv1}} has an open API for whether forecasts, and Dagsmart\footnote{Dagsmart API: \url{https://dagsmart.se/api/}} provides an open API for Swedish holidays, bridge-days (klämdagar), and half-days (halvdagar), which will allow for analysis extended beyond Umeå Energi's internal data.
+    \item \textbf{Software and environments:} Standard Machine Learning models and tools for statistical analysis. For the integration part of the project, access to a database instance where forecast data can be stored. No unusual hardware is required. 
+    \item \textbf{Competence from external supervisor:} Knowledge about the current forecasting model and data at Umeå Energi, as well as general competence in data analysis. Also, communication with the Web Development team that will potentially be implementing the forecasts in an existing application for customers. 
+\end{itemize}
+
+\end{document}
