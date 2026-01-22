@@ -1,7 +1,17 @@
 \documentclass[a4paper,11pt]{article}
 \usepackage{url}
+\usepackage{hyperref}
+\usepackage{comment}
+\usepackage{booktabs}
+\usepackage{float}
 
-%%%% Make a copy of the overleaf project to start using it %%%%%
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,
+    urlcolor=blue,
+    citecolor=black,
+}
 
 % Redefine the following variables
 \def\projecttitle{Electricity Consumption Forecasting Using High-Resolution Customer Data and External Data Sources}
@@ -13,7 +23,7 @@
 \begin{document}
 
 \begin{center}
-  \large{\textsc{Master's Thesis Project Specification}}\\
+  \large{\textsc{Master's Thesis Project Plan}}\\
    \bigskip
    \huge{\textsc{\projecttitle}}\\
    \bigskip
@@ -28,16 +38,18 @@
 
 \noindent External partner: \epartner
 
-\section*{Introduction}
+\section{Introduction}
 %What is your project all about? What is the surrounding area of technology and/or computer science? Why is the project interesting? Will it be performed in cooperation with a company, organisation, research group, or similar?
+Bakgrund och syfte med studien. Varför är detta ett viktigt ämne att studera, vilken kunbskapslucka försöker du täppa igen (från tidigare forskning alltså)?
 
 In recent years, the electricity market has been affected by large variations in price and periodically very high electricity prices. This has increased the need for customers to understand and influence their electricity consumption and future electricity costs. To address this need, Umeå Energi has worked on developing and improving their interfaces for customers, for example by developing an application for private customers. Customers wish to, before the invoice arrives, receive an estimation of the electricity cost. A first step towards a cost forecast is forecasting the electricity consumption. Currently, Umeå Energi has developed a linear regression model to forecast the consumption for the current month. The model is based on historical consumption and temperature, aggregated by month. For certain customer groups, Umeå Energi has access to high definition measurement data where electricity consumption is registered on a 15-minute level, which creates opportunities for more advanced modeling. There may also be other factors, apart from historical consumption, that affect the electricity consumption, for example weather data, calendar information (holidays etc.), and energy prices.
 
-The goal with this Master's thesis is to develop and evaluate forecasting models that show the predicted energy consumption for the current month. The forecast will be updated continuously during the month, and as actual observed values of electricity consumption become available, these values will be used to improve the forecast. The main subject of the thesis is data analysis, with a focus on Machine Learning (ML) and statistical analysis.
+The goal with this Master's thesis is to develop and evaluate forecasting models that show the predicted energy consumption for the current month. The forecast will be updated continuously during the month, and as actual observed values of electricity consumption become available, these values will be used to improve the forecast. Explainable AI will be used to evaluate the contributions of different variables to the forecast.
+%The main subject of the thesis is data analysis, with a focus on Machine Learning (ML) and statistical analysis.
 
 %Elmarknaden har under de senaste åren präglats av stora prisvariationer och periodvis mycket höga elpriser. Detta har ökat behovet hos elkunder att kunna förstå och påverka sin elanvändning, och i förlängningen framtida elkostnader. Umeå Energi har därför jobbat med att utveckla och förbättra sina kundgränssnitt. En del av detta har exempelvis varit framtagandet av en app för privatkunder. En önskan från kunder är att, innan fakturan kommer, få en uppskattning på vad kostnaden kommer att bli. Ett första steg till en kostnadsprognos, är att prognostisera förbrukningen. Umeå Energi har i dagsläget tagit fram en linjär regressionsmodell för att prognostisera förbrukningen för innevarande månad. Den är gjord baserad på historisk förbrukning och temperatur, aggregerat per månad. För vissa kundgrupper har Umeå Energi tillgång till högupplöst mätdata där elförbrukning registreras på kvartstidsnivå (15 minuter). Det skapar förutsättningar för mer avancerad modellering. Det kan även finnas fler faktorer som påverkar elanvändningen förutom historisk användning – till exempel väderdata, kalenderinformation (helgdagar, semestrar) eller energipriser. Målet med examensarbetet är att utveckla och utvärdera prognosmodeller som visar förväntad elförbrukning för innevarande månad. Prognosen ska uppdateras löpande under månaden, och i takt med att faktiska förbrukningsvärden blir tillgängliga kan dessa värden användas för att förbättra prognosen.
 
-\section*{Problem formulation}
+\section{Problem Formulation}
 %What is the problem that the project will solve? Or, in other words, what questions will be answered within the project? What will we have learned about the technological or scientific area when the project is concluded?
 
 This project aims solve the problem of accurately predicting customers' electricity consumption based on consumption data and external data sources. The forecasts will have a monthly scope. Several research questions are posed:
@@ -51,7 +63,7 @@ This project aims solve the problem of accurately predicting customers' electric
 %Vilka externa datakällor bidrar till prognosens träffsäkerhet, och vilka tillför begränsad eller ingen förbättring?
 %Hur kan prognosernas träffsäkerhet följas upp och säkerställas över tid efter att modellerna satts i produktion?
 
-\section*{Method}
+\section{Method}
 %How will the questions formulated above be answered? Examples of methods include literature studies, simulation, experiments, user studies, deductive (mathematical) reasoning, etc. Describe the method or methods you intend to use in as much detail as possible.
 
 To answer the research questions, the following main steps will be performed:
@@ -77,17 +89,13 @@ To answer the research questions, the following main steps will be performed:
 
 %Uppföljning och kvalitetssäkring över tid: Ett förslag på uppföljning som möjliggör kontinuerlig övervakning av modellernas träffsäkerhet efter produktionssättning.
 
-\subsection*{Evaluation methods}
+\subsection{Evaluation Methods}
 %How will the results, i.e., the answers to the posed questions obtained through your chosen methods be evaluated? For instance, if you are using an experimental method, how will you determine whether your results are statistically significant?
 
 Evaluation will mainly be performed on the data sources' contributions and the different models' performance. As a baseline comparison, an existing linear regression electricity consumption model (based on historical monthly consumption and temperature data) will be utilized. The different statistical/ML/DL models will also be evaluated and compared against each other. For the data sources, different combinations will be investigated, and their contribution to the forecast accuracy will be evaluated both individually and in the different combinations. Results will be evaluated for statistical significance.
 
-\section*{Self assessment}
-%Why are you the right person for this project? How does it relate to the courses you have taken, particularly on advanced level? What other competencies do you have that are valuable for the project?
-
-I am suitable for this project since I have taken fundamental courses in statistics and Machine Learning, as well as having an interest in how raw data can be transformed into useful insights. On advanced level, I have taken a course in database management which will help me in the integration part of the project. During the Student Conference in Computing Science course, I worked on a project where the main focus was Machine Learning/Deep Learning. I have also taken an advanced course in applications and methods of Artificial Intelligence, which gives me good insights in how to reason about knowledge. My background in Human-Computer Interaction helps me keep end-users in mind when developing, focusing on insights that are valuable for the customers. 
-
-\section*{Resources}
+\begin{comment}
+\section{Resources}
 %Aside from your own work, what resources will be needed in order to complete the project? Will you need access to particularly powerful, or in some other way unusual, hardware? Software or data sets that are not publicly available? An external advisor? Interview or test subjects (how many)? A place to work? 
 
 %Which computing science competence will the external supervisor contribute? Describe the requirements and how they are to be met. In cases where it is unclear whether you will get access to a resource, describe how the project will be affected if you do not.
@@ -100,5 +108,79 @@ For completing this project, the following resources are needed:
     \item \textbf{Software and environments:} Standard Machine Learning models and tools for statistical analysis. For the integration part of the project, access to a database instance where forecast data can be stored. No unusual hardware is required. 
     \item \textbf{Competence from external supervisor:} Knowledge about the current forecasting model and data at Umeå Energi, as well as general competence in data analysis. Also, communication with the Web Development team that will potentially be implementing the forecasts in an existing application for customers. 
 \end{itemize}
+\end{comment}
+
+\section{Literature}
+%Vilken relevant litteratur har identifierats 
+\begin{itemize}
+    \item An overview of many studies in the field: \cite{mat_daut_building_2017}.
+    \item Forecasting cooling energy using ANN: \cite{deb_forecasting_2016}.
+\end{itemize}
+
+\section{Implementation}
+%Vad (om något) ska implementeras
+The implementation of the project consists of models for predicting electricity consumption, as well as integration of resulting model predictions in the existing database. The models will predict based on electricity consumption data from Umeå Energi's database, idk. Part of the implementation is also to use Explainable AI (XAI) methods to evaluate the contributions of each variable to the prediction. 
+
+\section{Work Structure and Time Plan}
+%Vilket arbetssätt ska användas i projektet (tex agilt, iterativt, ...)En detaljerad tidsplanering (t ex på veckonivå) som anger vad som ska göras när. Inkludera gärna deadlines för specifika kapitel i rapporten.
+
+The work structure of the project will follow agile principles, in order to allow flexibility and adjustments of plans as the project develops. 
+
+\section{Risk Analysis}
+%Vilka risker finns det för ett lyckat projekt och vad kan göras åt det? 
+
+%Vad händer om du inte får mjukvara/hårdvara i tid tex
+%Vad kan göras om du hamnar i tidsnöd mot slutet av projektet
+\begin{itemize}
+    \item Risk 1: 
+\end{itemize}
+
+\section{Supervision}
+%Vad har ni kommit överens om angående handledning (hur ofta, i vilken form tex)
+\subsection{UmU Supervision}
+
+
+\setlength{\tabcolsep}{8pt}
+\begin{table}[H]
+    \centering
+    \caption{Contact information for internal supervisor.}
+    \vspace{4px}
+    \label{tab:internal-supervisor}
+    \begin{tabular}{l | l}
+    \toprule
+    \textbf{Name} & Esteban Guerrero Rosero \\
+    \midrule
+    \textbf{Email} & esteban.guerrero@umu.se \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{External Supervision}
+I will be spending most of my time at the Umeå Energi office, so arranging supervision with my external supervisor will be easy. If needed, I am also able to get help from other team members at Umeå Energi.
+
+\setlength{\tabcolsep}{8pt}
+\begin{table}[H]
+    \centering
+    \caption{Contact information for external supervisor.}
+    \vspace{4px}
+    \label{tab:external-supervisor}
+    \begin{tabular}{l | l}
+    \toprule
+    \textbf{Name} & Elin Eriksson \\
+    \midrule
+    \textbf{Email} & elin.eriksson@umeaenergi.se \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+%Namn på handledarna (både interna och externa) och deras mailadress
+
+%Övrig information av vikt för projektets genomförande
+
+%Adress till veckodagboken
+
+% För bibliography utan länkar kan man ersätta splncs.bst med  filen vi hade på student conference. 
+\bibliographystyle{splncs}
+\bibliography{main}
 
 \end{document}
