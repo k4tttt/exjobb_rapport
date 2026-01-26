@@ -40,11 +40,12 @@
 
 \section{Introduction}
 %What is your project all about? What is the surrounding area of technology and/or computer science? Why is the project interesting? Will it be performed in cooperation with a company, organisation, research group, or similar?
-Bakgrund och syfte med studien. Varför är detta ett viktigt ämne att studera, vilken kunbskapslucka försöker du täppa igen (från tidigare forskning alltså)?
+
+%Bakgrund och syfte med studien. Varför är detta ett viktigt ämne att studera, vilken kunbskapslucka försöker du täppa igen (från tidigare forskning alltså)?
 
 In recent years, the electricity market has been affected by large variations in price and periodically very high electricity prices. This has increased the need for customers to understand and influence their electricity consumption and future electricity costs. To address this need, Umeå Energi has worked on developing and improving their interfaces for customers, for example by developing an application for private customers. Customers wish to, before the invoice arrives, receive an estimation of the electricity cost. A first step towards a cost forecast is forecasting the electricity consumption. Currently, Umeå Energi has developed a linear regression model to forecast the consumption for the current month. The model is based on historical consumption and temperature, aggregated by month. For certain customer groups, Umeå Energi has access to high definition measurement data where electricity consumption is registered on a 15-minute level, which creates opportunities for more advanced modeling. There may also be other factors, apart from historical consumption, that affect the electricity consumption, for example weather data, calendar information (holidays etc.), and energy prices.
 
-The goal with this Master's thesis is to develop and evaluate forecasting models that show the predicted energy consumption for the current month. The forecast will be updated continuously during the month, and as actual observed values of electricity consumption become available, these values will be used to improve the forecast. Explainable AI will be used to evaluate the contributions of different variables to the forecast.
+The goal with this Master's thesis is to develop and evaluate forecasting models that show the predicted energy consumption for the current month. Previous research has identified several models that are able to accurately predict energy consumption for different time intervals, utilizing various combinations of data sources \cite{deb_review_2017, mat_daut_building_2017}. However, quantifying and explaining the contribution of each feature is an underexplored area [citation needed]. Explainable AI will be used to evaluate the contributions of different variables to the forecast. The forecast will be updated continuously during the month, and as actual observed values of electricity consumption become available, these values will be used to improve the forecast. 
 %The main subject of the thesis is data analysis, with a focus on Machine Learning (ML) and statistical analysis.
 
 %Elmarknaden har under de senaste åren präglats av stora prisvariationer och periodvis mycket höga elpriser. Detta har ökat behovet hos elkunder att kunna förstå och påverka sin elanvändning, och i förlängningen framtida elkostnader. Umeå Energi har därför jobbat med att utveckla och förbättra sina kundgränssnitt. En del av detta har exempelvis varit framtagandet av en app för privatkunder. En önskan från kunder är att, innan fakturan kommer, få en uppskattning på vad kostnaden kommer att bli. Ett första steg till en kostnadsprognos, är att prognostisera förbrukningen. Umeå Energi har i dagsläget tagit fram en linjär regressionsmodell för att prognostisera förbrukningen för innevarande månad. Den är gjord baserad på historisk förbrukning och temperatur, aggregerat per månad. För vissa kundgrupper har Umeå Energi tillgång till högupplöst mätdata där elförbrukning registreras på kvartstidsnivå (15 minuter). Det skapar förutsättningar för mer avancerad modellering. Det kan även finnas fler faktorer som påverkar elanvändningen förutom historisk användning – till exempel väderdata, kalenderinformation (helgdagar, semestrar) eller energipriser. Målet med examensarbetet är att utveckla och utvärdera prognosmodeller som visar förväntad elförbrukning för innevarande månad. Prognosen ska uppdateras löpande under månaden, och i takt med att faktiska förbrukningsvärden blir tillgängliga kan dessa värden användas för att förbättra prognosen.
@@ -52,12 +53,13 @@ The goal with this Master's thesis is to develop and evaluate forecasting models
 \section{Problem Formulation}
 %What is the problem that the project will solve? Or, in other words, what questions will be answered within the project? What will we have learned about the technological or scientific area when the project is concluded?
 
-This project aims solve the problem of accurately predicting customers' electricity consumption based on consumption data and external data sources. The forecasts will have a monthly scope. Several research questions are posed:
-\begin{itemize}
-    \item What type of forecasting model gives the best results for predicting electricity usage of the current month?
+This project aims solve the problem of accurately predicting customers' monthly electricity consumption based on consumption data and external data sources. The main focus of the project will be to quantify and explain the contribution of each variable in the forecast. Several research questions are posed in the following priority order:
+
+\begin{enumerate}
     \item Which external sources of data contribute to the accuracy of the forecast, and which sources provide little to no improvement?
     \item How can the accuracy of the forecasts be validated over time after the models are implemented in production?
-\end{itemize}
+    \item What type of forecasting model gives the best results for predicting electricity usage of the current month?
+\end{enumerate}
 
 %Vilken typ av prognosmodell ger bäst resultat för att prognostisera elanvändning för innevarande månad?
 %Vilka externa datakällor bidrar till prognosens träffsäkerhet, och vilka tillför begränsad eller ingen förbättring?
@@ -70,13 +72,18 @@ To answer the research questions, the following main steps will be performed:
 
 \begin{itemize}
     \item \textbf{Literature study}: Review existing work in the field of electricity consumption forecasting, in order to gain valuable theoretical background and insights on suitable statistical/ML models.
-    \item \textbf{Data gathering}: Assemble 15-minute level electricity consumption data, as well as relevant external data sources (such as weather data, calendar data, and electricity prices).
-    \item \textbf{Development and evaluation of models}: Implement and evaluate several different statistical and ML (possibly DL) forecasting models. 
-    \item \textbf{Evaluation of data sources}: Analyze and evaluate how different combinations of the data sources contribute to the accuracy of the forecasts. The goal is to identify data sources that add significant value, and sources that are not able to motivate the increased complexity. 
+    \item \textbf{Data preparation}: Retrieve 15-minute level electricity consumption data, as well as relevant external data sources (such as weather data, calendar data, and electricity prices).
+    \item \textbf{Primary model implementation}: Choose an ML/DL model (e.g. ANN, SVM, LSTM) that will be the main focus of the thesis, and implement a forecasting model based on the consumption data and the external sources. 
+    \item \textbf{Evaluation of data sources}: Analyze and evaluate how the different data sources contribute to the accuracy of the forecasts using Explainable AI. The goal is to identify data sources that add significant value, and sources that are not able to motivate the increased complexity. 
+    %\item \textbf{Development and evaluation of models}: Implement and evaluate several different statistical and ML (possibly DL) forecasting models. 
     \item \textbf{Continuous forecast updates}: Develop a method for improving the forecasts during the current month by continuously replacing predicted values with actual observations. 
     \item \textbf{Integration perspectives}: Develop a prototype that demonstrates how the forecasting models can be integrated into Umeå Energi's existing environments (Microsoft SQL Server). The prototype includes reading of input data from database tables, execution of forecasting models in Python, and storing of results.
     \item \textbf{Quality assurance}: Develop a suggestion on how to continuously follow up the accuracy of the models after implementing them in production. 
 \end{itemize}
+
+\noindent
+In case there is time, more than one model will be implemented in order to allow more extensive comparisons. Reviewing of literature  will be used to identify relevant models. 
+
 %Datahämtning och transformering: Insamling av förbrukningsdata på kvartstidsnivå samt relevanta externa datakällor.
 
 %Modellutveckling och jämförelse: Implementering av flera olika prognosmodeller, exempelvis statistiska metoder, maskininlärningsmodeller och eventuellt djupinlärning. Modellerna jämförs mot varandra, samt mot den befintliga månadsprognosen baserad på linjär regression.
@@ -114,7 +121,7 @@ For completing this project, the following resources are needed:
 %Vilken relevant litteratur har identifierats 
 \begin{itemize}
     \item An overview of many studies in the field: \cite{mat_daut_building_2017}.
-    \item Forecasting cooling energy using ANN: \cite{deb_forecasting_2016}.
+    \item Forecasting cooling energy using ANN (for three university buildings, weekly/monthly ish?): \cite{deb_forecasting_2016}.
 \end{itemize}
 
 \section{Implementation}
@@ -124,7 +131,7 @@ The implementation of the project consists of models for predicting electricity 
 \section{Work Structure and Time Plan}
 %Vilket arbetssätt ska användas i projektet (tex agilt, iterativt, ...)En detaljerad tidsplanering (t ex på veckonivå) som anger vad som ska göras när. Inkludera gärna deadlines för specifika kapitel i rapporten.
 
-The work structure of the project will follow agile principles, in order to allow flexibility and adjustments of plans as the project develops. 
+The work structure of the project will follow agile principles, in order to allow flexibility and adjustments of plans as the project develops. Additionally, the implementation may happen iteratively; first implementing one model and evaluating it, and then implementing a second model...
 
 \section{Risk Analysis}
 %Vilka risker finns det för ett lyckat projekt och vad kan göras åt det? 
