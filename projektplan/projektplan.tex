@@ -50,8 +50,6 @@ In recent years, the electricity market has been affected by large variations in
 The goal with this Master's thesis is to develop and evaluate forecasting models that show the predicted energy consumption for the current month. Previous research has identified several models that are able to accurately predict energy consumption for different time intervals, utilizing various combinations of data sources \cite{deb_review_2017, mat_daut_building_2017}. In recent years, increasing interest has been shown for Machine Learning (ML) solutions to energy consumption forecasting, as well as for Explainable Artificial Intelligence (XAI) \cite{janjua_enhancing_2024}. This study will address these topics by using XAI to evaluate the contributions of different variables to the energy forecast. Additionally, efforts will be made to continuously update and improve the forecast during the month, as actual observed values of electricity consumption become available.
 %The main subject of the thesis is data analysis, with a focus on Machine Learning (ML) and statistical analysis.
 
-%Elmarknaden har under de senaste åren präglats av stora prisvariationer och periodvis mycket höga elpriser. Detta har ökat behovet hos elkunder att kunna förstå och påverka sin elanvändning, och i förlängningen framtida elkostnader. Umeå Energi har därför jobbat med att utveckla och förbättra sina kundgränssnitt. En del av detta har exempelvis varit framtagandet av en app för privatkunder. En önskan från kunder är att, innan fakturan kommer, få en uppskattning på vad kostnaden kommer att bli. Ett första steg till en kostnadsprognos, är att prognostisera förbrukningen. Umeå Energi har i dagsläget tagit fram en linjär regressionsmodell för att prognostisera förbrukningen för innevarande månad. Den är gjord baserad på historisk förbrukning och temperatur, aggregerat per månad. För vissa kundgrupper har Umeå Energi tillgång till högupplöst mätdata där elförbrukning registreras på kvartstidsnivå (15 minuter). Det skapar förutsättningar för mer avancerad modellering. Det kan även finnas fler faktorer som påverkar elanvändningen förutom historisk användning – till exempel väderdata, kalenderinformation (helgdagar, semestrar) eller energipriser. Målet med examensarbetet är att utveckla och utvärdera prognosmodeller som visar förväntad elförbrukning för innevarande månad. Prognosen ska uppdateras löpande under månaden, och i takt med att faktiska förbrukningsvärden blir tillgängliga kan dessa värden användas för att förbättra prognosen.
-
 \section{Problem Formulation}
 %What is the problem that the project will solve? Or, in other words, what questions will be answered within the project? What will we have learned about the technological or scientific area when the project is concluded?
 
@@ -86,18 +84,6 @@ To answer the research questions, the following main steps will be performed:
 
 \noindent
 In case there is time, more than one model will be implemented (or possibly ensemble learning \cite{sagi_ensemble_2018}) in order to allow more extensive comparisons and accuracy improvements. Reviewing of literature will be used to identify relevant models. 
-
-%Datahämtning och transformering: Insamling av förbrukningsdata på kvartstidsnivå samt relevanta externa datakällor.
-
-%Modellutveckling och jämförelse: Implementering av flera olika prognosmodeller, exempelvis statistiska metoder, maskininlärningsmodeller och eventuellt djupinlärning. Modellerna jämförs mot varandra, samt mot den befintliga månadsprognosen baserad på linjär regression.
-
-%Utvärdering av datakällors bidrag: Analys av hur olika kombinationer av indata påverkar prognosernas resultat. Syftet är att identifiera vilka datakällor som faktiskt adderar värde och vilka som inte motiverar den ökade komplexiteten.
-
-%Löpande uppdatering av prognoser: Metodik utvecklas för hur prognoserna kan förbättras under pågående månad genom att successivt ersätta prognostiserade värden med faktiska observationer.
-
-%Integrations- och produktionsperspektiv: Som en del av examensarbetet utvecklas en prototyp som demonstrerar hur prognosmodellerna kan integreras med Umeå Energis befintliga miljöer (Microsoft SQL Server). Prototypen omfattar inläsning av indata från databastabeller, körning av prognosmodeller i Python samt lagring av resultat.
-
-%Uppföljning och kvalitetssäkring över tid: Ett förslag på uppföljning som möjliggör kontinuerlig övervakning av modellernas träffsäkerhet efter produktionssättning.
 
 \subsection{Evaluation Methods}
 %How will the results, i.e., the answers to the posed questions obtained through your chosen methods be evaluated? For instance, if you are using an experimental method, how will you determine whether your results are statistically significant?
@@ -149,25 +135,30 @@ Papers specifically on XAI and energy consumption forecasting:
     \item Forecasted hourly energy consumption for the steel sector using three different LSTM models \cite{maarif_energy_2023}. Used SHAP to interpret the decision-making, and found that leading current reactive power and the number of seconds from midnight contributed significantly to the model output.
     \item Ensemble learning for electricity consumption forecasting. Evaluated several decision tree-based ensemble learning techniques using SHAP \cite{moon_advancing_2024}. Found that temperature-humidity index and wind chill temperature has a greater impact on short-term forecasts than more traditional parameters such as temperature. Released the code at \url{https://github.com/sodayeong/PLOS-ONE_Github}.
     \item Predicted electricity consumption for residential buildings based on hourly data with information about consumption for different household areas (such as kitchen and appliances) \cite{janjua_enhancing_2024}. Used LSTM as prediction model, and LIME and SHAP to provide comprehensible explanations of the predictions. 
-    \item Proposed a methodology for selecting input variables for energy consumption prediction using XAI \cite{sim_explainable_2022}. Used Extreme Gradient Boosting (XGBoost), Support Vector Regression (SVR), Light Gradient Boosting Model (LightGBM), and LSTM for prediction. Found that variables with strong impact on the forecast include year, hour, energy consumption difference, temperature, and surface-temperature.
+    \item Proposed a methodology for selecting input variables for energy consumption prediction using XAI (SHAP) \cite{sim_explainable_2022}. Used Extreme Gradient Boosting (XGBoost), Support Vector Regression (SVR), Light Gradient Boosting Model (LightGBM), and LSTM for prediction. Found that variables with strong impact on the forecast include year, hour, energy consumption difference, temperature, and surface-temperature.
 \end{itemize}
 
 \section{Implementation}
 %Vad (om något) ska implementeras
-The implementation of the project consists of models for predicting electricity consumption, as well as integration of resulting model predictions in the existing database. The models will predict based on electricity consumption data from Umeå Energi's database, idk. Part of the implementation is also to use Explainable AI methods to evaluate the contributions of each variable to the prediction. 
+The implementation of the project consists of one or several models for predicting electricity consumption, as well as integration of resulting model predictions in the existing database. Part of the implementation is also to use Explainable AI methods to evaluate the contributions of each variable to the prediction. The implementation will be performed on an Umeå Energi computer with access to their database holding electricity consumption data. Python and standard ML/DL/XAI libraries will be used for the model implementation and variable interpretation. The integration part of the project will utilize SQL.
 
 \section{Work Structure and Time Plan}
 %Vilket arbetssätt ska användas i projektet (tex agilt, iterativt, ...)En detaljerad tidsplanering (t ex på veckonivå) som anger vad som ska göras när. Inkludera gärna deadlines för specifika kapitel i rapporten.
 
-The work structure of the project will follow agile principles, in order to allow flexibility and adjustments of plans as the project develops. Additionally, the implementation may happen iteratively; first implementing one model and evaluating it, and then implementing a second model...
+The work structure of the project will follow agile principles, in order to allow flexibility and adjustments of plans as the project develops. %Additionally, the implementation may happen iteratively; first implementing one model and evaluating it, and then implementing a second model...
+
 
 \section{Risk Analysis}
 %Vilka risker finns det för ett lyckat projekt och vad kan göras åt det? 
 
 %Vad händer om du inte får mjukvara/hårdvara i tid tex
 %Vad kan göras om du hamnar i tidsnöd mot slutet av projektet
+Below follows a list of potential risks for the project, and what can be done to circumvent them.
+
 \begin{itemize}
-    \item Risk 1: x
+    \item \textbf{Risk 1: Difficulties with finding data sources.} Possibly the largest risk for the project is the availability of high-quality external data sources for the forecasts. Previous studies have, apart from historical electricity consumption, focused on numerous variables, often pertaining to weather and building specific factors. The historical consumption data will in this project be provided by Umeå Energi, but retrieval of external parameters relies on open API's. To begin with, two external APIs have been identified: SMHI\footnote{SMHI Open APIs: \url{https://opendata.smhi.se}} which provides both historical and forecasted weather data, and Dagsmart\footnote{Dagsmart API: \url{https://dagsmart.se/api/}} which provides Swedish calendar information. Ideally, other variables will be retrieved from other open APIs, but availability will be determined during the implementation phase of the project.
+    \item \textbf{Risk 2: Problems with assembling training data.} Since several data sources will be used, there may be difficulties in assembling all data into a format that is useable with the prediction model(s). If this turns out to be the case, the methodologies of similar experiments will be surveyed further to find out how they solved the problem.
+    \item \textbf{Risk 3: Limited time.} The limited time frame of the project means that all project goals may not be fulfilled. To address this, the research questions have been ordered in priority, with the XAI part of the project being ranked highest. The other goals will be worked on in case of time. Writing the paper will be done continuously to avoid any big chunks of writing being left at the end of the project.
 \end{itemize}
 
 \section{Supervision}
