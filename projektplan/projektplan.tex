@@ -47,7 +47,7 @@
 
 In recent years, the electricity market has been affected by large variations in price and periodically very high electricity prices. This has increased the need for customers to understand and influence their electricity consumption and future electricity costs. To address this need, Umeå Energi has worked on developing and improving their interfaces for customers, for example by developing an application for private customers. Customers wish to, before the invoice arrives, receive an estimation of the electricity cost. A first step towards a cost forecast is forecasting the electricity consumption. Currently, Umeå Energi has developed a linear regression model to forecast the consumption for the current month. The model is based on historical consumption and temperature, aggregated by month. For certain customer groups, Umeå Energi has access to high definition measurement data where electricity consumption is registered on a 15-minute level, which creates opportunities for more advanced modeling. There may also be other factors, apart from historical consumption, that affect the electricity consumption, for example weather data, calendar information (holidays etc.), and energy prices.
 
-The goal with this Master's thesis is to develop and evaluate forecasting models that show the predicted energy consumption for the current month. Previous research has identified several models that are able to accurately predict energy consumption for different time intervals, utilizing various combinations of data sources \cite{deb_review_2017, mat_daut_building_2017}. However, quantifying and explaining the contribution of each feature is an underexplored area [citation needed]. Explainable AI (XAI) will be used to evaluate the contributions of different variables to the forecast. The forecast will be updated continuously during the month, and as actual observed values of electricity consumption become available, these values will be used to improve the forecast. 
+The goal with this Master's thesis is to develop and evaluate forecasting models that show the predicted energy consumption for the current month. Previous research has identified several models that are able to accurately predict energy consumption for different time intervals, utilizing various combinations of data sources \cite{deb_review_2017, mat_daut_building_2017}. In recent years, increasing interest has been shown for Machine Learning (ML) solutions to energy consumption forecasting, as well as for Explainable Artificial Intelligence (XAI) \cite{janjua_enhancing_2024}. This study will address these topics by using XAI to evaluate the contributions of different variables to the energy forecast. Additionally, efforts will be made to continuously update and improve the forecast during the month, as actual observed values of electricity consumption become available.
 %The main subject of the thesis is data analysis, with a focus on Machine Learning (ML) and statistical analysis.
 
 %Elmarknaden har under de senaste åren präglats av stora prisvariationer och periodvis mycket höga elpriser. Detta har ökat behovet hos elkunder att kunna förstå och påverka sin elanvändning, och i förlängningen framtida elkostnader. Umeå Energi har därför jobbat med att utveckla och förbättra sina kundgränssnitt. En del av detta har exempelvis varit framtagandet av en app för privatkunder. En önskan från kunder är att, innan fakturan kommer, få en uppskattning på vad kostnaden kommer att bli. Ett första steg till en kostnadsprognos, är att prognostisera förbrukningen. Umeå Energi har i dagsläget tagit fram en linjär regressionsmodell för att prognostisera förbrukningen för innevarande månad. Den är gjord baserad på historisk förbrukning och temperatur, aggregerat per månad. För vissa kundgrupper har Umeå Energi tillgång till högupplöst mätdata där elförbrukning registreras på kvartstidsnivå (15 minuter). Det skapar förutsättningar för mer avancerad modellering. Det kan även finnas fler faktorer som påverkar elanvändningen förutom historisk användning – till exempel väderdata, kalenderinformation (helgdagar, semestrar) eller energipriser. Målet med examensarbetet är att utveckla och utvärdera prognosmodeller som visar förväntad elförbrukning för innevarande månad. Prognosen ska uppdateras löpande under månaden, och i takt med att faktiska förbrukningsvärden blir tillgängliga kan dessa värden användas för att förbättra prognosen.
@@ -59,7 +59,8 @@ This project aims solve the problem of accurately predicting customers' monthly 
 
 \begin{enumerate}
     \item Which external sources of data contribute to the accuracy of the forecast, and which sources provide little to no improvement?
-    \item How can the accuracy of the forecasts be validated over time after the models are implemented in production?
+    \item How can the accuracy of the monthly forecasts be increased as actual observed values become available?
+    %\item How can the accuracy of the forecasts be validated over time after the models are implemented in production?
     \item What type of forecasting model gives the best results for predicting electricity usage of the current month?
 \end{enumerate}
 
@@ -73,8 +74,8 @@ This project aims solve the problem of accurately predicting customers' monthly 
 To answer the research questions, the following main steps will be performed:
 
 \begin{itemize}
-    \item \textbf{Literature study}: Review existing work in the field of electricity consumption forecasting, in order to gain valuable theoretical background and insights on suitable statistical/ML models.
-    \item \textbf{Data preparation}: Retrieve 15-minute level electricity consumption data, as well as relevant external data sources (such as weather data, calendar data, and electricity prices).
+    \item \textbf{Literature study}: Review existing work in the field of electricity consumption forecasting, in order to gain valuable theoretical background and insights on suitable ML models and XAI techniques.
+    \item \textbf{Data preparation}: Retrieve 15-minute level electricity consumption data, as well as relevant external data sources (such as weather data, calendar data, and electricity prices). Perform data analysis and pre-processing.
     \item \textbf{Primary model implementation}: Choose an ML/DL model (e.g. ANN, SVM, LSTM) that will be the main focus of the thesis, and implement a forecasting model based on the consumption data and the external sources. 
     \item \textbf{Evaluation of data sources}: Analyze and evaluate how the different data sources contribute to the accuracy of the forecasts using Explainable AI. The goal is to identify data sources that add significant value, and sources that are not able to motivate the increased complexity. 
     %\item \textbf{Development and evaluation of models}: Implement and evaluate several different statistical and ML (possibly DL) forecasting models. 
@@ -84,7 +85,7 @@ To answer the research questions, the following main steps will be performed:
 \end{itemize}
 
 \noindent
-In case there is time, more than one model will be implemented (or possibly ensemble learning \cite{sagi_ensemble_2018}) in order to allow more extensive comparisons or accuracy improvements. Reviewing of literature will be used to identify relevant models. 
+In case there is time, more than one model will be implemented (or possibly ensemble learning \cite{sagi_ensemble_2018}) in order to allow more extensive comparisons and accuracy improvements. Reviewing of literature will be used to identify relevant models. 
 
 %Datahämtning och transformering: Insamling av förbrukningsdata på kvartstidsnivå samt relevanta externa datakällor.
 
@@ -101,9 +102,9 @@ In case there is time, more than one model will be implemented (or possibly ense
 \subsection{Evaluation Methods}
 %How will the results, i.e., the answers to the posed questions obtained through your chosen methods be evaluated? For instance, if you are using an experimental method, how will you determine whether your results are statistically significant?
 
-Evaluation will mainly be performed on the data sources' contributions, and in case of time, the different models' performance. As a baseline comparison, an existing linear regression electricity consumption model (based on historical monthly consumption and temperature data) will be utilized. 
+Evaluation will mainly be performed on the data sources' contributions, the forecast improvement over time, and in case of time, the different models' performance. As a baseline comparison, an existing linear regression electricity consumption model (based on historical monthly consumption and temperature data) will be utilized. 
 %The different statistical/ML/DL models will also be evaluated and compared against each other. For the data sources, different combinations will be investigated, and their contribution to the forecast accuracy will be evaluated both individually and in the different combinations. Results will be evaluated for statistical significance.
-XAI methods such as feature importance and Shapley values will be used to evaluate the contributions of the different data sources. Different combinations of data sources may also be evaluated. 
+XAI methods such as feature importance and Shapley values will be used to evaluate the contributions of the different data sources. Different combinations of data sources may also be evaluated. All results will be evaluated for statistical significance. 
 
 \begin{comment}
 \section{Resources}
@@ -135,16 +136,20 @@ Two comprehensive reviews on electricity consumption forecasting have been ident
 Papers where experiments have been performed:
 
 \begin{itemize}
-    \item Support Vector Machine (SVM) for forecasting energy consumption \cite{dong_applying_2005}.
+    \item Support Vector Machine (SVM) for forecasting energy consumption: \cite{dong_applying_2005}.
     \item Monthly electricity consumption forecasting based on decomposition methods and ARIMA: \cite{sun_monthly_2019}.
     \item Forecasting cooling energy using ANN (for three university buildings, weekly/monthly): \cite{deb_forecasting_2016}.
     \item Forecasting high voltage consumers' electricity consumption using LSTM, GRU, TCN: \cite{hadjout_electricity_2022}.
 \end{itemize}
 
 \noindent
-Papers specifically on XAI and electricity forecasting:
+Papers specifically on XAI and energy consumption forecasting:
+
 \begin{itemize}
-    \item 
+    \item Forecasted hourly energy consumption for the steel sector using three different LSTM models \cite{maarif_energy_2023}. Used SHAP to interpret the decision-making, and found that leading current reactive power and the number of seconds from midnight contributed significantly to the model output.
+    \item Ensemble learning for electricity consumption forecasting. Evaluated several decision tree-based ensemble learning techniques using SHAP \cite{moon_advancing_2024}. Found that temperature-humidity index and wind chill temperature has a greater impact on short-term forecasts than more traditional parameters such as temperature. Released the code at \url{https://github.com/sodayeong/PLOS-ONE_Github}.
+    \item Predicted electricity consumption for residential buildings based on hourly data with information about consumption for different household areas (such as kitchen and appliances) \cite{janjua_enhancing_2024}. Used LSTM as prediction model, and LIME and SHAP to provide comprehensible explanations of the predictions. 
+    \item Proposed a methodology for selecting input variables for energy consumption prediction using XAI \cite{sim_explainable_2022}. Used Extreme Gradient Boosting (XGBoost), Support Vector Regression (SVR), Light Gradient Boosting Model (LightGBM), and LSTM for prediction. Found that variables with strong impact on the forecast include year, hour, energy consumption difference, temperature, and surface-temperature.
 \end{itemize}
 
 \section{Implementation}
