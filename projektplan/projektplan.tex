@@ -1,9 +1,11 @@
 \documentclass[a4paper,11pt]{article}
 \usepackage{url}
+\usepackage{xurl}
 \usepackage{hyperref}
 \usepackage{comment}
 \usepackage{booktabs}
 \usepackage{float}
+\usepackage{graphicx}
 
 \hypersetup{
     colorlinks=true,
@@ -16,7 +18,7 @@
 \emergencystretch=2em
 
 % Redefine the following variables
-\def\projecttitle{Electricity Consumption Forecasting Using High-Resolution Customer Data and External Data Sources}
+\def\projecttitle{Electricity Consumption Forecasting Using an Explainable AI Framework}
 \def\myname{Tyra Wodén}
 \def\semester{VT 26} % When you are planning to do your thesis
 \def\epartner{Umeå Energi} % Enter a company, organisation, researcher, or 'none'
@@ -140,13 +142,21 @@ Papers specifically on XAI and energy consumption forecasting:
 
 \section{Implementation}
 %Vad (om något) ska implementeras
-The implementation of the project consists of one or several models for predicting electricity consumption, as well as integration of resulting model predictions in the existing database. Part of the implementation is also to use Explainable AI methods to evaluate the contributions of each variable to the prediction. The implementation will be performed on an Umeå Energi computer with access to their database holding electricity consumption data. Python and standard ML/DL/XAI libraries will be used for the model implementation and variable interpretation. The integration part of the project will utilize SQL.
+The implementation of the project consists of one or several models for predicting electricity consumption, as well as integration of resulting model predictions in the existing Umeå Energi database. Part of the implementation is also to use Explainable AI methods to evaluate the contributions of each variable in the prediction. The implementation will be performed on an Umeå Energi computer with access to their database holding electricity consumption data. Python and standard ML/DL/XAI libraries will be used for the model implementation and variable interpretation. The integration part of the project will utilize SQL.
 
 \section{Work Structure and Time Plan}
 %Vilket arbetssätt ska användas i projektet (tex agilt, iterativt, ...)En detaljerad tidsplanering (t ex på veckonivå) som anger vad som ska göras när. Inkludera gärna deadlines för specifika kapitel i rapporten.
 
-The work structure of the project will follow agile principles, in order to allow flexibility and adjustments of plans as the project develops. %Additionally, the implementation may happen iteratively; first implementing one model and evaluating it, and then implementing a second model...
+The work structure of the project will follow agile principles, in order to allow flexibility and adjustments of plans as the project develops. Writing the paper will be performed continuously throughout the project. Peer review sessions will be organized with other students taking the course, to get more feedback in addition to the feedback from supervisors. A time plan in form of a GANTT chart can be found via this link: \url{https://docs.google.com/spreadsheets/d/10SVX8NpNxUo1fw0eReo7ZZRdi8UZkltd-iCjr12EO6o/edit?usp=sharing}. Week 17 has been left intentionally blank to make time for catching up in any area needed, but also because I will be quite busy outside the thesis that week. 
 
+\begin{comment}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{figures/gantt.pdf}
+    \caption{GANTT chart.}
+    \label{fig:gantt}
+\end{figure}
+\end{comment}
 
 \section{Risk Analysis}
 %Vilka risker finns det för ett lyckat projekt och vad kan göras åt det? 
@@ -156,7 +166,7 @@ The work structure of the project will follow agile principles, in order to allo
 Below follows a list of potential risks for the project, and what can be done to circumvent them.
 
 \begin{itemize}
-    \item \textbf{Risk 1: Difficulties with finding data sources.} Possibly the largest risk for the project is the availability of high-quality external data sources for the forecasts. Previous studies have, apart from historical electricity consumption, focused on numerous variables, often pertaining to weather and building specific factors. The historical consumption data will in this project be provided by Umeå Energi, but retrieval of external parameters relies on open API's. To begin with, two external APIs have been identified: SMHI\footnote{SMHI Open APIs: \url{https://opendata.smhi.se}} which provides both historical and forecasted weather data, and Dagsmart\footnote{Dagsmart API: \url{https://dagsmart.se/api/}} which provides Swedish calendar information. Ideally, other variables will be retrieved from other open APIs, but availability will be determined during the implementation phase of the project.
+    \item \textbf{Risk 1: Difficulties with finding data sources.} Possibly the largest risk for the project is the availability of high-quality external data sources for the forecasts. Previous studies have, apart from historical electricity consumption, focused on numerous variables, often pertaining to weather and building specific factors. The historical consumption data will in this project be provided by Umeå Energi, but retrieval of external parameters relies on open APIs. To begin with, two external APIs have been identified: SMHI\footnote{SMHI Open APIs: \url{https://opendata.smhi.se}} which provides both historical and forecasted weather data, and Dagsmart\footnote{Dagsmart API: \url{https://dagsmart.se/api/}} which provides Swedish calendar information. Ideally, other variables will be retrieved from other open APIs, but availability will be determined during the data preparation phase of the project.
     \item \textbf{Risk 2: Problems with assembling training data.} Since several data sources will be used, there may be difficulties in assembling all data into a format that is useable with the prediction model(s). If this turns out to be the case, the methodologies of similar experiments will be surveyed further to find out how they solved the problem.
     \item \textbf{Risk 3: Limited time.} The limited time frame of the project means that all project goals may not be fulfilled. To address this, the research questions have been ordered in priority, with the XAI part of the project being ranked highest. The other goals will be worked on in case of time. Writing the paper will be done continuously to avoid any big chunks of writing being left at the end of the project.
 \end{itemize}
@@ -170,7 +180,7 @@ Supervision with my internal supervisor will be arranged as needed, roughly once
 \begin{table}[H]
     \centering
     \caption{Contact information for internal supervisor.}
-    \vspace{4px}
+    \vspace{4pt}
     \label{tab:internal-supervisor}
     \begin{tabular}{l | l}
     \toprule
@@ -188,7 +198,7 @@ I will be spending most of my time at the Umeå Energi office, so arranging supe
 \begin{table}[H]
     \centering
     \caption{Contact information for external supervisor.}
-    \vspace{4px}
+    \vspace{4pt}
     \label{tab:external-supervisor}
     \begin{tabular}{l | l}
     \toprule
@@ -198,6 +208,9 @@ I will be spending most of my time at the Umeå Energi office, so arranging supe
     \bottomrule
     \end{tabular}
 \end{table}
+
+\section{Project Diary}
+The project diary can be found via this link: \url{https://docs.google.com/document/d/1z1Nd_QyX17tCN-93EjTk_8BK8745s6sru_kyz7s-aGM/edit?usp=sharing}.
 
 %Namn på handledarna (både interna och externa) och deras mailadress
 
