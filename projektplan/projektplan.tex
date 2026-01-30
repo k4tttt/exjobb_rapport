@@ -55,13 +55,13 @@ The goal with this Master's thesis is to develop and evaluate forecasting models
 \section{Problem Formulation}
 %What is the problem that the project will solve? Or, in other words, what questions will be answered within the project? What will we have learned about the technological or scientific area when the project is concluded?
 
-This project aims solve the problem of accurately predicting customers' monthly electricity consumption based on consumption data and external data sources. The main focus of the project will be to quantify and explain the contribution of each variable in the forecast. Several research questions are posed in the following priority order:
+This project aims solve the problem of accurately predicting customers' monthly electricity consumption based on consumption data and external data sources. The consumption data is from 16 000 customers over roughly three years on a 15-minute level (some customers may not have data for all three years). Other variables such as weather data, calendar information, and electricity prices will be retrieved from Open APIs. The main focus of the project will be to quantify and explain the contribution of each variable in the forecast. Forecasting will be performed using an LSTM model, and XAI methods such as SHAP and LIME will be used explain variable contributions. This research is novel because []. Additionally, the research will explore the possibility of improving the accuracy of the forecast as the month progresses, by using observed values of electricity consumption. This is novel because []. Two research questions are posed, where RQ1 has the highest priority:
 
 \begin{enumerate}
     \item Which external sources of data contribute to the accuracy of the forecast, and which sources provide little to no improvement?
-    \item How can the accuracy of the monthly forecasts be increased as actual observed values become available?
+    \item As the month progresses, observed values of electricity consumption become available. How can the observations be used to increase the accuracy of the forecast during the month?
     %\item How can the accuracy of the forecasts be validated over time after the models are implemented in production?
-    \item What type of forecasting model gives the best results for predicting electricity usage of the current month?
+    %\item What type of forecasting model gives the best results for predicting electricity usage of the current month?
 \end{enumerate}
 
 %Vilken typ av prognosmodell ger bäst resultat för att prognostisera elanvändning för innevarande månad?
@@ -76,7 +76,7 @@ To answer the research questions, the following main steps will be performed:
 \begin{itemize}
     \item \textbf{Literature study}: Review existing work in the field of electricity consumption forecasting, in order to gain valuable theoretical background and insights on suitable ML models and XAI techniques.
     \item \textbf{Data preparation}: Retrieve 15-minute level electricity consumption data, as well as relevant external data sources (such as weather data, calendar data, and electricity prices). Perform data analysis and pre-processing.
-    \item \textbf{Primary model implementation}: Choose an ML/DL model (e.g. ANN, SVM, LSTM) that will be the main focus of the thesis, and implement a forecasting model based on the consumption data and the external sources. 
+    \item \textbf{Model implementation}: Implement an LSTM forecasting model based on the consumption data and the external sources. 
     \item \textbf{Evaluation of data sources}: Analyze and evaluate how the different data sources contribute to the accuracy of the forecasts using Explainable AI. The goal is to identify data sources that add significant value, and sources that are not able to motivate the increased complexity. 
     %\item \textbf{Development and evaluation of models}: Implement and evaluate several different statistical and ML (possibly DL) forecasting models. 
     \item \textbf{Continuous forecast updates}: Develop a method for improving the forecasts during the current month by continuously replacing predicted values with actual observations. 
@@ -84,8 +84,8 @@ To answer the research questions, the following main steps will be performed:
     \item \textbf{Quality assurance}: Develop a suggestion on how to continuously follow up the accuracy of the models after implementing them in production. 
 \end{itemize}
 
-\noindent
-In case there is time, more than one model will be implemented (or possibly ensemble learning \cite{sagi_ensemble_2018}) in order to allow more extensive comparisons and accuracy improvements. Reviewing of literature will be used to identify relevant models. 
+%\noindent
+%In case there is time, more than one model will be implemented (or possibly ensemble learning \cite{sagi_ensemble_2018}) in order to allow more extensive comparisons and accuracy improvements. Reviewing of literature will be used to identify relevant models. 
 
 \subsection{Evaluation Methods}
 %How will the results, i.e., the answers to the posed questions obtained through your chosen methods be evaluated? For instance, if you are using an experimental method, how will you determine whether your results are statistically significant?
@@ -128,6 +128,7 @@ Papers where experiments have been performed:
     \item Monthly electricity consumption forecasting based on decomposition methods and ARIMA: \cite{sun_monthly_2019}.
     \item Forecasting cooling energy using ANN (for three university buildings, weekly/monthly): \cite{deb_forecasting_2016}.
     \item Forecasting high voltage consumers' electricity consumption using LSTM, GRU, TCN: \cite{hadjout_electricity_2022}.
+    \item SVR and fruit fly optimization with seasonal indexing to address the fact that electricity consumption has a seasonal component: \cite{cao_support_2016}. Results show that the proposed model is a reliable forecasting tool.
 \end{itemize}
 
 \noindent
@@ -142,7 +143,7 @@ Papers specifically on XAI and energy consumption forecasting:
 
 \section{Implementation}
 %Vad (om något) ska implementeras
-The implementation of the project consists of one or several models for predicting electricity consumption, as well as integration of resulting model predictions in the existing Umeå Energi database. Part of the implementation is also to use Explainable AI methods to evaluate the contributions of each variable in the prediction. The implementation will be performed on an Umeå Energi computer with access to their database holding electricity consumption data. Python and standard ML/DL/XAI libraries will be used for the model implementation and variable interpretation. The integration part of the project will utilize SQL.
+The implementation of the project consists of a model for predicting electricity consumption, as well as integration of resulting model predictions in the existing Umeå Energi database. Part of the implementation is also to use Explainable AI methods to evaluate the contributions of each variable in the prediction. The implementation will be performed on an Umeå Energi computer with access to their database holding electricity consumption data. Python and standard ML/DL/XAI libraries will be used for the model implementation and variable interpretation. The integration part of the project will utilize SQL.
 
 \section{Work Structure and Time Plan}
 %Vilket arbetssätt ska användas i projektet (tex agilt, iterativt, ...)En detaljerad tidsplanering (t ex på veckonivå) som anger vad som ska göras när. Inkludera gärna deadlines för specifika kapitel i rapporten.
@@ -209,8 +210,8 @@ I will be spending most of my time at the Umeå Energi office, so arranging supe
     \end{tabular}
 \end{table}
 
-\section{Project Diary}
-The project diary can be found via this link: \url{https://docs.google.com/document/d/1z1Nd_QyX17tCN-93EjTk_8BK8745s6sru_kyz7s-aGM/edit?usp=sharing}.
+\section{Project Journal}
+The project journal can be found via this link: \url{https://docs.google.com/document/d/1z1Nd_QyX17tCN-93EjTk_8BK8745s6sru_kyz7s-aGM/edit?usp=sharing}.
 
 %Namn på handledarna (både interna och externa) och deras mailadress
 
