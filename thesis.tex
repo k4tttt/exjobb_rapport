@@ -10,19 +10,35 @@
 %\usepackage{lmodern}             % Optional fonts. (not necessary)
 
 %\usepackage{tabularx}
-%\usepackage{graphicx}
-%\usepackage{multirow} % Spanning rows/cols in tables
-%\usepackage{xurl}
-%\usepackage{amsmath}
 
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{xurl}
+\usepackage{hyphenat}
 
-\title{The title of your thesis}
-\subtitle{If you have a subtitle}
-\author{Your Name}
-\supervisor{} % Supervisor at UMU
-\supervisore{} % External supervisor
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{graphicx}
+
+\usepackage{comment}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,
+    urlcolor=blue,
+    citecolor=black,
+}
+
+\emergencystretch=2em
+
+\title{Electricity Consumption Forecasting Using an Explainable AI Framework}
+%\subtitle{If you have a subtitle}
+\author{Tyra Wodén}
+\supervisor{Esteban Guerrero Rosero} % Supervisor at UMU
+\supervisore{Elin Eriksson} % External supervisor
 \examiner{Ola Ringdahl} % Examiner
-\semester{Spring 20XX}
+\semester{Spring 2026}
 \course{Degree Project in Interaction Technology and Design, 30 credits}
 \education{Master of Science Programme in Interaction Technology and Design, 300 credits}
 
@@ -37,6 +53,7 @@
 
 
 \begin{abstract}
+\begin{comment}
 An abstract is a short description (10-20 lines) of your thesis. Because on-line
 search databases typically contain only abstracts, it is vital to write a
 complete but concise description of your work to entice potential readers into
@@ -52,6 +69,8 @@ written by Pedher Johansson, associate professor at the Department of Computing
 Science, Umeå University. Parts of the files are besed o work done in 2004 by
 Jonas Birmé, modified by Per Lindström. Ola Ringdahl added the new UMU logo (2019) and modified the template to match the ID programme.
 
+% put keywords in the end of abstract
+\end{comment}
 \end{abstract}
 
 
@@ -59,7 +78,7 @@ Jonas Birmé, modified by Per Lindström. Ola Ringdahl added the new UMU logo (2
 \cleardoublepage
 
 \chapter*{Acknowledgements}
-
+\begin{comment}
 It is common to thank the supervisors and others who have contributed.
 The acknowledgent is usualy put first, or last, but can also be
 written as a section in the intruction. However, if it is put first
@@ -76,9 +95,11 @@ manualy as follows:
   \addcontentsline{toc}{chapter}{Acknowledgments}
   \chapter*{Acknowledgments}
 \end{verbatim}
-
+\end{comment}
 
 \cleardoublepage
+
+% kan vara värt att ha en "list of abbreviations" (efter acknowledgements)
 
 \tableofcontents
 \cleardoublepage
@@ -86,12 +107,21 @@ manualy as follows:
 \pagestyle{fancy}
 \setcounter{page}{1}
 
-\chapter{First chapter}
+\chapter{Introduction}
+\input{chapters/introduction.tex}
 
-\section{Some section}
+\chapter{Background}
 
+\chapter{Previous Work}
+\input{chapters/previous_work.tex}
 
+\chapter{Methodology}
 
+\chapter{Results}
+
+\chapter{Discussion}
+
+\chapter{Conclusion}
 
 \chapter{Some {\LaTeX} tip and tricks}
 
@@ -197,7 +227,7 @@ table of contents. If you like it to be, use the trick described in
 the previous section.
 
 Remember to cite the literature and web-papers in an appropriate way. 
-There are many ways to do that, such as the following \cite{Lamp94} where 
+There are many ways to do that, such as the following where 
 you can read about how to create a reference list in a {\LaTeX}\-report 
 using BibTex.
 
@@ -250,7 +280,7 @@ before the first chapter.
 %
 \addcontentsline{toc}{chapter}{\bibname}
 \bibliographystyle{plain}
-\bibliography{base}
+\bibliography{main}
 
 \appendix
 
