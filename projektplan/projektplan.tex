@@ -19,7 +19,7 @@
 \emergencystretch=2em
 
 % Redefine the following variables
-\def\projecttitle{Electricity Consumption Forecasting Using an Explainable AI Framework}
+\def\projecttitle{Monthly Electricity Consumption Forecasting Using an Explainable AI Framework}
 \def\myname{Tyra Wodén}
 \def\semester{VT 26} % When you are planning to do your thesis
 \def\epartner{Umeå Energi} % Enter a company, organisation, researcher, or 'none'
@@ -95,22 +95,6 @@ Evaluation will mainly be performed on the data sources' contributions, the fore
 %The different statistical/ML/DL models will also be evaluated and compared against each other. For the data sources, different combinations will be investigated, and their contribution to the forecast accuracy will be evaluated both individually and in the different combinations. Results will be evaluated for statistical significance.
 XAI methods such as feature importance and Shapley values will be used to evaluate the contributions of the different data sources. Different combinations of data sources may also be evaluated. All results will be evaluated for statistical significance, using metrics such as MAPE, MSE, RMSE, NMAE. 
 
-\begin{comment}
-\section{Resources}
-%Aside from your own work, what resources will be needed in order to complete the project? Will you need access to particularly powerful, or in some other way unusual, hardware? Software or data sets that are not publicly available? An external advisor? Interview or test subjects (how many)? A place to work? 
-
-%Which computing science competence will the external supervisor contribute? Describe the requirements and how they are to be met. In cases where it is unclear whether you will get access to a resource, describe how the project will be affected if you do not.
-
-For completing this project, the following resources are needed: 
-
-\begin{itemize}
-    \item \textbf{Internal data:} Electricity consumption data from Umeå Energi on a 15-minute level. 
-    \item \textbf{External data:} For example, weather data, calendar information, and energy prices. The external data sources are the largest uncertainty of the project, since the availability and quality of API's are not thoroughly explored before starting the project. At the very least, SMHI\footnote{SMHI Weather Forecast API: \url{https://opendata.smhi.se/metfcst/snow1gv1}} has an open API for whether forecasts, and Dagsmart\footnote{Dagsmart API: \url{https://dagsmart.se/api/}} provides an open API for Swedish holidays, bridge-days (klämdagar), and half-days (halvdagar), which will allow for analysis extended beyond Umeå Energi's internal data.
-    \item \textbf{Software and environments:} Standard Machine Learning models and tools for statistical analysis. For the integration part of the project, access to a database instance where forecast data can be stored. No unusual hardware is required. 
-    \item \textbf{Competence from external supervisor:} Knowledge about the current forecasting model and data at Umeå Energi, as well as general competence in data analysis. Also, communication with the Web Development team that will potentially be implementing the forecasts in an existing application for customers. 
-\end{itemize}
-\end{comment}
-
 \section{Literature}
 %Vilken relevant litteratur har identifierats 
 
@@ -128,10 +112,11 @@ Papers where experiments have been performed:
     \item Support Vector Machine (SVM) for forecasting energy consumption: \cite{dong_applying_2005}.
     \item Monthly electricity consumption forecasting based on decomposition methods and ARIMA: \cite{sun_monthly_2019}.
     \item Forecasting cooling energy using ANN (for three university buildings, weekly/monthly): \cite{deb_forecasting_2016}.
-    \item Forecasting high voltage consumers' electricity consumption using LSTM, GRU, TCN: \cite{hadjout_electricity_2022}.
+    \item Forecasting high voltage consumers' monthly electricity consumption using an ensemble learning approach based on LSTM, GRU, TCN: \cite{hadjout_electricity_2022}.
     \item SVR and fruit fly optimization with seasonal indexing to address the fact that electricity consumption has a seasonal component: \cite{cao_support_2016}. Results show that the proposed model is a reliable forecasting tool.
     \item Ensemble learning for short-term electricity consumption forecasting: \cite{divina_stacking_2018}.
     \item Ensemble learning for short-term electricity consumption forecasting of office buildings: \cite{pinto_ensemble_2021}.
+    \item Ensemble learning for annual electricity consumption forecasting: \cite{chen_novel_2018}. 
 \end{itemize}
 
 \noindent
@@ -170,7 +155,7 @@ The work structure of the project will follow agile principles, in order to allo
 Below follows a list of potential risks for the project, and what can be done to circumvent them.
 
 \begin{itemize}
-    \item \textbf{Risk 1: Difficulties with finding data sources.} Possibly the largest risk for the project is the availability of high-quality external data sources for the forecasts. Previous studies have, apart from historical electricity consumption, focused on numerous variables, often pertaining to weather and building specific factors. The historical consumption data will in this project be provided by Umeå Energi, but retrieval of external parameters relies on open APIs. To begin with, two external APIs have been identified: SMHI\footnote{SMHI Open APIs: \url{https://opendata.smhi.se}} which provides both historical and forecasted weather data, and Dagsmart\footnote{Dagsmart API: \url{https://dagsmart.se/api/}} which provides Swedish calendar information. Ideally, other variables will be retrieved from other open APIs, but availability will be determined during the data preparation phase of the project.
+    \item \textbf{Risk 1: Difficulties with finding data sources.} Possibly the largest risk for the project is the availability of high-quality external data sources for the forecasts. Previous studies have, apart from historical electricity consumption, focused on numerous variables, often pertaining to weather and building specific factors. The historical consumption data will in this project be provided by Umeå Energi, but retrieval of external parameters relies on open APIs. To begin with, two external APIs have been identified: SMHI\footnote{SMHI Open APIs: \url{https://opendata.smhi.se}} which provides both historical and forecasted weather data, and Dagsmart\footnote{Dagsmart API: \url{https://dagsmart.se/api/}} which provides Swedish calendar information. Electricity prices for the current day plus one day, as well as historical prices, can be obtained from ``Elpriset just nu''\footnote{``Elpriset just nu'' API: \url{https://www.elprisetjustnu.se/elpris-api}}. Ideally, other potentially relevant variables will be retrieved from other open APIs, but availability will be determined during the data preparation phase of the project.
     \item \textbf{Risk 2: Problems with assembling training data.} Since several data sources will be used, there may be difficulties in assembling all data into a format that is useable with the prediction model(s). If this turns out to be the case, the methodologies of similar experiments will be surveyed further to find out how they solved the problem. This risk is also mitigated by Gradient Boosting models' lower need for data preprocessing.
     \item \textbf{Risk 3: Limited time.} The limited time frame of the project means that all project goals may not be fulfilled. To address this, the research questions have been ordered in priority, with the XAI part of the project being ranked highest. The other goals will be worked on in case of time. Writing the paper will be done continuously to avoid any big chunks of writing being left at the end of the project.
 \end{itemize}
