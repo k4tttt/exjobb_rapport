@@ -53,13 +53,13 @@
 
 
 \begin{abstract}
-	%An abstract is a short description (10-20 lines) of your thesis. Because on-line search databases typically contain only abstracts, it is vital to write a complete but concise description of your work to entice potential readers into obtaining a copy of the full paper.
+     %An abstract is a short description (10-20 lines) of your thesis. Because on-line search databases typically contain only abstracts, it is vital to write a complete but concise description of your work to entice potential readers into obtaining a copy of the full paper.
 
-	%Although an abstract is brief, it should do almost as much work as the multi-page paper that follows it. Each chapter or section is typically a single sentence, but there is always room for creativity. In particular, parts may be merged or spread among a set of sentences.
+     %Although an abstract is brief, it should do almost as much work as the multi-page paper that follows it. Each chapter or section is typically a single sentence, but there is always room for creativity. In particular, parts may be merged or spread among a set of sentences.
 
-	%This template for a Bachelor's or Master's Thesis report using {{\LaTeX}} is written by Pedher Johansson, associate professor at the Department of Computing Science, Umeå University. Parts of the files are besed o work done in 2004 by Jonas Birmé, modified by Per Lindström. Ola Ringdahl added the new UMU logo (2019) and modified the template to match the ID programme.
+     %This template for a Bachelor's or Master's Thesis report using {{\LaTeX}} is written by Pedher Johansson, associate professor at the Department of Computing Science, Umeå University. Parts of the files are besed o work done in 2004 by Jonas Birmé, modified by Per Lindström. Ola Ringdahl added the new UMU logo (2019) and modified the template to match the ID programme.
 
-	% put keywords in the end of abstract
+     % put keywords in the end of abstract
 \end{abstract}
 
 
@@ -105,12 +105,16 @@ manualy as follows:
 \input{chapters/previous_work.tex}
 
 \chapter{Methodology}
+\input{chapters/method.tex}
 
 \chapter{Results}
+\input{chapters/results.tex}
 
 \chapter{Discussion}
+\input{chapters/discussion.tex}
 
 \chapter{Conclusion}
+\input{chapters/conclusion.tex}
 
 \chapter{Some {\LaTeX} tip and tricks}
 
@@ -207,8 +211,8 @@ Company names, abbreviations etc. can look funny using bibtex. Use
 \{ \} if there are something you like to force.
 
 \begin{tabular}{ll}
-	\texttt{\{Umeå Universitet\}} & (so it does not become U. Universitet) \\
-	\texttt{\{HTML\}}             & (so it does not become html or Html)
+     \texttt{\{Umeå Universitet\}} & (so it does not become U. Universitet) \\
+     \texttt{\{HTML\}}             & (so it does not become html or Html)
 \end{tabular}
 
 In the report document class references are not included in the
