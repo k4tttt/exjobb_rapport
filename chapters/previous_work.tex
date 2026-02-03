@@ -11,9 +11,18 @@ Papers where experiments have been performed:
 \begin{itemize}
     \item Support Vector Machine (SVM) for forecasting energy consumption: \cite{dong_applying_2005}.
     \item Monthly electricity consumption forecasting based on decomposition methods and ARIMA: \cite{sun_monthly_2019}.
-    \item Forecasting cooling energy using ANN (for three university buildings, weekly \slash monthly): \cite{deb_forecasting_2016}.
-    \item Forecasting high voltage consumers' electricity consumption using LSTM, GRU, TCN: \cite{hadjout_electricity_2022}.
+    \item Forecasting cooling energy using ANN (for three university buildings, weekly/monthly): \cite{deb_forecasting_2016}.
     \item SVR and fruit fly optimization with seasonal indexing to address the fact that electricity consumption has a seasonal component: \cite{cao_support_2016}. Results show that the proposed model is a reliable forecasting tool.
+\end{itemize}
+
+\noindent
+Papers on ensemble learning for energy consumption forecasting:
+
+\begin{itemize}
+    \item Forecasting high voltage consumers' monthly electricity consumption using an ensemble learning approach based on LSTM, GRU, TCN: \cite{hadjout_electricity_2022}.
+    \item Ensemble learning for short-term electricity consumption forecasting: \cite{divina_stacking_2018}.
+    \item Ensemble learning for short-term electricity consumption forecasting of office buildings: \cite{pinto_ensemble_2021}.
+    \item Ensemble learning for annual electricity consumption forecasting: \cite{chen_novel_2018}. Predictions are made using numerous different variables, but not historical consumption. Identifies that there is a lack of household-level data for the task of prediction based on historical consumption data (time series).
 \end{itemize}
 
 \noindent
@@ -21,8 +30,8 @@ Papers specifically on XAI and energy consumption forecasting:
 
 \begin{itemize}
     \item Forecasted hourly energy consumption for the steel sector using three different LSTM models \cite{maarif_energy_2023}. Used SHAP to interpret the decision-making, and found that leading current reactive power and the number of seconds from midnight contributed significantly to the model output.
-    \item Ensemble learning for electricity consumption forecasting. Evaluated several decision tree-based ensemble learning techniques using SHAP \cite{moon_advancing_2024}. Found that temperature\hyp{}humidity index and wind chill temperature has a greater impact on short-term forecasts than more traditional parameters such as temperature. They also released the code\footnote{\url{https://github.com/sodayeong/PLOS-ONE_Github}}.
-    \item Predicted electricity consumption for residential buildings based on hourly data with information about consumption for different household areas (such as kitchen and appliances) \cite{janjua_enhancing_2024}. Used LSTM as prediction model, and LIME and SHAP to provide comprehensible explanations of the predictions. 
+    \item Ensemble learning for electricity consumption forecasting. Evaluated several decision tree-based ensemble learning techniques using SHAP \cite{moon_advancing_2024}. Found that ensemble learning models outperform deep learning models. Also found that temperature-humidity index and wind chill temperature has a greater impact on short-term forecasts than more traditional parameters such as temperature. Released the code at \url{https://github.com/sodayeong/PLOS-ONE_Github}.
+    \item Predicted electricity consumption for residential buildings based on hourly data with information about consumption for different household areas (such as kitchen and appliances) \cite{janjua_enhancing_2024}. Used LSTM as prediction model, and LIME and SHAP to provide comprehensible explanations of the predictions.
     \item Proposed a methodology for selecting input variables for energy consumption prediction using XAI (SHAP) \cite{sim_explainable_2022}. Used Extreme Gradient Boosting (XGBoost), Support Vector Regression (SVR), Light Gradient Boosting Model (LightGBM), and LSTM for prediction. Found that variables with strong impact on the forecast include year, hour, energy consumption difference, temperature, and surface-temperature.
 \end{itemize}
 
