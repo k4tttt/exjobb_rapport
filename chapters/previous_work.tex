@@ -45,3 +45,13 @@ Overfitting can be a problem with ML/DL models
 \section{Machine Learning Approaches}
 
 \section{Ensemble Learning Approaches}
+
+ [These parts may be more suitable in theory].
+
+Ensemble learning is a family of methods that combine several machine learning algorithms to make decisions. It can be seen as the ML interpretation of ``wisdom of the crowd'', that is, the idea that aggregating the opinions of several individuals is better than selecting the opinion of one individual. Multiple weak learners make predictive results that are fused together via voting mechanisms, in order to achieve better performance than from any single algorithm. Any type of machine learning algorithm, e.g. decision tree, neural network, or regression model, can be used as an ensemble learner \cite{sagi_ensemble_2018,dong_survey_2020}.
+
+According to Dietterich \cite{dietterich_ensemble_2000}, there are three reasons why ensemble learning methods achieve good performance in machine learning. The first reason is statistical. Models can be seen as searching for the best hypothesis within a hypothesis space $H$. When data is limited, which it often is, the models can find several hypotheses in $H$ that give the same accuracy on the training data. This makes it hard to choose between hypotheses, since it is unknown which one will generalize better for unseen data. Secondly, ensemble learning provides computational benefits. Many models function via performing some type of local search, which may be prone to getting stuck in a local optima. A better approximation of the unknown true function may be obtained from an ensemble constructed by the local search started from many different points. The third reason is representational. In most situations, the unknown true function may not be included in $H$. Combining several hypotheses from $H$, the space of representable functions can be expanded to possibly include the true function.
+
+    [write about most common ensemble methods? stacking, bagging, boosting?]
+
+Ensemble learning has previously been applied for the task of electricity consumption forecasting, mostly in the short-term scope. Divina et al. \cite{divina_stacking_2018} proposed a stacking ensemble learning approach for short-term  forecasting of Spain's general electricity consumption. They used three basic learning methods (regression trees based on Evolutionary Algorithms, Artificial Neural Networks, and Random Forests) and a top level method that produced final predictions [skriv om detta stycke]
