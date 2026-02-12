@@ -1,7 +1,5 @@
 \section{Time Series Forecasting}
 
- [Definition of short/mid/long-term forecasts]
-
 \section{Ensemble Learning}
 
 Ensemble learning is a family of methods that combine several machine learning algorithms to make decisions. It can be seen as the ML interpretation of ``wisdom of the crowd'', that is, the idea that aggregating the opinions of several individuals is better than selecting the opinion of one individual. Multiple weak learners make predictive results that are fused together via voting mechanisms, in order to achieve better performance than from any single algorithm. Any type of machine learning algorithm, e.g. decision tree, neural network, or regression model, can be used as an ensemble learner \cite{sagi_ensemble_2018,dong_survey_2020}.
@@ -19,9 +17,10 @@ Stacking utilizes different learning algorithms called base learners to make ini
 
 In recent years, Artificial Intelligence has been widely adopted in society, and humans increasingly rely on AI as a part in decision-making. However, the black-box nature of many AI systems creates a lack of transparency, and explaining to users how the AI systems work is highly problematic. To address these issues, explainable AI methods that are able to  elucidate the decision-making have been developed \cite{minh_explainable_2022,angelov_explainable_2021}.
 
-XAI methods can be applied at different stages of the AI modelling. Firstly, explainability can be applied pre-modelling explainability through means of data pre-processing and analysis. Secondly,
-\cite{minh_explainable_2022}.
-
-[SHAP]
+XAI methods can be applied at different levels of the AI modelling. Firstly, explainability can be applied pre-modelling through means of data pre-processing and data analysis. Secondly, the model itself can be inherently interpretable. This refers to models that have a simple structure, such as linear regression and k-Nearest Neighbors. Thirdly, explainability can be applied post-modelling to deal with the black-box problem of more complex models \cite{minh_explainable_2022}.
 
 Ensemble models are based on the aggregation of several models, which makes it more complex to interpret the results. Post-modeling XAI methods such as simplification and feature relevance can be implemented to explain the ensemble \cite{minh_explainable_2022}.
+
+\subsection{SHAP}
+
+SHapley Additive exPlanations (SHAP) is a popular method for model explainability. It is model-agnostic, meaning that it can be used for any ML model. The SHAP method has its foundation in game theory, where the contribution of each player to the total payoff is calculated. In the case of machine learning, the players are represented by features (variables) and the payoff is the model output. To calculate a contribution score for each feature, all different combinations of features (i.e., coalitions in game theory) are evaluated. SHAP can be used to explain model outputs both locally and globally, which means that it can explain features both for specific instances and for all instances \cite{salih_perspective_2025}.
