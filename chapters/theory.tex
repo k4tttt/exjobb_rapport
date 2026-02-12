@@ -1,5 +1,27 @@
 \section{Time Series Forecasting}
 
- [Other theoretical parts?]
-
  [Definition of short/mid/long-term forecasts]
+
+\section{Ensemble Learning}
+
+Ensemble learning is a family of methods that combine several machine learning algorithms to make decisions. It can be seen as the ML interpretation of ``wisdom of the crowd'', that is, the idea that aggregating the opinions of several individuals is better than selecting the opinion of one individual. Multiple weak learners make predictive results that are fused together via voting mechanisms, in order to achieve better performance than from any single algorithm. Any type of machine learning algorithm, e.g. decision tree, neural network, or regression model, can be used as an ensemble learner \cite{sagi_ensemble_2018,dong_survey_2020}.
+
+According to Dietterich \cite{dietterich_ensemble_2000}, there are three reasons why ensemble learning methods achieve good performance in machine learning. The first reason is statistical. Models can be seen as searching for the best hypothesis within a hypothesis space $H$. When data is limited, which it often is, the models can find several hypotheses in $H$ that give the same accuracy on the training data. This makes it hard to choose between hypotheses, since it is unknown which one will generalize better for unseen data. Ensemble learning can help with avoiding this problem of overfitting. Secondly, ensemble learning provides computational benefits. Many models function via performing some type of local search, which may be prone to getting stuck in a local optima. A better approximation of the unknown true function may be obtained from an ensemble constructed by the local search started from many different points. The third reason is representational. In most situations, the unknown true function may not be included in $H$. Combining several hypotheses from $H$, the space of representable functions can be expanded to possibly include the true function.
+
+% kan vara värt att nämna decision trees här
+Three common strategies for constructing ensembles are bagging, boosting, and stacking \cite{moon_advancing_2024}. Bagging, or bootstrap aggregating, proposed by Breiman \cite{breiman_bagging_1996} is a method for obtaining an aggregated prediction by building multiple versions of a predictor. Bootstrapping is used to generate multiple samples of data from the original dataset, which are then used to independently train the different predictors. Majority voting is used to aggregate the final prediction \cite{sagi_ensemble_2018}. The main objective of the bagging technique is to reduce the variance of a prediction model. A common example of the bagging technique is the random forest (RF) algorithm \cite{moon_advancing_2024,ribeiro_ensemble_2020}.
+
+In boosting, several models with individually weak predictions are aggregated to obtain a model with high accuracy. Models are trained sequentially to correct the errors of previous models. The main objective with this technique is reducing model bias \cite{moon_advancing_2024,ribeiro_ensemble_2020,schapire_strength_1990}. Two examples of boosting algorithms are Gradient Boosting Machines (GBM), which uses gradient descent to minimize the loss function, and XGBoost, which is an extension of GBM focused on resource optimization and prevention of overfitting \cite{ribeiro_ensemble_2020}.
+
+Stacking utilizes different learning algorithms called base learners to make initial predictions. These outputs are then combined via a meta-learner to make the ultimate predictions. The goal is to capture a wider range of patterns using the strength of different models, while minimizing the generalization errors \cite{moon_advancing_2024,ribeiro_ensemble_2020,divina_stacking_2018}. Accuracy improvements mainly happen when there is diversity among the individual models, since differences in generalization principles generally lead to different results \cite{ribeiro_ensemble_2020}.
+
+\section{Explainable Artificial Intelligence}
+
+In recent years, Artificial Intelligence has been widely adopted in society, and humans increasingly rely on AI as a part in decision-making. However, the black-box nature of many AI systems creates a lack of transparency, and explaining to users how the AI systems work is highly problematic. To address these issues, explainable AI methods that are able to  elucidate the decision-making have been developed \cite{minh_explainable_2022,angelov_explainable_2021}.
+
+XAI methods can be applied at different stages of the AI modelling. Firstly, explainability can be applied pre-modelling explainability through means of data pre-processing and analysis. Secondly,
+\cite{minh_explainable_2022}.
+
+[SHAP]
+
+Ensemble models are based on the aggregation of several models, which makes it more complex to interpret the results. Post-modeling XAI methods such as simplification and feature relevance can be implemented to explain the ensemble \cite{minh_explainable_2022}.
