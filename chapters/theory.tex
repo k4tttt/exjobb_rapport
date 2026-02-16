@@ -1,12 +1,20 @@
-\section{Time Series Forecasting}
-A time series is a set of chronologically arranged observations, generally under the assumption that time is a discrete variable \cite{kirchgassner_introduction_2012}. [Maybe use mathematical notation?]
+This chapter presents relevant theoretical background for the concepts and methodologies used in this research.
 
-To analyze a time series, it is usually decomposed into three components \cite{deb_review_2017}:
+\section{Time Series Forecasting}
+A time series is a set of chronologically arranged observations, generally under the assumption that time is a discrete variable \cite{kirchgassner_introduction_2012}. In a time series with $T$ real value samples $x_1,\dots,x_T$, the value at time $i$ is represented by $x_i$ ($1 \leq i \leq T$). The problem of time series forecasting can be defined as predicting the values of $x_{w+1},\dots,x_{w+h}$, where $w$ is the historical window, i.e., the number of values considered in order to produce the prediction, and $h$ is the prediction horizon, i.e, the number of future values to be predicted. Prediction happens given the previous samples $x_1,\dots,x_w$ ($w+h \leq T$), with the goal of minimizing the error between the predicted value $\hat{x}_{w+i}$ and the actual value $x_{w+i}$ ($1 \leq i \leq h$) \cite{divina_stacking_2018}.
+
+A time series may be univariate or multivariate, where univariate refers to a series with a single observation recorded over time, and multivariate refers to a series with a group of variables with interactions.
+%In order to draw inferences from a time series, a model representing the data needs to be set up
+Analysis of time series often begins with obtaining the underlying patterns of the observed data. The next step is fitting a model to represent the data for future predictions, which can be a complex task. The analysis of the time series is usually performed by decomposing it into three components \cite{deb_review_2017,brockwell_introduction_2002}:
 \begin{enumerate}
-  \item \emph{Trend} \hyp{}
-  \item \emph{Seasonality} \hyp{} 
-  \item \emph{Residual} \hyp{} 
+    \item \emph{Trend} \hyp{} The general movement of the variable during the observation period. Trend does not take irregularities and seasonality into account.
+    \item \emph{Seasonality} \hyp{} The periodic fluctuation of the variable. It includes stable effects, along with time, magnitude, and direction.
+    \item \emph{Residual} \hyp{} The remaining, largely unexplainable part of the time series. In some instances, this can be high enough to mask the trend and seasonality.
 \end{enumerate}
+
+Both linear and non-linear techniques may be used for solving time series problems. In linear methods, the idea is that strong correlations in the data allow for linear combinations to determine the next observation. However, the random component of the time series may prevent precise predictions. Non-linear methods are applied in the machine learning domain to forecast future values based on a model describing the data. Machine learning solutions to forecasting problems have gained popularity, due to the fact that they are suitable both for linear and non-linear problems \cite{divina_stacking_2018}.
+
+Time series forecasting has been extensively applied to the problem of energy consumption forecasting, especially since real-time monitoring of buildings has become increasingly common. \cite{deb_review_2017}.
 
 \section{Ensemble Learning}
 
