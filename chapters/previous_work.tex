@@ -17,6 +17,7 @@ Papers where experiments have been performed:
     \item SVR and fruit fly optimization with seasonal indexing to address the fact that electricity consumption has a seasonal component: \cite{cao_support_2016}. Results show that the proposed model is a reliable forecasting tool.
 \end{itemize}
 
+\begin{comment}
 \noindent
 Papers on ensemble learning for energy consumption forecasting:
 
@@ -26,6 +27,7 @@ Papers on ensemble learning for energy consumption forecasting:
     \item Ensemble learning for short-term electricity consumption forecasting of office buildings: \cite{pinto_ensemble_2021}.
     \item Ensemble learning for annual electricity consumption forecasting: \cite{chen_novel_2018}. Predictions are made using numerous different variables, but not historical consumption. Identifies that there is a lack of household-level data for the task of prediction based on historical consumption data (time series).
 \end{itemize}
+\end{comment}
 
 \noindent
 Papers specifically on XAI and energy consumption forecasting:
@@ -46,4 +48,16 @@ Overfitting can be a problem with ML/DL models
 
 \section{Ensemble Learning Approaches}
 
-Ensemble learning has previously been applied for the task of electricity consumption forecasting, mostly in the short-term scope. Divina et al. \cite{divina_stacking_2018} proposed a stacking ensemble learning approach for short-term  forecasting of Spain's general electricity consumption. They used three basic learning methods (regression trees based on Evolutionary Algorithms, Artificial Neural Networks, and Random Forests) and a top level method that produced final predictions [skriv om detta stycke]
+Ensemble learning has previously been applied for the task of electricity consumption forecasting, mostly in the short-term scope. Divina et al. \cite{divina_stacking_2018} proposed a stacking ensemble learning approach for short-term  forecasting of Spain's general electricity consumption. They used a two-layer approach based on a bottom and a top layer. The bottom layer consisted of three base learning methods; regression trees based on evolutionary algorithms, Artificial Neural Network (ANN), and Random Forest (RF). The top layer used Generalized Boosted Regression Models (GBM) to combine the predictions of the base learners, and produce the final predictions. They found that the combination of weaker learning methods was able to produce superior results compared to several baselines, showing that ensemble learning is suitable for short-term electricity consumption forecasting. Neural networks were able to predict with high accuracy in the very near future, but accuracy declined when predicting further in the future. The ensemble method also showed significantly better performance compared to baselines when the amount of historical data was small, indicating that ensemble methods may be more flexible for different quantities of data.
+
+Pinto et al. \cite{pinto_ensemble_2021} also utilized ensemble learning for forecasting electricity consumption in the short-term. Using a consumption data from an office building, along with other variables such as temperature and humidity, they predicted hour-ahead consumption with three different ensemble methods. These methods were random forests, gradient boosted regression trees (GBR), and AdaBoost. They found that ensemble learning methods, especially AdaBoost, outperformed benchmark models such as support vector regression and fuzzy rule-based methods. They highlight including temperature and humidity information as advantageous to the forecasts, and they suggest that future work should consider additional external variables such as solar irradiation and thermal sensation.
+
+    [Maybe give some more examples of short-term studies]
+
+Hadjout et al. \cite{hadjout_electricity_2022} used an ensemble deep learning approach to forecast monthly electricity consumption for high voltage customers in the Algerian economic sector. They utilized three different deep learning models \hyp{} Long Short Term Memory (LSTM), Gated Recurrent Unit (GRU), and Temporal Convolutional Networks (TCN) \hyp{} and grid search to find optimal weights for each model in the final ensemble prediction. Compared to the individual models separately, the ensemble approach performed significantly better using MAE and MAPE metrics.
+
+Long-term forecasting using ensemble learning has been researched by Chen et al. \cite{chen_novel_2018}. They predicted the annual electricity consumption for American households using extreme gradient boosting forests and deep networks as base learners, and ridge regression as a combiner method. The data included variables pertaining to household demographics, household type, appliances, and geographical data, providing a wide range of information. The ensemble framework was able to reduce errors by 30\% compared to classical regression models such as linear regression and support vector machines. Investigation into the importance of input features using principal component analysis showed that electricity price, number of rooms, natural gas usage, and temperature during summer were among the variables that contributed the most information. They also note that some features, like number of rooms, number of bedrooms, and total square footage, have a strong correlation and have potential to be represented more efficiently. They argue that feature selection is necessary, since discarding of unimportant features can enhance model performance.
+
+\section{Monthly Forecasting?}
+
+\section{Explainable AI Approaches}
