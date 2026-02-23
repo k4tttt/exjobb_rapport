@@ -1,0 +1,37 @@
+\section{Project Plan}
+To answer the research questions, a methodology established by Moon et al. \cite{moon_advancing_2024} will be used. Some modifications to their method will be made in order for it to be tailored to this study's data and the monthly forecasting scope, e.g. adjusting the time ranges for which training and testing data is collected.
+
+\subsection{Data and tools}
+Forecasts will be based on historical consumption data from Umeå Energi and external variables. The consumption data is in form of time series data from 16000 customers over roughly three years on a 15-minute level. Some customers may not have data for all three years. Other variables such as weather data, calendar information, and electricity prices will be retrieved from Open APIs.
+
+\subsection{ML methods}
+To solve the research questions, state-of-the-art ensemble learning models previously used for short-term (hourly - daily) forecasting will be explored. Moon et al.'s work \cite{moon_advancing_2024} will be an important reference for selecting models. The XAI method SHAP will be used explain variable contributions to the forecast. The monthly scope may have different importance for certain variables compared to the short-term forecasts.
+
+\subsection{Main methodological steps}
+
+\begin{itemize}
+    \item \textbf{Literature study}: Review existing work in the field of electricity consumption forecasting, in order to gain valuable theoretical background and insights on ensemble learning and XAI techniques for electricity consumption forecasting.
+    \item \textbf{Data preparation}: Retrieve 15-minute level electricity consumption data, as well as relevant external data sources (such as weather data, calendar data, and electricity prices). Perform data analysis and pre-processing. Pre-processing includes transforming one-dimensional variables such as weekdays/holidays to two dimensions, assigning numerical values to string parameters, and calculating weather indices \cite{moon_advancing_2024}.
+    \item \textbf{Model implementation}: Implement ensemble learning forecasting models based on the consumption data and the external sources. Optimize hyperparameters.
+    \item \textbf{Model evaluation}: Use MAPE, CVRMSE, and NMAE metrics to evaluate the performance of ensemble learning models \cite{moon_advancing_2024}.
+    \item \textbf{Evaluation of data sources}: Analyze and evaluate how the different data sources contribute to the accuracy of the forecasts using the Explainable AI method SHAP. This will enhance model interpretability \cite{moon_advancing_2024}.
+          %\item \textbf{Development and evaluation of models}: Implement and evaluate several different statistical and ML (possibly DL) forecasting models. 
+          %\item \textbf{Continuous forecast updates}: Develop a method for improving the forecasts during the current month by continuously replacing predicted values with actual observations.
+          %\item \textbf{Integration perspectives}: Develop a prototype that demonstrates how the forecasting models can be integrated into Umeå Energi's existing environments (Microsoft SQL Server). The prototype includes reading of input data from database tables, execution of forecasting models in Python, and storing of results.
+          %\item \textbf{Quality assurance}: Develop a suggestion on how to continuously follow up the accuracy of the models after implementing them in production.
+\end{itemize}
+
+%\noindent
+%In case there is time, more than one model will be implemented (or possibly ensemble learning \cite{sagi_ensemble_2018}) in order to allow more extensive comparisons and accuracy improvements. Reviewing of literature will be used to identify relevant models. 
+
+\subsection{Evaluation Methods}
+%How will the results, i.e., the answers to the posed questions obtained through your chosen methods be evaluated? For instance, if you are using an experimental method, how will you determine whether your results are statistically significant?
+
+Evaluation will, as mentioned above, be performed for the models' performance and the variables' contributions. As a baseline comparison, an existing linear regression electricity consumption model (based on Umeå Energi historical monthly consumption and temperature data) will be utilized. Further comparisons will be made to previous works, particularly Moon et al.'s \cite{moon_advancing_2024} work.
+
+\section{Actual}
+
+\begin{itemize}
+    \item Make correlation maps for the features.
+    \item It is also possible to make diagrams for the decomposition of the time series \cite{chakraborty_scenario-based_2021}.
+\end{itemize}
