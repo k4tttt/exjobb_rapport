@@ -37,6 +37,8 @@ XAI methods can be applied at different levels of the AI modelling. Firstly, exp
 
 Ensemble models are based on the aggregation of several models, which makes it more complex to interpret the results. Post-modeling XAI methods such as simplification and feature relevance can be implemented to explain the ensemble \cite{minh_explainable_2022}.
 
+[Feature importance]
+
 \subsection{SHAP}
 
 SHapley Additive exPlanations (SHAP) is a popular method for model explainability. It is model-agnostic, meaning that it can be used for any ML model. The SHAP method has its foundation in game theory, where the contribution of each player to the total payoff is calculated. In the case of machine learning, the players are represented by features (variables) and the payoff is the model output. To calculate the contribution score for each feature, all different combinations of features (i.e., coalitions in game theory) are evaluated. SHAP can be used to explain model outputs both locally and globally, i.e., both for specific instances and for all instances \cite{salih_perspective_2025}.

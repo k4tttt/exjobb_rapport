@@ -27,7 +27,6 @@ Papers on ensemble learning for energy consumption forecasting:
     \item Ensemble learning for short-term electricity consumption forecasting of office buildings: \cite{pinto_ensemble_2021}.
     \item Ensemble learning for annual electricity consumption forecasting: \cite{chen_novel_2018}. Predictions are made using numerous different variables, but not historical consumption. Identifies that there is a lack of household-level data for the task of prediction based on historical consumption data (time series).
 \end{itemize}
-\end{comment}
 
 \noindent
 Papers specifically on XAI and energy consumption forecasting:
@@ -38,8 +37,7 @@ Papers specifically on XAI and energy consumption forecasting:
     \item Predicted electricity consumption for residential buildings based on hourly data with information about consumption for different household areas (such as kitchen and appliances) \cite{janjua_enhancing_2024}. Used LSTM as prediction model, and LIME and SHAP to provide comprehensible explanations of the predictions.
     \item Proposed a methodology for selecting input variables for energy consumption prediction using XAI (SHAP) \cite{sim_explainable_2022}. Used Extreme Gradient Boosting (XGBoost), Support Vector Regression (SVR), Light Gradient Boosting Model (LightGBM), and LSTM for prediction. Found that variables with strong impact on the forecast include year, hour, energy consumption difference, temperature, and surface-temperature.
 \end{itemize}
-
-Overfitting can be a problem with ML/DL models
+\end{comment}
 
 %\section{Conventional Approaches}
 %probably not relevant since i wont be using it
@@ -64,4 +62,13 @@ Long-term forecasting using ensemble learning has been researched by Chen et al.
 
 Explainable AI methods have previously been applied for the task of short-term electricity consumption forecasting. Sim et al. \cite{sim_explainable_2022} proposed a novel XAI approach for variable selection in energy consumption forecasting. They analyzed the influence of 15 different input variables pertaining to time information, climate data, and past energy consumption data. LSTM was selected as prediction model and SHAP was used to interpret the variables. The findings showed that time data such as year and hour had a strong influence on the prediction results, along with temperature, surface temperature, and energy\hyp{}consumption\hyp{}difference. Variables with a weak or ambiguous influence included humidity, wind speed, and sunshine amount. They concluded that forecasting performance can be significantly improved by selecting high-impact variables based on XAI analysis.
 
-Maarif et al. \cite{maarif_energy_2023} investigated the effect of 9 different features on energy consumption forecasting for a South Korean steel company. The features provided information about historical consumption, lagging and leading current power, carbon dioxide emissions, and load type. They utilized various LSTM models for the predictions, and used SHAP for the XAI analysis. It was found that leading current reactive power and seconds from midnight strongly influenced the model output.
+Maarif et al. \cite{maarif_energy_2023} investigated the effect of 9 different features on energy consumption forecasting for a South Korean steel company. The features provided information about historical consumption, lagging and leading current power, carbon dioxide emissions, and load type. They utilized various LSTM models for the predictions, and used SHAP for the XAI analysis. It was found that leading current reactive power and seconds from midnight strongly influenced the model output, while CO$_2$ and load type had no effect on the forecast. They note that it is important to consider interpretability and performance trade-offs when developing XAI forecasting models, and that further research into this topic is needed for understanding the applicability of these models in the energy sector.
+
+Januja et al. \cite{janjua_enhancing_2024} maybe, but not reputable journal.
+
+Moon et al. \cite{moon_advancing_2024} utilized ensemble learning and XAI methods for short-term residential building electricity consumption forecasting. They performed an extensive comparison between five ensemble learning models and ten deep learning models. It was found that the decision tree-based ensemble methods were superior in handling diverse and noisy data, rendering them useful for electricity consumption forecasting. They highlight robustness, interpretability, and efficiency as advantageous characteristics in ensemble models. They argue that ensemble models can handle data that is not extensively preprocessed and that they require less data than deep learning models. A feature importance and SHAP analysis was performed on several ensemble models, revealing that temperature-humidity index and wind chill temperature had significant importance for the forecasting. The SHAP analysis combined with the decision tree-based models provided interpretive insights about complex interactions in the data.
+
+XAI approaches have also been applied to long-term forecasting \cite{machlev_explainable_2022}. Chakraborty et al.
+\cite{chakraborty_scenario-based_2021} predicted long-term cooling energy consumption for residential and commercial buildings under different climate change scenarios. They used SHAP to explain the results and concluded that the XAI method increased the interpretability of the XGBoost prediction model. Another long-term study was conducted by Wenninger et al. \cite{wenninger_explainable_2022}, who predicted the annual energy consumption for German households, and proposed a novel QLattice model for enhanced explainability. They found that the QLattice model was appropriate for the task of energy consumption forecasting, even though XGBoost achieved slightly better predictive performance. However, a significant strength with the QLattice algorithm is its transparent design, which was found to greatly increase the model explainability compared to established models such as ANN, XGBoost, and Support Vector Regression (SVR).
+
+    [With this, it is clear that there is a gap in research on XAI for medium-term forecasting. And in general, the consensus is that more research in the XAI field in the energy sector is needed (?)]
