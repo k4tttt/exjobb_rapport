@@ -48,9 +48,49 @@ This study utilizes a dataset of 15-minute level electricity consumption from x 
 % \end{figure}
 
 
-External variables are retrieved from\dots
+External variables are retrieved from\dots data finns fram till 2025-10-31, 16 variabler
 
-[Table with all variables]
+    [Table with all variables]
+
+Finns även byvind, men från Holmön, vet inte om det är relevant
+
+In \cite{moon_advancing_2024}, they calculated sine/cosine values for timestamps, maybe I should do the same.
+%\setlength{\tabcolsep}{8pt}
+\begin{table}[ht]
+    \centering
+    \caption{Selected input variables.}
+    \label{tab:input-variables}
+    \small
+    \begin{tabularx}{\linewidth}{l X l}
+        \textbf{Variable} & \textbf{Description}                                     & \textbf{Data Type}               \\
+        \hline
+        %$Hour$            & Hour of the day                                          & Timestamp (numeric)              \\
+        %$Day$             & Day of the month                                         & Timestamp (numeric)              \\
+        $Month$           & Month of the year                                        & Timestamp (numeric)              \\
+        $Holidays$        & Number of holidays during month                          & Numeric                          \\
+        \hline
+        $Temp_h$          & Hourly air temperature (\unit{\degreeCelsius})           & Weather condition (numeric)      \\
+        $DewPT_h$         & Hourly dew point temperature (\unit{\degreeCelsius})     & Weather condition (numeric)      \\
+        $Precip_h$        & Hourly precipitation (mm)                                & Weather condition (numeric)      \\ % holmön, finns även 15 min
+        $PrecipInt_{15}$  & 15-minute precipitation intensity, max of average (mm/s) & Weather condition (numeric)      \\ % holmön
+        $Snow_d$          & Daily snow depth (m)                                     & Weather condition (numeric)      \\
+        $Surface_d$       & Daily surface condition                                  & Weather condition (status?)      \\
+        $DewP_h$          & Hourly relative dew point (\%)                           & Weather condition (numeric)      \\
+        $WindD_h$         & Hourly wind direction (\unit{\degreeCelsius})            & Weather condition (numeric)      \\
+        $WindS_h$         & Hourly wind speed (m/s)                                  & Weather condition (numeric)      \\
+        $Cloud_h$         & Hourly total cloud amount (\%)                           & Weather condition (numeric)      \\ % holmön
+        $CloudB_h$        & Hourly lowest cloud base (m)                             & Weather condition (numeric)      \\ % holmön, finns även 15 min
+        $SolarI_h$        & Hourly long wave irradiance (W/m$^2$)                    & Weather condition (numeric)      \\
+        $SunT_h$          & Hourly sunshine amount (s)                               & Weather condition (numeric)      \\
+        $AirP_h$          & Hourly air pressure (hPa)                                & Weather condition (numeric)      \\
+        $Visibility_h$    & Hourly visibility (m)                                    & Weather condition (numeric)      \\
+        $Weather_h$       & Hourly weather status                                    & Weather condition (status?)      \\
+        \hline
+        $Cons$            & a                                                        & Historical consumption (numeric) \\
+        $Cons$            & b                                                        & Historical consumption (numeric) \\
+        $Cons$            & c                                                        & Historical consumption (numeric) \\
+    \end{tabularx}
+\end{table}
 
 \section{Application of Ensemble Learning}
 
