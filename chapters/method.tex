@@ -33,6 +33,7 @@ Evaluation will, as mentioned above, be performed for the models' performance an
 
 \begin{itemize}
     \item Make correlation maps for the features.
+    \item Boxplot and histogram for general consumption, boxplots per month (like in 30 in \cite{moon_advancing_2024})
     \item It is also possible to make diagrams for the decomposition of the time series \cite{chakraborty_scenario-based_2021}.
 \end{itemize}
 
@@ -40,19 +41,8 @@ Evaluation will, as mentioned above, be performed for the models' performance an
 This study utilizes a dataset of 15-minute level electricity consumption from x Swedish households, containing Y years of measurements retrieved from 20YY-MM-DD to 20YY-MM-DD. This data is provided by Swedish electricity company Umeå Energi. As part of enhancing the explainability of the forecasts, the data is analyzed initially to gain statistical insights.
 
     [Plot showing consumption, discuss seasonality]
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=0.85\linewidth]{figures/a.png}
-%     \caption{Placeholder.}
-%     \label{fig:placeholder}
-% \end{figure}
 
-
-External variables are retrieved from\dots data finns fram till 2025-10-31, 16 variabler
-
-    [Table with all variables]
-
-Finns även byvind, men från Holmön, vet inte om det är relevant
+Along with the historical consumption data, external variables are retrieved from SMHI and \dots. SMHI weather data is retrieved from 2023-10-01 to 2025-10-31 for the Umeå Airport measurement station. Variables pertaining to solar variables are retrieved for the Umeå Sol station.
 
 In \cite{moon_advancing_2024}, they calculated sine/cosine values for timestamps, maybe I should do the same.
 %\setlength{\tabcolsep}{8pt}
@@ -62,36 +52,78 @@ In \cite{moon_advancing_2024}, they calculated sine/cosine values for timestamps
     \label{tab:input-variables}
     \small
     \begin{tabularx}{\linewidth}{l X l}
-        \textbf{Variable} & \textbf{Description}                                     & \textbf{Data Type}               \\
+        \textbf{Variable}  & \textbf{Description}                                     & \textbf{Data Type}               \\
         \hline
         %$Hour$            & Hour of the day                                          & Timestamp (numeric)              \\
         %$Day$             & Day of the month                                         & Timestamp (numeric)              \\
-        $Month$           & Month of the year                                        & Timestamp (numeric)              \\
-        $Holidays$        & Number of holidays during month                          & Numeric                          \\
+        $Month$            & Month of the year                                        & Timestamp (numeric)              \\
+        $Year$             & Year                                                     & Timestamp (numeric)              \\
+        $Holidays$         & Number of holidays and weekend days during month         & Numeric                          \\
+        $BridgeDays$       & Number of bridge days during month                       & Numeric                          \\
         \hline
-        $Temp_h$          & Hourly air temperature (\unit{\degreeCelsius})           & Weather condition (numeric)      \\
-        $DewPT_h$         & Hourly dew point temperature (\unit{\degreeCelsius})     & Weather condition (numeric)      \\
-        $Precip_h$        & Hourly precipitation (mm)                                & Weather condition (numeric)      \\ % holmön, finns även 15 min
-        $PrecipInt_{15}$  & 15-minute precipitation intensity, max of average (mm/s) & Weather condition (numeric)      \\ % holmön
-        $Snow_d$          & Daily snow depth (m)                                     & Weather condition (numeric)      \\
-        $Surface_d$       & Daily surface condition                                  & Weather condition (status?)      \\
-        $DewP_h$          & Hourly relative dew point (\%)                           & Weather condition (numeric)      \\
-        $WindD_h$         & Hourly wind direction (\unit{\degreeCelsius})            & Weather condition (numeric)      \\
-        $WindS_h$         & Hourly wind speed (m/s)                                  & Weather condition (numeric)      \\
-        $Cloud_h$         & Hourly total cloud amount (\%)                           & Weather condition (numeric)      \\ % holmön
-        $CloudB_h$        & Hourly lowest cloud base (m)                             & Weather condition (numeric)      \\ % holmön, finns även 15 min
-        $SolarI_h$        & Hourly long wave irradiance (W/m$^2$)                    & Weather condition (numeric)      \\
-        $SunT_h$          & Hourly sunshine amount (s)                               & Weather condition (numeric)      \\
-        $AirP_h$          & Hourly air pressure (hPa)                                & Weather condition (numeric)      \\
-        $Visibility_h$    & Hourly visibility (m)                                    & Weather condition (numeric)      \\
-        $Weather_h$       & Hourly weather status                                    & Weather condition (status?)      \\
+        $Temp_h$           & Hourly air temperature (\unit{\degreeCelsius})           & Weather condition (numeric)      \\
+        $DewPT_h$          & Hourly dew point temperature (\unit{\degreeCelsius})     & Weather condition (numeric)      \\
+        ($Precip_h$)       & Hourly precipitation (mm)                                & Weather condition (numeric)      \\ % holmön, finns även 15 min
+        ($PrecipInt_{15}$) & 15-minute precipitation intensity, max of average (mm/s) & Weather condition (numeric)      \\ % holmön
+        $Snow_d$           & Daily snow depth (m)                                     & Weather condition (numeric)      \\
+        $Surface_d$        & Daily surface condition                                  & Weather condition (categorical)  \\
+        $DewP_h$           & Hourly relative dew point (\%)                           & Weather condition (numeric)      \\
+        $WindD_h$          & Hourly wind direction (\unit{\degreeCelsius})            & Weather condition (numeric)      \\
+        $WindS_h$          & Hourly wind speed (m/s)                                  & Weather condition (numeric)      \\
+        ($Cloud_h$)        & Hourly total cloud amount (\%)                           & Weather condition (numeric)      \\ % holmön
+        ($CloudSig_h$)     & Hourly significant clouds (m)                            & Weather condition (numeric)      \\
+        $CloudBase_h$      & Hourly lowest cloud base (m)                             & Weather condition (numeric)      \\
+        $GlobalIrr_h$      & Hourly global irradiance (Sweden) (W/m$^2$)              & Weather condition (numeric)      \\
+        $SolarIrr_h$       & Hourly long wave irradiance (W/m$^2$)                    & Weather condition (numeric)      \\
+        $SunT_h$           & Hourly sunshine amount (s)                               & Weather condition (numeric)      \\
+        $AirP_h$           & Hourly air pressure (hPa)                                & Weather condition (numeric)      \\
+        $Visibility_h$     & Hourly visibility (m)                                    & Weather condition (numeric)      \\
+        $Weather_h$        & Hourly weather status                                    & Weather condition (categorical)  \\
         \hline
-        $Cons$            & a                                                        & Historical consumption (numeric) \\
-        $Cons$            & b                                                        & Historical consumption (numeric) \\
-        $Cons$            & c                                                        & Historical consumption (numeric) \\
+        $Cons$             & a                                                        & Historical consumption (numeric) \\
+        $Cons$             & b                                                        & Historical consumption (numeric) \\
+        $Cons$             & c                                                        & Historical consumption (numeric) \\
     \end{tabularx}
 \end{table}
 
-\section{Application of Ensemble Learning}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/variable_correlation_map.png}
+    \caption{Placeholder.}
+    \label{fig:placeholder}
+\end{figure}
 
-\section{Application of Explainable AI}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/weather_variables_plot.png}
+    \caption{Placeholder.}
+    \label{fig:placeholder2}
+\end{figure}
+
+\section{Ensemble Learning}
+
+\section{Evaluation Metrics}
+To evaluate the predictive performance of the forecasting models, three statistical metrics are used; mean average percentage error (MAPE), coefficient of variation of the root mean squared error (CVRMSE), and normalized mean average error (NMAE). These metrics express the performance in error percentage, making them intuitive to interpret. [Why these metrics?]
+
+\begin{equation}
+    MAPE = \frac{1}{n} \times \sum \left| \frac{Y_t - \hat{Y}_t}{Y_t} \right| \times 100
+\end{equation}
+
+\begin{equation}
+    CVRMSE = (\sqrt{\frac{1}{n} \times \sum (Y_t - \hat{Y}_t)^2}) / \ddot{Y} \times 100
+\end{equation}
+
+\begin{equation}
+    NMAE = (\frac{1}{n} \times \sum \left| Y_t - \hat{Y}_t \right|) / \ddot{Y} \times 100
+\end{equation}
+
+In the equations, $Y_t$ denotes the actual observed value at time $t$, while $\hat{Y}_t$ denotes the predicted value at time $t$. $\ddot{Y}$ represents the mean of all observed values, and $n$ is the total number of prediction instances.
+
+To evaluate the models in a more comprehensive way, the harmonic mean (HM) is calculated based on these three metrics. The harmonic mean will favor models that perform well in all three metrics, while models that perform exceptionally well in one metric but poorly in the others will be valued less. This is due to the harmonic mean being effective at mitigating extreme outliers, making it suitable for combining differing metrics \cite{moon_advancing_2024}. The HM is calculated as in \autoref{equ:harmonic-mean}.
+
+\begin{equation}\label{equ:harmonic-mean}
+    HM = \frac{3}{(1/MAPE) + (1/CVRMSE) + (1/NMAE)}
+\end{equation}
+
+\section{Explainable AI}
+
