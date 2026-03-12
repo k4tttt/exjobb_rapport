@@ -45,8 +45,10 @@ This study utilizes a dataset of 15-minute level electricity consumption from x 
 Along with the historical consumption data, external variables are retrieved from SMHI and \dots. SMHI weather data is retrieved from 2023-10-01 to 2025-10-31 for the Umeå Airport measurement station. Variables pertaining to solar variables are retrieved for the Umeå Sol station.
 
 In \cite{moon_advancing_2024}, they calculated sine/cosine values for timestamps, maybe I should do the same.
+
+Could be relevant to include some variable(s) of minimum and maximum temperature? As in \cite{lazzari_user_2022}
 %\setlength{\tabcolsep}{8pt}
-\begin{table}[ht]
+\begin{table}[H]%[ht]
     \centering
     \caption{Selected input variables.}
     \label{tab:input-variables}
@@ -86,34 +88,44 @@ In \cite{moon_advancing_2024}, they calculated sine/cosine values for timestamps
     \end{tabularx}
 \end{table}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/variable_correlation_map.png}
-    \caption{Placeholder.}
-    \label{fig:placeholder}
-\end{figure}
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=1\linewidth]{figures/variable_correlation_map.png}
+%     \caption{Placeholder.}
+%     \label{fig:placeholder}
+% \end{figure}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/weather_variables_plot.png}
-    \caption{Placeholder.}
-    \label{fig:placeholder2}
-\end{figure}
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=1\linewidth]{figures/weather_variables_plot.png}
+%     \caption{Placeholder.}
+%     \label{fig:placeholder2}
+% \end{figure}
 
 \section{Ensemble Learning}
 
-\section{Evaluation Metrics}
-To evaluate the predictive performance of the forecasting models, three statistical metrics are used; mean average percentage error (MAPE), coefficient of variation of the root mean squared error (CVRMSE), and normalized mean average error (NMAE). These metrics express the performance in error percentage, making them intuitive to interpret. [Why these metrics?]
+Forecasting is performed using different decision tree-based ensemble learning models. Decision trees classify data items by asking a sequence of questions about the items' features. The nodes of the tree contain questions, and for each possible answer, every internal node points to one child node. The sorting of an item into a class begins from the root of the tree, and according to the item's answer to the questions, it follows the path to a leaf node \cite{kingsford_what_2008}. [Possibly a diagram of a decision tree] One large advantage with decision trees is that they are considerably easier to interpret than neural networks, as they follow logical rules instead of having connections with numeric weights between nodes. Decision trees perform well for a few highly relevant attributes, but not as well if there are many attributes with complex interactions. Ensembles of decision trees can be employed to increase accuracy when the training data is more complex and changing \cite{kotsiantis_decision_2013}. Decision tree ensembles are considered among the most reliable and precise methods for regression and classification tasks, and they have been shown to be effective for prediction energy consumption \cite{moon_advancing_2024}. However, one disadvantage is that the interpretability decreases when multiple classifiers are involved, making it more difficult to understand the reasoning behind a decision \cite{kotsiantis_decision_2013}. This creates a need for model explainability outside the ensemble's inner workings. [theory?]
 
-\begin{equation}
+Five decision tree-based ensemble models are selected as forecasting models, as in \cite{moon_advancing_2024}; random forest (RF), gradient boosting machine (GBM), extreme gradient boosting machine (XGBoost), light gradient boosting machine (LightGBM), and categorical boosting (CatBoost). [GBM and CatBoost were best, so focus on them first]
+
+GMB is bla bla
+
+CatBoost is a gradient boosting algorithm that uses a technique called \emph{ordered boosting} to reduce prediction shift caused by target leakage present in other gradient boosting algorithms. CatBoost also processes categorical features uniquely \cite{prokhorenkova_catboost_2018}.
+
+\section{Evaluation Metrics}
+To evaluate the predictive performance of the forecasting models, three statistical metrics are used; mean absolute percentage error (MAPE), coefficient of variation of the root mean squared error (CVRMSE), and normalized mean absolute error (NMAE). MAPE is one of the most common metrics to evaluate forecasting accuracy, due to its scale-independence and interpretability. It defines the average of the absolute percentage errors, as in \autoref{equ:mape}. One disadvantage to be aware of is that MAPE yields infinite or undefined values when the actual values are zero or close to zero \cite{kim_new_2016}. [Maybe use RSME and MAE instead?]
+
+These metrics express the performance in error percentage, making them intuitive to interpret. 
+
+\begin{equation}\label{equ:mape}
     MAPE = \frac{1}{n} \times \sum \left| \frac{Y_t - \hat{Y}_t}{Y_t} \right| \times 100
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{equ:cvrmse}
     CVRMSE = (\sqrt{\frac{1}{n} \times \sum (Y_t - \hat{Y}_t)^2}) / \ddot{Y} \times 100
 \end{equation}
 
-\begin{equation}
+\begin{equation}\label{equ:nmae}
     NMAE = (\frac{1}{n} \times \sum \left| Y_t - \hat{Y}_t \right|) / \ddot{Y} \times 100
 \end{equation}
 
