@@ -1,6 +1,6 @@
 Research in the field of electricity consumption forecasting has established many methods for producing forecasts. These methods can roughly be divided into two categories; conventional methods and AI-based methods. Conventional methods such as time series analysis and regression methods have previously been widely applied to solve the problem of electricity consumption forecasting. Nowadays, AI-based methods are more popular due to their strength in solving nonlinear problems, something that the conventional methods struggle with \cite{mat_daut_building_2017}.
 
-Two comprehensive reviews on electricity consumption forecasting have been identified:
+[Two comprehensive reviews on electricity consumption forecasting have been identified:
 
 \begin{itemize}
     \item An extensive review and comparison of both statistical and ML/DL techniques for forecasting is found in \cite{deb_review_2017}. They also review combinations of different techniques, i.e. hybrid models. Claims that ANN has more advantages than statistical models, and has better performance for nonlinear problems. Highlights that hybrid models can be beneficial to capture complexities in building energy and operational data.
@@ -13,8 +13,7 @@ Papers where experiments have been performed:
 \begin{itemize}
     \item Support Vector Machine (SVM) for forecasting energy consumption: \cite{dong_applying_2005}.
     \item Monthly electricity consumption forecasting based on decomposition methods and ARIMA: \cite{sun_monthly_2019}.
-    \item Forecasting cooling energy using ANN (for three university buildings, weekly \slash monthly): \cite{deb_forecasting_2016}.
-    \item SVR and fruit fly optimization with seasonal indexing to address the fact that electricity consumption has a seasonal component: \cite{cao_support_2016}. Results show that the proposed model is a reliable forecasting tool.
+    \item Forecasting cooling energy using ANN (for three university buildings, weekly \slash monthly): \cite{deb_forecasting_2016}.]
 \end{itemize}
 
 \begin{comment}
@@ -46,9 +45,13 @@ Papers specifically on XAI and energy consumption forecasting:
 
 \section{Monthly Forecasting}
 
-Forecasting electricity consumption in the monthly scope requires handling complex non-linear patterns and seasonal tendencies \cite{cao_support_2016}. Monthly consumption is affected by factors such as economy, temperature, and season, which makes the consumption exhibit a mixture of trend, periodicity, and randomness \cite{tang_gm11_2022}. Additionally, when predicting the consumption of small-scale users, like in this thesis, the power demand is more sensitive to random factors. Human behavior may change seasonally, both due to social factors such as holidays and summer vacations, and due to natural factors like the seasons \cite{sun_monthly_2019}. 
+Forecasting electricity consumption in the monthly scope requires handling complex non-linear patterns and seasonal tendencies \cite{cao_support_2016}. Monthly consumption is affected by factors such as economy, temperature, and season, which makes the consumption exhibit a mixture of trend, periodicity, and randomness \cite{tang_gm11_2022}. Additionally, when predicting the consumption of small-scale users, like in this thesis, the power demand is more sensitive to random factors. Human behavior may change periodically, both due to social factors such as holidays and summer vacations, and due to natural factors like the seasons \cite{sun_monthly_2019}. 
 
-To address the seasonality of monthly forecasting, Tang et al. \cite{tang_gm11_2022} proposed a model specifically designed to handle sparse data with periodic properties. 
+To address the seasonality of monthly forecasting, models incorporating seasonal indexing (SI) have been proposed. Cao and Wu \cite{cao_support_2016} aimed to improve monthly electricity consumption forecasts using support vector regression (SVR) in combination with SI and a novel evolutionary algorithm called fruit fly optimization (FOA). They calculated the seasonal index for each month, which was then used to adjust the predicted values according to the seasonal tendencies. FOA was applied to find the best values for parameters of the SVR model. Their results showed that both SI and FOA was able to effectively improve the forecasting accuracy, suggesting that the hybrid approach is a viable option for monthly forecasting.
+
+Tang et al. \cite{tang_gm11_2022} proposed a model specifically designed to handle sparse data with periodic properties. Their model also incorporated SI to address the seasonal component. A GM(1,1) gray model, a mathematical optimization model for incomplete data, was used to predict the seasonal index. The SI was combined with a trend forecast value to obtain the final prediction, and results showed that the model significantly improved accuracy, even for small electricity consumption datasets.
+
+\cite{sun_monthly_2019}
 
 
 \section{Ensemble Learning Approaches}
