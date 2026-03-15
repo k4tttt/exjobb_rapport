@@ -4,46 +4,19 @@ Research in the field of electricity consumption forecasting has established man
 
 \begin{itemize}
     \item An extensive review and comparison of both statistical and ML/DL techniques for forecasting is found in \cite{deb_review_2017}. They also review combinations of different techniques, i.e. hybrid models. Claims that ANN has more advantages than statistical models, and has better performance for nonlinear problems. Highlights that hybrid models can be beneficial to capture complexities in building energy and operational data.
-    \item Another review of statistical, AI, and hybrid methods for forecasting is found in \cite{mat_daut_building_2017}. They also highlight the strength in AI models for dealing with nonlinear patterns. Claims that hybrids between AI and Swarm Intelligence (SI) methods show potential for increased accuracy. Provides a clear overview of different studies regarding prediction time intervals, included features, building types etc.
+    \item Another review of statistical, AI, and hybrid methods for forecasting is found in \cite{mat_daut_building_2017}. They also highlight the strength in AI models for dealing with nonlinear patterns. Claims that hybrids between AI and Swarm Intelligence (SI) methods show potential for increased accuracy. Provides a clear overview of different studies regarding prediction time intervals, included features, building types etc.]
 \end{itemize}
-
-\noindent
-Papers where experiments have been performed:
-
-\begin{itemize}
-    \item Support Vector Machine (SVM) for forecasting energy consumption: \cite{dong_applying_2005}.
-    \item Monthly electricity consumption forecasting based on decomposition methods and ARIMA: \cite{sun_monthly_2019}.
-    \item Forecasting cooling energy using ANN (for three university buildings, weekly \slash monthly): \cite{deb_forecasting_2016}.]
-\end{itemize}
-
-\begin{comment}
-\noindent
-Papers on ensemble learning for energy consumption forecasting:
-
-\begin{itemize}
-    \item Forecasting high voltage consumers' monthly electricity consumption using an ensemble learning approach based on LSTM, GRU, TCN: \cite{hadjout_electricity_2022}.
-    \item Ensemble learning for short-term electricity consumption forecasting: \cite{divina_stacking_2018}.
-    \item Ensemble learning for short-term electricity consumption forecasting of office buildings: \cite{pinto_ensemble_2021}.
-    \item Ensemble learning for annual electricity consumption forecasting: \cite{chen_novel_2018}. Predictions are made using numerous different variables, but not historical consumption. Identifies that there is a lack of household-level data for the task of prediction based on historical consumption data (time series).
-\end{itemize}
-
-\noindent
-Papers specifically on XAI and energy consumption forecasting:
-
-\begin{itemize}
-    \item Forecasted hourly energy consumption for the steel sector using three different LSTM models \cite{maarif_energy_2023}. Used SHAP to interpret the decision-making, and found that leading current reactive power and the number of seconds from midnight contributed significantly to the model output.
-    \item Ensemble learning for electricity consumption forecasting. Evaluated several decision tree-based ensemble learning techniques using SHAP \cite{moon_advancing_2024}. Found that ensemble learning models outperform deep learning models. Also found that temperature-humidity index and wind chill temperature has a greater impact on short-term forecasts than more traditional parameters such as temperature. Released the code at \url{https://github.com/sodayeong/PLOS-ONE_Github}. Predictions are made in a daily scope. Data is from university dormitory buildings in South Korea (i.e. probably very low diversity in buildings) with hourly measurements.
-    \item Predicted electricity consumption for residential buildings based on hourly data with information about consumption for different household areas (such as kitchen and appliances) \cite{janjua_enhancing_2024}. Used LSTM as prediction model, and LIME and SHAP to provide comprehensible explanations of the predictions.
-    \item Proposed a methodology for selecting input variables for energy consumption prediction using XAI (SHAP) \cite{sim_explainable_2022}. Used Extreme Gradient Boosting (XGBoost), Support Vector Regression (SVR), Light Gradient Boosting Model (LightGBM), and LSTM for prediction. Found that variables with strong impact on the forecast include year, hour, energy consumption difference, temperature, and surface-temperature.
-\end{itemize}
-\end{comment}
 
 %\section{Conventional Approaches}
 %probably not relevant since i wont be using it
 
-\section{Machine Learning Approaches}
+\section{Machine Learning Approaches?}
+
+[Forecasting daily cooling energy using ANN (for three university buildings): \cite{deb_forecasting_2016}]
 
 \section{Monthly Forecasting}
+
+[Could possibly use \cite{dong_applying_2005} as an ``early'' example of monthly forecasting. They use SVM, but do not handle seasonality in any certain way.]
 
 Forecasting electricity consumption in the monthly scope requires handling complex non-linear patterns and seasonal tendencies \cite{cao_support_2016}. Monthly consumption is affected by factors such as economy, temperature, and season, which makes the consumption exhibit a mixture of trend, periodicity, and randomness \cite{tang_gm11_2022}. Additionally, when predicting the consumption of small-scale users, like in this thesis, the power demand is more sensitive to random factors. Human behavior may change periodically, both due to social factors such as holidays and summer vacations, and due to natural factors like the seasons \cite{sun_monthly_2019}. 
 
@@ -51,8 +24,7 @@ To address the seasonality of monthly forecasting, models incorporating seasonal
 
 Tang et al. \cite{tang_gm11_2022} proposed a model specifically designed to handle sparse data with periodic properties. Their model also incorporated SI to address the seasonal component. A GM(1,1) gray model, a mathematical optimization model for incomplete data, was used to predict the seasonal index. The SI was combined with a trend forecast value to obtain the final prediction, and results showed that the model significantly improved accuracy, even for small electricity consumption datasets.
 
-\cite{sun_monthly_2019}
-
+Sun et al. \cite{sun_monthly_2019} approached the monthly forecasting problem by seasonal and trend decomposition of the electricity load time series, in combination with ARIMA. This technique allowed for control of both the seasonal component's change rate and the trend component's smoothness, as well as increased robustness to outliers. Additionally, they incorporated economic factors into the forecast to improve accuracy. They found that the proposed model was able to increase forecasting accuracy, and determined that both the decomposition approach and inclusion of economic variables were effective to the forecast.
 
 \section{Ensemble Learning Approaches}
 
@@ -62,7 +34,7 @@ Pinto et al. \cite{pinto_ensemble_2021} also utilized ensemble learning for fore
 
     [Maybe give some more examples of short-term studies]
 
-Hadjout et al. \cite{hadjout_electricity_2022} used an ensemble deep learning approach to forecast monthly electricity consumption for high voltage customers in the Algerian economic sector. They utilized three different deep learning models \hyp{} Long Short Term Memory (LSTM), Gated Recurrent Unit (GRU), and Temporal Convolutional Networks (TCN) \hyp{} and grid search to find optimal weights for each model in the final ensemble prediction. Compared to the individual models separately, the ensemble approach performed significantly better using MAE and MAPE metrics.
+Hadjout et al. \cite{hadjout_electricity_2022} used an ensemble deep learning approach to forecast monthly electricity consumption for high voltage customers in the Algerian economic sector. They utilized three different deep learning models \hyp{} Long Short Term Memory (LSTM), Gated Recurrent Unit (GRU), and Temporal Convolutional Networks (TCN) \hyp{} and grid search to find optimal weights for each model in the final ensemble prediction. Compared to the individual models separately, the ensemble approach performed significantly better according to MAE and MAPE metrics.
 
 Long-term forecasting using ensemble learning has been researched by Chen et al. \cite{chen_novel_2018}. They predicted the annual electricity consumption for American households using extreme gradient boosting forests and deep networks as base learners, and ridge regression as a combiner method. The data included variables pertaining to household demographics, household type, appliances, and geographical data, providing a wide range of information. The ensemble framework was able to reduce errors by 30\% compared to classical regression models such as linear regression and support vector machines. Investigation into the importance of input features using principal component analysis showed that electricity price, number of rooms, natural gas usage, and temperature during summer were among the variables that contributed the most information. They also note that some features, like number of rooms, number of bedrooms, and total square footage, have a strong correlation and have potential to be represented more efficiently. They argue that feature selection is necessary, since discarding of unimportant features can enhance model performance.
 
