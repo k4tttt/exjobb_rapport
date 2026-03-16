@@ -30,7 +30,6 @@ To solve the research questions, state-of-the-art ensemble learning models previ
 Evaluation will, as mentioned above, be performed for the models' performance and the variables' contributions. As a baseline comparison, an existing linear regression electricity consumption model (based on Umeå Energi historical monthly consumption and temperature data) will be utilized. Further comparisons will be made to previous works, particularly Moon et al.'s \cite{moon_advancing_2024} work.
 
 --------------------------------
-\section{Actual}
 
 \begin{itemize}
     \item Make correlation maps for the features.
@@ -38,6 +37,7 @@ Evaluation will, as mentioned above, be performed for the models' performance an
     \item It is also possible to make diagrams for the decomposition of the time series \cite{chakraborty_scenario-based_2021}.
     \item Could investigate correlation between external variables and consumption like in \cite{deb_forecasting_2016}
     \item Could I incorporate seasonal index? \cite{cao_support_2016} shows how to calculate SI
+    \item Could I do group clustering for consumers? \cite{khan_ensemble_2021}
 \end{itemize}
 
 \section{Data Preparation and Analysis}
@@ -118,7 +118,7 @@ CatBoost is a gradient boosting algorithm that uses a technique called \emph{ord
 \section{Evaluation Metrics}
 To evaluate the predictive performance of the forecasting models, three statistical metrics are used; mean absolute percentage error (MAPE), coefficient of variation of the root mean squared error (CVRMSE), and normalized mean absolute error (NMAE). MAPE is one of the most common metrics to evaluate forecasting accuracy, due to its scale-independence and interpretability. It defines the average of the absolute percentage errors, as in \autoref{equ:mape}. One disadvantage to be aware of is that MAPE yields infinite or undefined values when the actual values are zero or close to zero \cite{kim_new_2016}. [Maybe use RSME and MAE instead?]
 
-These metrics express the performance in error percentage, making them intuitive to interpret. 
+These metrics express the performance in error percentage, making them intuitive to interpret.
 
 \begin{equation}\label{equ:mape}
     MAPE = \frac{1}{n} \times \sum \left| \frac{Y_t - \hat{Y}_t}{Y_t} \right| \times 100
