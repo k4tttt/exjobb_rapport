@@ -45,7 +45,7 @@ This study utilizes a dataset of 15-minute level electricity consumption from x 
 
     [Plot showing consumption, discuss seasonality]
 
-Along with the historical consumption data, external variables are retrieved from SMHI and \dots. SMHI weather data is retrieved from 2023-10-01 to 2025-10-31 for the Umeå Airport measurement station. Variables pertaining to solar attributes are retrieved for the Umeå Sol station.
+Along with the historical consumption data, external variables are retrieved from SMHI and \dots. SMHI weather data is retrieved from 2023-10-01 to 2025-10-31 for the Umeå Airport measurement station. Variables pertaining to solar attributes are retrieved for the Umeå Sol station. Snow depth and surface condition variables are from Umeå Röbäcksdalen.
 
 In \cite{moon_advancing_2024}, they calculated sine/cosine values for timestamps, maybe I should do the same.
 
@@ -91,18 +91,41 @@ Could be relevant to include some variable(s) of minimum and maximum temperature
     \end{tabularx}
 \end{table}
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/variable_correlation_map.png}
     \caption{Correlation map of weather variables [placeholder].}
     \label{fig:placeholder}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/weather_variables_plot.png}
     \caption{Weather variables plot over two years [placeholder].}
     \label{fig:placeholder2}
+\end{figure}
+
+[Describe how the consumption data is preprocessed. Adding lag features, deleting any customers that have less than 10 kWh consumption at any point]
+
+\subsection{Customer Clustering Using K-Means}
+
+[Somewhere I need to specify that by customer, I actually mean customer + facility combination (one customer can have several facilities, and these are treated uniquely)]
+
+Since there are many customers in the electricity consumption data, it is relevant to group customers with similar consumption patterns. The idea is to identify groups where the similarity within the group is higher than that among the groups \cite{khan_ensemble_2021}. K-Means clustering is one of the most popular algorithms for solving this problem in a simple way. K-Means is an unsupervised learning algorithm, where the main idea is to select $k$ centroids, one for each cluster, and place them as far from each other as possible. The next step is to associate each point in the dataset with the closest centroid. After associating all points, the $k$ centroids are recalculated by averaging the points within each cluster. This process is repeated until the centroids no longer move. Formally, the algorithm aims at minimizing the squared error function $W(S,C)$ defined in \autoref{equ:k-means} \cite{kodinariya_review_2013}.
+
+\begin{equation}\label{equ:k-means}
+    W(S,C) = \sum_{k=1}^{K} \sum_{i \in S_k}^{} \left\| y_i - c_k \right\|^2
+\end{equation}
+
+In the equation, $S$ is a partition of $k$ clusters represented by observations in the form of vectors $y_i$. Each cluster $S_k$ is non-empty and non-overlapping, and has a centroid $c_k$ ($k = 1,2,\dots,K)$.
+
+In these experiments, K-Means clustering is applied to define customer groups based on their electricity consumption. The elbow method is used to find an optimal number of $k$, i.e. the number of clusters. The elbow method is a visual method, where different values of $k$ are plotted against the variance within the clusters \cite{cui_introduction_2020}. As the value of $k$ increases, the average variance becomes smaller. The goal is to find a value of $k$ for which the variance stops decreasing sharply, that is, the elbow of the graph. \autoref{fig:elbow_plot} shows the elbow plot for determining the optimal number of customer groups, in this case $k=3$. This results in three customer groups; low consumption, medium consumption, and high consumption. Each customer in the dataset is assigned a label based on the cluster it belongs to, and this label becomes an input feature for the forecasting models.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/elbow_plot.png}
+    \caption{Elbow plot for finding the optimal number of customer profile clusters $k$.}
+    \label{fig:elbow_plot}
 \end{figure}
 
 \section{Ensemble Learning}
