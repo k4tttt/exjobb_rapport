@@ -38,6 +38,7 @@ Evaluation will, as mentioned above, be performed for the models' performance an
     \item Could investigate correlation between external variables and consumption like in \cite{deb_forecasting_2016}
     \item Could I incorporate seasonal index? \cite{cao_support_2016} shows how to calculate SI
     \item Could I do group clustering for consumers? \cite{khan_ensemble_2021}
+    \item Have to write somewhere about how this research is specific to the cold climate of Umeå. Warmer climates may, contrary to Umeå, see increased energy needs during the summer due to cooling units
 \end{itemize}
 
 \section{Data Preparation and Analysis}
@@ -50,6 +51,21 @@ Along with the historical consumption data, external variables are retrieved fro
 In \cite{moon_advancing_2024}, they calculated sine/cosine values for timestamps, maybe I should do the same.
 
 Could be relevant to include some variable(s) of minimum and maximum temperature? As in \cite{lazzari_user_2022}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/avg_consumption.png}
+    \caption{[placeholder].}
+    \label{fig:placeholder4}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/avg_consumption_per_month.png}
+    \caption{[placeholder].}
+    \label{fig:placeholder5}
+\end{figure}
+
 %\setlength{\tabcolsep}{8pt}
 \begin{table}[H]%[ht]
     \centering
@@ -101,8 +117,15 @@ Could be relevant to include some variable(s) of minimum and maximum temperature
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/weather_variables_plot.png}
-    \caption{Weather variables plot over two years [placeholder].}
+    \caption{[placeholder].}
     \label{fig:placeholder2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/holidays_per_month.png}
+    \caption{[placeholder].}
+    \label{fig:placeholder3}
 \end{figure}
 
 [Describe how the consumption data is preprocessed. Adding lag features, deleting any customers that have less than 10 kWh consumption at any point]
@@ -119,7 +142,7 @@ Since there are many customers in the electricity consumption data, it is releva
 
 In the equation, $S$ is a partition of $k$ clusters represented by observations in the form of vectors $y_i$. Each cluster $S_k$ is non-empty and non-overlapping, and has a centroid $c_k$ ($k = 1,2,\dots,K)$.
 
-In these experiments, K-Means clustering is applied to define customer groups based on their electricity consumption. The elbow method is used to find an optimal number of $k$, i.e. the number of clusters. The elbow method is a visual method, where different values of $k$ are plotted against the variance within the clusters \cite{cui_introduction_2020}. As the value of $k$ increases, the average variance becomes smaller. The goal is to find a value of $k$ for which the variance stops decreasing sharply, that is, the elbow of the graph. \autoref{fig:elbow_plot} shows the elbow plot for determining the optimal number of customer groups, in this case $k=3$. This results in three customer groups; low consumption, medium consumption, and high consumption. Each customer in the dataset is assigned a label based on the cluster it belongs to, and this label becomes an input feature for the forecasting models.
+In these experiments, K-Means clustering is applied to define customer groups based on their electricity consumption. The elbow method is used to find an optimal number of $k$, i.e. the number of clusters. The elbow method is a visual method, where different values of $k$ are plotted against the variance within the clusters \cite{cui_introduction_2020}. As the value of $k$ increases, the average variance becomes smaller. The goal is to find a value of $k$ for which the variance stops decreasing sharply, that is, the elbow of the graph. \autoref{fig:elbow_plot} shows the elbow plot for determining the optimal number of customer groups, in this case $k=3$. This results in three customer groups; low consumption, medium consumption, and high consumption. Each customer in the dataset is assigned a label based on the cluster it belongs to, and this label becomes an input feature for the forecasting models. [Could be relevant to specify how many customers are in each cluster]
 
 \begin{figure}[H]
     \centering
