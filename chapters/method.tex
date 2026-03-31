@@ -39,32 +39,35 @@ Evaluation will, as mentioned above, be performed for the models' performance an
     \item Could I incorporate seasonal index? \cite{cao_support_2016} shows how to calculate SI
     \item Could I do group clustering for consumers? \cite{khan_ensemble_2021}
     \item Have to write somewhere about how this research is specific to the cold climate of Umeå. Warmer climates may, contrary to Umeå, see increased energy needs during the summer due to cooling units
+    \item Maybe relevant to measure time for training models?
 \end{itemize}
 
 \section{Data Preparation and Analysis}
-This study utilizes a dataset of 15-minute level electricity consumption from x Swedish households, containing Y years of measurements retrieved from 20YY-MM-DD to 20YY-MM-DD. This data is provided by Swedish electricity company Umeå Energi. As part of enhancing the explainability of the forecasts, the data is analyzed initially to gain statistical insights.
+This study utilizes a dataset of monthly electricity consumption from 19 955 Swedish households, containing 4 years of measurements retrieved from 2022-01-01 to 2025-11-30. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined consumption measurements during the selected time period are removed from the dataset, leaving 17 885 households with complete measurements.
 
-    [Plot showing consumption, discuss seasonality]
+All customers are private customers located in Umeå. Umeå is in the northern part of Sweden, meaning the households consume electricity in a cold climate something
 
-Along with the historical consumption data, external variables are retrieved from SMHI and \dots. SMHI weather data is retrieved from 2023-10-01 to 2025-10-31 for the Umeå Airport measurement station. Variables pertaining to solar attributes are retrieved for the Umeå Sol station. Snow depth and surface condition variables are from Umeå Röbäcksdalen.
-
-In \cite{moon_advancing_2024}, they calculated sine/cosine values for timestamps, maybe I should do the same.
-
-Could be relevant to include some variable(s) of minimum and maximum temperature? As in \cite{lazzari_user_2022}
+As part of enhancing the explainability of the forecasts, the data is analyzed initially to gain statistical insights. \autoref{fig:avg_consumption_2022_2025} shows the average monthly consumption for all households. It is clear that there is a significant seasonal pattern in the consumption, with more electicity being consumed in the winter and less in the summer. \autoref{fig:avg_consumption_per_month} shows how the consumption varies per month
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_consumption.png}
     \caption{[placeholder].}
-    \label{fig:placeholder4}
+    \label{fig:avg_consumption_2022_2025}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_consumption_per_month.png}
     \caption{[placeholder].}
-    \label{fig:placeholder5}
+    \label{fig:avg_consumption_per_month}
 \end{figure}
+
+Along with the historical consumption data, external variables are retrieved from SMHI and \dots. SMHI weather data is retrieved from 2022-01-01 to 2025-11-30 for the Umeå Airport measurement station. Variables pertaining to solar attributes are retrieved for the Umeå Sol station. Snow depth and surface condition variables are from Umeå Röbäcksdalen. [need to discuss how these values are aggregated (avg vs sum or other way). right now, weather values are from 2022 to 2025, but consumption data from 2023 to 2025 (if we don't count the history from 2022)]
+
+In \cite{moon_advancing_2024}, they calculated sine/cosine values for timestamps, maybe I should do the same.
+
+Could be relevant to include some variable(s) of minimum and maximum temperature? As in \cite{lazzari_user_2022}
 
 %\setlength{\tabcolsep}{8pt}
 \begin{table}[H]%[ht]
@@ -73,37 +76,37 @@ Could be relevant to include some variable(s) of minimum and maximum temperature
     \label{tab:input-variables}
     \small
     \begin{tabularx}{\linewidth}{l X l}
-        \textbf{Variable}  & \textbf{Description}                                     & \textbf{Data Type}               \\
+        \textbf{Variable}      & \textbf{Description}                                 & \textbf{Data Type}               \\
         \hline
-        %$Hour$            & Hour of the day                                          & Timestamp (numeric)              \\
-        %$Day$             & Day of the month                                         & Timestamp (numeric)              \\
-        $Month$            & Month of the year                                        & Timestamp (numeric)              \\
-        $Year$             & Year                                                     & Timestamp (numeric)              \\
-        $Holidays$         & Number of holidays and weekend days during month         & Numeric                          \\
-        $BridgeDays$       & Number of bridge days during month                       & Numeric                          \\
+        $month$                & Month of the year                                    & Timestamp (numeric)              \\
+        $year$                 & Year                                                 & Timestamp (numeric)              \\
+        $number\_of\_holidays$ & Number of holidays and weekend days during month     & Numeric                          \\
+        $number\_of\_days$     & Number of days during month                          & Numeric                          \\
+        %$BridgeDays$       & Number of bridge days during month                   & Numeric                          \\
+        $cluster$              & Customer cluster                                     & Categorical                      \\
         \hline
-        $Temp_h$           & Hourly air temperature (\unit{\degreeCelsius})           & Weather condition (numeric)      \\
-        $DewPT_h$          & Hourly dew point temperature (\unit{\degreeCelsius})     & Weather condition (numeric)      \\
-        ($Precip_h$)       & Hourly precipitation (mm)                                & Weather condition (numeric)      \\ % holmön, finns även 15 min
-        ($PrecipInt_{15}$) & 15-minute precipitation intensity, max of average (mm/s) & Weather condition (numeric)      \\ % holmön
-        $Snow_d$           & Daily snow depth (m)                                     & Weather condition (numeric)      \\
-        $Surface_d$        & Daily surface condition                                  & Weather condition (categorical)  \\
-        $DewP_h$           & Hourly relative dew point (\%)                           & Weather condition (numeric)      \\
-        $WindD_h$          & Hourly wind direction (\unit{\degreeCelsius})            & Weather condition (numeric)      \\
-        $WindS_h$          & Hourly wind speed (m/s)                                  & Weather condition (numeric)      \\
-        ($Cloud_h$)        & Hourly total cloud amount (\%)                           & Weather condition (numeric)      \\ % holmön
-        ($CloudSig_h$)     & Hourly significant clouds (m)                            & Weather condition (numeric)      \\
-        $CloudBase_h$      & Hourly lowest cloud base (m)                             & Weather condition (numeric)      \\
-        $GlobalIrr_h$      & Hourly global irradiance (Sweden) (W/m$^2$)              & Weather condition (numeric)      \\
-        $SolarIrr_h$       & Hourly long wave irradiance (W/m$^2$)                    & Weather condition (numeric)      \\
-        $SunT_h$           & Hourly sunshine amount (s)                               & Weather condition (numeric)      \\
-        $AirP_h$           & Hourly air pressure (hPa)                                & Weather condition (numeric)      \\
-        $Visibility_h$     & Hourly visibility (m)                                    & Weather condition (numeric)      \\
-        $Weather_h$        & Hourly weather status                                    & Weather condition (categorical)  \\
+        $temperature$          & Hourly air temperature (\unit{\degreeCelsius})       & Weather condition (numeric)      \\
+        $dew\_point\_temp$     & Hourly dew point temperature (\unit{\degreeCelsius}) & Weather condition (numeric)      \\
+        %($Precip_h$)       & Hourly precipitation (mm)                                & Weather condition (numeric)      \\ % holmön, finns även 15 min
+        %($PrecipInt_{15}$) & 15-minute precipitation intensity, max of average (mm/s) & Weather condition (numeric)      \\ % holmön
+        $snow\_depth$          & Daily snow depth (m)                                 & Weather condition (numeric)      \\
+        %$Surface_d$       & Daily surface condition                              & Weather condition (categorical)  \\
+        $humidity$             & Hourly relative humidity (\%)                        & Weather condition (numeric)      \\
+        $wind\_direction$      & Hourly wind direction (\unit{\degreeCelsius})        & Weather condition (numeric)      \\
+        $wind\_speed$          & Hourly wind speed (m/s)                              & Weather condition (numeric)      \\
+        %($Cloud_h$)        & Hourly total cloud amount (\%)                           & Weather condition (numeric)      \\ % holmön
+        %($CloudSig_h$)     & Hourly significant clouds (m)                            & Weather condition (numeric)      \\
+        $lowest\_cloud$        & Hourly lowest cloud base (m)                         & Weather condition (numeric)      \\
+        $global\_radiation$    & Hourly global irradiance (Sweden) (W/m$^2$)          & Weather condition (numeric)      \\
+        $longwave\_radiation$  & Hourly long wave irradiance (W/m$^2$)                & Weather condition (numeric)      \\
+        $sunshine$             & Hourly sunshine amount (s)                           & Weather condition (numeric)      \\
+        $air\_pressure$        & Air pressure (hPa)                                   & Weather condition (numeric)      \\
+        $visibility$           & Visibility (m)                                       & Weather condition (numeric)      \\
+        %$Weather_h$       & Hourly weather status                                & Weather condition (categorical)  \\
         \hline
-        $Cons$             & a                                                        & Historical consumption (numeric) \\
-        $Cons$             & b                                                        & Historical consumption (numeric) \\
-        $Cons$             & c                                                        & Historical consumption (numeric) \\
+        $lag\_1$               & Consumption for the previous month (kWh)             & Historical consumption (numeric) \\
+        $lag\_12$              & Consumption for the same month last year (kWh)       & Historical consumption (numeric) \\
+        $rolling\_mean\_3$     & Average consumption for the previous three months    & Historical consumption (numeric) \\
     \end{tabularx}
 \end{table}
 
