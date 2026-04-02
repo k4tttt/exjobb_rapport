@@ -43,20 +43,18 @@ Evaluation will, as mentioned above, be performed for the models' performance an
 \end{itemize}
 
 \section{Data Preparation and Analysis}
-This study utilizes a dataset of monthly electricity consumption from 19 955 Swedish households, containing 4 years of measurements retrieved from 2022-01-01 to 2025-11-30. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined consumption measurements during the selected time period are removed from the dataset, leaving 17 885 households with complete measurements.
+This study utilizes a dataset of monthly electricity consumption from 17 885 Swedish households, containing 4 years of measurements retrieved from 2022-01-01 to 2025-11-30. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined consumption measurements during the selected time period are removed from the dataset, leaving 15 815 households with complete measurements. [Households with less than 10 kWh for some month are also removed (since that is very uncommon), leaving 15 154 households] All customers are private customers located in Umeå in the northern part of Sweden, meaning the data represents household electricity consumption in a cold climate.
 
-All customers are private customers located in Umeå. Umeå is in the northern part of Sweden, meaning the households consume electricity in a cold climate something
+As part of enhancing the explainability of the forecasts, an initial data analysis is performed to gain statistical insights. \autoref{fig:avg_consumption_2022_2025} shows the average monthly consumption for all households. It is clear that there is a significant seasonal pattern in the consumption, with more electricity being consumed in the winter and less in the summer. This makes sense for the cold climate, since the winter requires more heating for households with electrical heating, while summers are cool enough to not require much cooling. A warmer climate may have the opposite consumption pattern, since warm summers will have a higher need for cooling measures [source]. \autoref{fig:avg_consumption_per_month} illustrates the average consumption by month, showing that consumption varies more during the winter months, while the average consumption is more stable during the summer.
 
-As part of enhancing the explainability of the forecasts, the data is analyzed initially to gain statistical insights. \autoref{fig:avg_consumption_2022_2025} shows the average monthly consumption for all households. It is clear that there is a significant seasonal pattern in the consumption, with more electicity being consumed in the winter and less in the summer. \autoref{fig:avg_consumption_per_month} shows how the consumption varies per month
-
-\begin{figure}[H]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_consumption.png}
     \caption{[placeholder].}
     \label{fig:avg_consumption_2022_2025}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_consumption_per_month.png}
     \caption{[placeholder].}
@@ -103,6 +101,8 @@ Could be relevant to include some variable(s) of minimum and maximum temperature
         $air\_pressure$        & Air pressure (hPa)                                   & Weather condition (numeric)      \\
         $visibility$           & Visibility (m)                                       & Weather condition (numeric)      \\
         %$Weather_h$       & Hourly weather status                                & Weather condition (categorical)  \\
+        $THI$                  & Temperature humidity index                           & Index (numeric)                  \\
+        $WCT$                  & Wind chill temperature index                         & Index (numeric)                  \\
         \hline
         $lag\_1$               & Consumption for the previous month (kWh)             & Historical consumption (numeric) \\
         $lag\_12$              & Consumption for the same month last year (kWh)       & Historical consumption (numeric) \\
@@ -165,7 +165,7 @@ Gradient boosting machines are a family of ML algorithms where the learning proc
 CatBoost is a gradient boosting algorithm that uses a technique called \emph{ordered boosting} to reduce prediction shift caused by target leakage which occurs in other gradient boosting algorithms. CatBoost also encodes categorical features uniquely, by applying a technique called \emph{ordered target statistics} to handle high cardinality features \cite{prokhorenkova_catboost_2018}. Because of this, CatBoost is able to achieve high accuracy, especially when the data contains a significant number of categorical features \cite{moon_advancing_2024}. [Possibly a diagram showing its structure]
 
 \section{Evaluation Metrics}
-To evaluate the predictive performance of the forecasting models, three statistical metrics are used; mean absolute percentage error (MAPE), coefficient of variation of the root mean squared error (CVRMSE), and normalized mean absolute error (NMAE). MAPE is one of the most common metrics to evaluate forecasting accuracy, due to its scale-independence and interpretability. It defines the average of the absolute percentage errors, as in \autoref{equ:mape}. One disadvantage to be aware of is that MAPE yields infinite or undefined values when the actual values are zero or close to zero \cite{kim_new_2016}. [Maybe use RSME and MAE instead?]
+To evaluate the predictive performance of the forecasting models, three statistical metrics are used; mean absolute percentage error (MAPE), coefficient of variation of the root mean squared error (CVRMSE), and normalized mean absolute error (NMAE). MAPE is one of the most common metrics to evaluate forecasting accuracy, due to its scale-independence and interpretability. It defines the average of the absolute percentage errors, as in \autoref{equ:mape}. One disadvantage to be aware of is that MAPE yields infinite or undefined values when the actual values are zero or close to zero \cite{kim_new_2016}. This is handled by removing any households from the dataset that have less than 10 kWh consumption during some month. [Maybe use RMSE and MAE instead? Those give answers in kWh, which could also be insightful. \cite{nti_electricity_2020} says MAPE, RMSE and MAE are the most common.]
 
 These metrics express the performance in error percentage, making them intuitive to interpret.
 
@@ -191,6 +191,8 @@ To evaluate the models in a more comprehensive way, the harmonic mean (HM) is ca
 
 \section{Explainable AI}
 
-To enhance the interpretability of the forecasts and investigate feature importance, a SHAP analysis is performed. [Explain SHAP for ensemble models specifically, like in \cite{moon_advancing_2024}] [beeswarm plot, feature importance plot]
+To enhance the interpretability of the forecasts and investigate feature importances, a SHAP analysis is performed. [Explain SHAP for ensemble models specifically, like in \cite{moon_advancing_2024}] [beeswarm plot, feature importance plot]
 
 \section{Experimental Setup}
+
+Experiments are performed in the Python language.
