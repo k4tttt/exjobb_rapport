@@ -43,7 +43,7 @@ Evaluation will, as mentioned above, be performed for the models' performance an
 \end{itemize}
 
 \section{Data Preparation and Analysis}
-This study utilizes a dataset of monthly electricity consumption from 17 885 Swedish households, containing 4 years of measurements retrieved from 2022-01-01 to 2025-11-30. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined consumption measurements during the selected time period are removed from the dataset, leaving 15 815 households with complete measurements. [Households with less than 10 kWh for some month are also removed (since that is very uncommon), leaving 15 154 households] All customers are private customers located in Umeå in the northern part of Sweden, meaning the data represents household electricity consumption in a cold climate. The dataset is summarized in \autoref{tab:dataset-statistics}.
+This study utilizes a dataset of monthly electricity consumption from 17 885 Swedish households, containing 4 years of measurements retrieved from 2022-01-01 to 2025-11-30. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined consumption measurements during the selected time period are removed from the dataset, leaving 15 815 [adjust numbers, customer info removes some households] households with complete measurements. [Households with less than 10 kWh for some month are also removed (since that is very uncommon), leaving 15 154 households] All customers are private customers located in Umeå in the northern part of Sweden, meaning the data represents household electricity consumption in a cold climate. The dataset is summarized in \autoref{tab:dataset-statistics}.
 
 \begin{table}[H]%[ht]
     \centering
@@ -51,17 +51,17 @@ This study utilizes a dataset of monthly electricity consumption from 17 885 Swe
     \label{tab:dataset-statistics}
     \small
     \begin{tabularx}{\linewidth}{l l}
-        \textbf{Statistic} & \textbf{Umeå Energi Data (unit: kWh)} \\
+        \textbf{Statistic}   & \textbf{Umeå Energi Data (unit: kWh)} \\
         \midrule
-        Minimum & \\
-        First quartile & \\
-        Median & \\
-        Mean & \\
-        Third quartile & \\
-        Maximum & \\
-        Time range & 2022-01-01 to 2025-11-30 \\
-        Location & Umeå, Sweden \\
-        Number of households & 15 154 \\
+        Minimum              &                                       \\
+        First quartile       &                                       \\
+        Median               &                                       \\
+        Mean                 &                                       \\
+        Third quartile       &                                       \\
+        Maximum              &                                       \\
+        Time range           & 2022-01-01 to 2025-11-30              \\
+        Location             & Umeå, Sweden                          \\
+        Number of households & 15 154                                \\
     \end{tabularx}
 \end{table}
 
@@ -73,17 +73,17 @@ Households are labeled by type of building, type of heating, and type of contrac
     \label{tab:household-specifications}
     \small
     \begin{tabularx}{\linewidth}{l l}
-        \textbf{Feature} & \textbf{Count} \\
+        \textbf{Feature}   & \textbf{Count} \\
         \midrule
-        House & \\
-        Apartment & \\
-        Vacation home & \\
+        House              &                \\
+        Apartment          &                \\
+        Vacation home      &                \\
         \midrule
-        Electrical heating & \\
-        District heating & \\
+        Electrical heating &                \\
+        District heating   &                \\
         \midrule
-        Variable contract & \\
-        Fixed contract & \\
+        Variable contract  &                \\
+        Fixed contract     &                \\
     \end{tabularx}
 \end{table}
 
@@ -114,36 +114,36 @@ Could be relevant to include some variable(s) of minimum and maximum temperature
     \label{tab:input-variables}
     \small
     \begin{tabularx}{\linewidth}{l X l}
-        \textbf{Variable}      & \textbf{Description}                                 & \textbf{Data Type}               \\
+        \textbf{Variable}      & \textbf{Description}                                    & \textbf{Data Type}                 \\
         \midrule
-        $month$                & Month of the year                                    & Timestamp (numeric)              \\
-        $year$                 & Year                                                 & Timestamp (numeric)              \\
-        $number\_of\_holidays$ & Number of holidays and weekend days during month     & Numeric                          \\
-        $number\_of\_days$     & Number of days during month                          & Numeric                          \\
-        $cluster$              & Customer cluster                                     & Categorical                      \\
+        $month$                & Month of the year                                       & Timestamp (numeric)                \\
+        $year$                 & Year                                                    & Timestamp (numeric)                \\
+        $number\_of\_holidays$ & Number of holidays and weekend days during month        & Numeric                            \\
+        $number\_of\_days$     & Number of days during month                             & Numeric                            \\
         \midrule
-        $building\_type$ & Type of building & Categorical \\
-        $heating\_type$ & Type of heating system & Categorical \\
-        $contract\_type$ & Type of contract & Categorical \\
+        $cluster$              & Customer cluster                                        & Customer information (Categorical) \\
+        $building\_type$       & Type of building                                        & Customer information (Categorical) \\
+        $heating\_type$        & Type of heating system                                  & Customer information (Categorical) \\
+        $contract\_type$       & Type of contract                                        & Customer information (Categorical) \\
         \midrule
-        $temperature$          & Hourly air temperature (\unit{\degreeCelsius})       & Weather condition (numeric)      \\
-        $dew\_point\_temp$     & Hourly dew point temperature (\unit{\degreeCelsius}) & Weather condition (numeric)      \\
-        $snow\_depth$          & Daily snow depth (m)                                 & Weather condition (numeric)      \\
-        $humidity$             & Hourly relative humidity (\%)                        & Weather condition (numeric)      \\
-        $wind\_direction$      & Hourly wind direction (\unit{\degreeCelsius})        & Weather condition (numeric)      \\
-        $wind\_speed$          & Hourly wind speed (m/s)                              & Weather condition (numeric)      \\
-        $lowest\_cloud$        & Hourly lowest cloud base (m)                         & Weather condition (numeric)      \\
-        $global\_radiation$    & Hourly global irradiance (Sweden) (W/m$^2$)          & Weather condition (numeric)      \\
-        $longwave\_radiation$  & Hourly long wave irradiance (W/m$^2$)                & Weather condition (numeric)      \\
-        $sunshine$             & Hourly sunshine amount (s)                           & Weather condition (numeric)      \\
-        $air\_pressure$        & Air pressure (hPa)                                   & Weather condition (numeric)      \\
-        $visibility$           & Visibility (m)                                       & Weather condition (numeric)      \\
-        $THI$                  & Temperature humidity index                           & Index (numeric)                  \\
-        $WCT$                  & Wind chill temperature index                         & Index (numeric)                  \\
+        $temperature$          & Hourly air temperature (\unit{\degreeCelsius})          & Weather condition (numeric)        \\
+        $dew\_point\_temp$     & Hourly dew point temperature (\unit{\degreeCelsius})    & Weather condition (numeric)        \\
+        $snow\_depth$          & Daily snow depth (m)                                    & Weather condition (numeric)        \\
+        $humidity$             & Hourly relative humidity (\%)                           & Weather condition (numeric)        \\
+        $wind\_direction$      & Hourly wind direction (\unit{\degreeCelsius})           & Weather condition (numeric)        \\
+        $wind\_speed$          & Hourly wind speed (m/s)                                 & Weather condition (numeric)        \\
+        $lowest\_cloud$        & Hourly lowest cloud base (m)                            & Weather condition (numeric)        \\
+        $global\_radiation$    & Hourly global irradiance (Sweden) (W/m$^2$)             & Weather condition (numeric)        \\
+        $longwave\_radiation$  & Hourly long wave irradiance (W/m$^2$)                   & Weather condition (numeric)        \\
+        $sunshine$             & Hourly sunshine amount (s)                              & Weather condition (numeric)        \\
+        $air\_pressure$        & Air pressure (hPa)                                      & Weather condition (numeric)        \\
+        $visibility$           & Visibility (m)                                          & Weather condition (numeric)        \\
+        $THI$                  & Temperature humidity index                              & Index (numeric)                    \\
+        $WCT$                  & Wind chill temperature index                            & Index (numeric)                    \\
         \midrule
-        $lag\_1$               & Consumption for the previous month (kWh)             & Historical consumption (numeric) \\
-        $lag\_12$              & Consumption for the same month last year (kWh)       & Historical consumption (numeric) \\
-        $rolling\_mean\_3$     & Average consumption for the previous three months    & Historical consumption (numeric) \\
+        $lag\_1$               & Consumption for the previous month (kWh)                & Historical consumption (numeric)   \\
+        $lag\_12$              & Consumption for the same month last year (kWh)          & Historical consumption (numeric)   \\
+        $rolling\_mean\_3$     & Average consumption for the previous three months (kWh) & Historical consumption (numeric)   \\
     \end{tabularx}
 \end{table}
 
@@ -197,7 +197,13 @@ Forecasting is performed using different decision tree-based ensemble learning m
 
 Five decision tree-based ensemble models are selected as forecasting models, as in \cite{moon_advancing_2024}; random forest (RF), gradient boosting machine (GBM), extreme gradient boosting machine (XGBoost), light gradient boosting machine (LightGBM), and categorical boosting (CatBoost). [GBM and CatBoost were best, so focus on them first]
 
+Random Forest \cite{breiman_random_2001}
+
 Gradient boosting machines are a family of ML algorithms where the learning process consecutively fits a new tree with the goal of reducing the errors of the previous one. This is done by constructing new base-learners that are maximally correlated to a decreasing loss function. The loss function can be of various kinds, which makes GBM highly flexible for different data-driven tasks. It is up to the model designer to choose the most appropriate loss function \cite{natekin_gradient_2013}. GBM is able to learn complex patterns and interactions in the data due to its iterative learning process \cite{moon_advancing_2024}. [Possibly a diagram showing its structure]
+
+XGBoost \cite{chen_xgboost_2016}
+
+LightGBM is another gradient boosting algorithm that focuses on efficiency for cases with many input features and when the amount of data is large.  \cite{ke_lightgbm_2017}
 
 CatBoost is a gradient boosting algorithm that uses a technique called \emph{ordered boosting} to reduce prediction shift caused by target leakage which occurs in other gradient boosting algorithms. CatBoost also encodes categorical features uniquely, by applying a technique called \emph{ordered target statistics} to handle high cardinality features \cite{prokhorenkova_catboost_2018}. Because of this, CatBoost is able to achieve high accuracy, especially when the data contains a significant number of categorical features \cite{moon_advancing_2024}. [Possibly a diagram showing its structure]
 
