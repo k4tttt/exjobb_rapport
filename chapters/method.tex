@@ -2,77 +2,149 @@ TODO list:
 
 \begin{itemize}
     \item Make correlation maps for the features.
-    \item Boxplot and histogram for general consumption, boxplots per month (like in \cite{khan_ensemble_2021} and 30 in \cite{moon_advancing_2024}), and possibly by week
+          %\item Boxplot and histogram for general consumption, boxplots per month (like in \cite{khan_ensemble_2021} and 30 in \cite{moon_advancing_2024}), and possibly by week
     \item It is also possible to make diagrams for the decomposition of the time series \cite{chakraborty_scenario-based_2021}.
     \item Could investigate correlation between external variables and consumption like in \cite{deb_forecasting_2016}
-    \item Could I incorporate seasonal index? \cite{cao_support_2016} shows how to calculate SI
-    \item Could I do group clustering for consumers? \cite{khan_ensemble_2021}
-    \item Have to write somewhere about how this research is specific to the cold climate of Umeå. Warmer climates may, contrary to Umeå, see increased energy needs during the summer due to cooling units
+          %\item Could I incorporate seasonal index? \cite{cao_support_2016} shows how to calculate SI
+          %\item Could I do group clustering for consumers? \cite{khan_ensemble_2021}
     \item Maybe relevant to measure time for training models?
 \end{itemize}
 
 \section{Data Preparation and Analysis}
-This study utilizes a dataset of monthly electricity consumption from 17 885 Swedish households, containing 4 years of measurements retrieved from 2022-01-01 to 2025-11-30. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined consumption measurements during the selected time period are removed from the dataset, leaving 15 815 [adjust numbers, customer info removes some households] households with complete measurements. [Households with less than 10 kWh for some month are also removed (since that is very uncommon), leaving 15 154 households] All customers are private customers located in Umeå in the northern part of Sweden, meaning the data represents household electricity consumption in a cold climate. The dataset is summarized in \autoref{tab:dataset-statistics}.
+
+This study utilizes electricity consumption data from Umeå Energi, along with external variables in the form of weather data and holiday information. This section describes the data, presents analytical insights as part of enhancing the explainability of the forecasts, and details how the data is preprocessed before performing forecasts.
+
+\subsection{Electricity Consumption Data}
+
+The Umeå Energi dataset contains monthly electricity consumption from 14 286 Swedish households, consisting of 4 years of measurements retrieved from 2022-01-01 to 2025-11-30. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined or less than 10 kWh consumption measurements during the selected time period are removed from the dataset, leaving 13 692 households. All customers are private customers located in Umeå in the northern part of Sweden, meaning the data represents household electricity consumption in a cold climate. The dataset is summarized in \autoref{tab:dataset-statistics}, and \autoref{fig:kwh_histogram_2022_2025} shows the distribution of the electricity consumption for all households during the selected time span.
 
 \begin{table}[H]%[ht]
     \centering
     \caption{Summary of the Umeå Energi electricity consumption data.}
     \label{tab:dataset-statistics}
     \small
-    \begin{tabularx}{\linewidth}{l l}
-        \textbf{Statistic}   & \textbf{Umeå Energi Data (unit: kWh)} \\
+    \begin{tabularx}{\linewidth}{l r}
+        \textbf{Statistic}   & \textbf{Umeå Energi Data (kWh)} \\
         \midrule
-        Minimum              &                                       \\
-        First quartile       &                                       \\
-        Median               &                                       \\
-        Mean                 &                                       \\
-        Third quartile       &                                       \\
-        Maximum              &                                       \\
-        Time range           & 2022-01-01 to 2025-11-30              \\
-        Location             & Umeå, Sweden                          \\
-        Number of households & 15 154                                \\
+        Minimum              & 10                              \\
+        First quartile       & 124                             \\
+        Median               & 220                             \\
+        Mean                 & 465                             \\
+        Third quartile       & 489                             \\
+        Maximum              & 13 490                          \\
+        \midrule
+        Time range           & 2022-01-01 to 2025-11-30        \\
+        Location             & Umeå, Sweden                    \\
+        Number of households & 13 692                          \\
     \end{tabularx}
 \end{table}
 
-Households are labeled by type of building, type of heating, and type of contract. Buildings may be of type house, apartment, vacation home... Heating is either electrical, district heating, or other? The contract may be variable or fixed? These string properties are encoded to integer values. The number of households in each category is found in \autoref{tab:household-specifications}.
-
-\begin{table}[H]%[ht]
+\begin{figure}[H]%[ht]
     \centering
-    \caption{[placeholder]}
-    \label{tab:household-specifications}
-    \small
-    \begin{tabularx}{\linewidth}{l l}
-        \textbf{Feature}   & \textbf{Count} \\
-        \midrule
-        House              &                \\
-        Apartment          &                \\
-        Vacation home      &                \\
-        \midrule
-        Electrical heating &                \\
-        District heating   &                \\
-        \midrule
-        Variable contract  &                \\
-        Fixed contract     &                \\
-    \end{tabularx}
-\end{table}
+    \includegraphics[width=1\linewidth]{figures/kwh_histogram.pdf}
+    \caption{Histogram over the monthly electricity consumption distribution from January 2022 to November 2025.}
+    \label{fig:kwh_histogram_2022_2025}
+\end{figure}
 
-As part of enhancing the explainability of the forecasts, an initial data analysis is performed to gain statistical insights. \autoref{fig:avg_consumption_2022_2025} shows the average monthly consumption for all households. It is clear that there is a significant seasonal pattern in the consumption, with more electricity being consumed in the winter and less in the summer. This makes sense for the cold climate, since the winter requires more heating for households with electrical heating, while summers are cool enough to not require much cooling. A warmer climate may have the opposite consumption pattern, since warm summers will have a higher need for cooling measures [source]. \autoref{fig:avg_consumption_per_month} illustrates the average consumption by month, showing that consumption varies more during the winter months, while the average consumption is more stable during the summer.
+\autoref{fig:kwh_histogram_2022_2025} and \autoref{tab:dataset-statistics} show that a vast majority of households consume electricity in a similar low range per month, but that there are outliers where the monthly consumption exceeds several thousand kWh. \autoref{fig:avg_consumption_2022_2025} shows the average monthly consumption for all households. It is clear that there is a significant seasonal pattern in the consumption, with more electricity being consumed in the winter and less in the summer. This makes sense for the cold climate, since the winter requires more heating for households with electrical heating, while summers are cool enough to not require much electrical cooling. A warmer climate may have the opposite consumption pattern, since warm summers will have a higher need for cooling measures [source]. \autoref{fig:avg_consumption_per_month} illustrates the average consumption by month, showing that consumption varies more during the winter months, while the average consumption is more stable during the summer.
 
-\begin{figure}[ht]
+\begin{figure}[H]%[ht]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_consumption.png}
     \caption{Average household electricity consumption from January 2022 to November 2025.}
     \label{fig:avg_consumption_2022_2025}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[H]%[ht]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_consumption_per_month.png}
     \caption{Average household electricity consumption by month from January 2022 to November 2025.}
     \label{fig:avg_consumption_per_month}
 \end{figure}
 
-Along with the historical electricity consumption data from Umeå Energi, external variables are retrieved from SMHI and Dagsmart. SMHI weather data is retrieved from 2022-01-01 to 2025-11-30 for the Umeå Airport measurement station. Variables pertaining to solar attributes are retrieved for the Umeå Sol station. Snow depth and surface condition variables are from Umeå Röbäcksdalen. [need to discuss how these values are aggregated (avg vs sum or other way). right now, weather values are from 2022 to 2025, but consumption data from 2023 to 2025 (if we don't count the history from 2022)]
+Three input features are constructed from the historical electricity consumption; $lag\_1$ which represents the consumption of the previous month for the target household, $lag\_12$ which represents the consumption for the same month the previous year for the target household, and $rolling\_mean\_3$ which represents the average consumption over the past three months for the target household. These variables express the recent consumption patterns, but also the monthly dynamic. Since the year 2022 does not have any past year historical consumption to refer to, it is removed from the training data.
+
+\subsubsection{Household Information}
+
+In addition to the historical electricity consumption, the Umeå Energi data contains information about the households. Households are labeled by type of residence, type of heating system, and type of contract agreement with Umeå Energi. The type of residence is either house, apartment, or vacation home. Heating can be electrical, non-electrical, or district heating. Contract agreements may be variable, fixed, or default assigned contracts. The share of households in each category is found in \autoref{tab:household-specifications}. These features are not directly maintained by Umeå Energi, but instead, the labeling is done by Umeå Energi based on certain properties of the customer, which may not always be 100\% accurate. However, it provides a good estimation of the household properties. In order to use the properties as input to the forecasting models, the string values are encoded as integers.
+
+\begin{table}[H]%[ht]
+    \centering
+    \caption{Household types in the Umeå Energi dataset.}
+    \label{tab:household-specifications}
+    \small
+    \begin{tabularx}{\linewidth}{l r}
+        \textbf{Type}          & \textbf{Percentage} \\
+        \midrule
+        Apartment              & 58\%                \\
+        House                  & 38\%                \\
+        Vacation home          & 4\%                 \\
+        \midrule
+        Non-electrical heating & 70\%                \\
+        Electrical heating     & 19\%                \\
+        District heating       & 11\%                \\
+        \midrule
+        Variable contract      & 82\%                \\
+        Default contract       & 18\%                \\
+        Fixed contract         & $<1\%$              \\
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Household Clustering Using K-Means}
+
+Since there are many households in the electricity consumption data, it is relevant to not only group households by their properties, but also by their consumption patterns. The idea is to identify groups where the similarity within the group is higher than that among the groups \cite{khan_ensemble_2021}. K-Means clustering is one of the most popular algorithms for solving this problem in a simple way. K-Means is an unsupervised learning algorithm, where the main idea is to select $k$ centroids, one for each cluster, and place them as far from each other as possible. The next step is to associate each point in the dataset with the closest centroid. After associating all points, the $k$ centroids are recalculated by averaging the points within each cluster. This process is repeated until the centroids no longer move. Formally, the algorithm aims at minimizing the squared error function $W(S,C)$ defined in \autoref{equ:k-means} \cite{kodinariya_review_2013}.
+
+\begin{equation}\label{equ:k-means}
+    W(S,C) = \sum_{k=1}^{K} \sum_{i \in S_k}^{} \left\| y_i - c_k \right\|^2
+\end{equation}
+
+In the equation, $S$ is a partition of $k$ clusters represented by observations in the form of vectors $y_i$. Each cluster $S_k$ is non-empty and non-overlapping, and has a centroid $c_k$ ($k = 1,2,\dots,K)$.
+
+In these experiments, K-Means clustering is applied to define customer groups based on their electricity consumption. The elbow method is used to find an optimal number of $k$, i.e. the number of clusters. The elbow method is a visual method, where different values of $k$ are plotted against the variance within the clusters \cite{cui_introduction_2020}. As the value of $k$ increases, the average variance becomes smaller. The goal is to find a value of $k$ for which the variance stops decreasing sharply, that is, the elbow of the graph. \autoref{fig:elbow_plot} shows the elbow plot for determining the optimal number of customer groups, in this case $k=3$. This results in three customer groups; low consumption, medium consumption, and high consumption. Each customer in the dataset is assigned a label based on the cluster it belongs to, and this label becomes an input feature for the forecasting models. \autoref{tab:cluster-profiles} details each cluster regarding size and consumption patterns. The large standard deviation present in each cluster suggests that outlier months with high consumption exist for all identified consumption patterns.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/elbow_plot.png}
+    \caption{Elbow plot for finding the optimal number of customer profile clusters $k$.}
+    \label{fig:elbow_plot}
+\end{figure}
+
+\begin{table}[H]%[ht]
+    \centering
+    \caption{Clustered consumption profiles in the Umeå Energi dataset.}
+    \label{tab:cluster-profiles}
+    \small
+    \begin{tabularx}{\linewidth}{l r r r r}
+        \textbf{Cluster}   & \textbf{Households} & \textbf{Mean (kWh)} & \textbf{Median (kWh)} & \textbf{SD (kWh)} \\
+        \midrule
+        Low consumption    & 1804                & 365                 & 173                   & 515               \\
+        Medium consumption & 4458                & 410                 & 227                   & 549               \\
+        High consumption   & 7305                & 524                 & 230                   & 724               \\
+    \end{tabularx}
+\end{table}
+
+\subsubsection{Seasonal Index}
+
+[dont know if i will actually be using this, but if so, write here.  To represent the seasonal component of monthly forecasting, a seasonal index is calculated based on the electricity consumption.]
+
+\subsubsection{Variable Interactions}
+
+Interactions between the variables are investigated using a correlation map, as shown in \autoref{fig:variable-correlation-map}. This correlation map includes the internal historical consumption features and SI, as well as external features in the form of weather indices (THI, WCT [see section x]) and calendar information (number of holidays, number of days). The three historical consumption variables show a high correlation with each other, while they have a low correlation with all the external variables and the seasonal index. [conclusions from this?]
+
+\begin{figure}[H]%[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/variable_correlation_map.pdf}
+    \caption{Correlation map of variables [placeholder].}
+    \label{fig:variable-correlation-map}
+\end{figure}
+
+\subsection{External Variables}
+
+Along with the historical electricity consumption data from Umeå Energi, weather variables are retrieved from SMHI and calendar information is retrieved from Dagsmart API. These external variables are intended to improve the forecasts by including environmental factors that may affect consumption patterns.
+
+\subsubsection{Weather Data}
+
+SMHI weather data is retrieved from 2022-01-01 to 2025-11-30 for the Umeå Airport measurement station. Variables pertaining to solar attributes are retrieved for the Umeå Sol station. Snow depth and surface condition variables are from Umeå Röbäcksdalen. [need to discuss how these values are aggregated (avg vs sum or other way). right now, weather values are from 2022 to 2025, but consumption data from 2023 to 2025 (if we don't count the history from 2022)]
 
 Could be relevant to include some variable(s) of minimum and maximum temperature? As in \cite{lazzari_user_2022}
 
@@ -85,15 +157,16 @@ Could be relevant to include some variable(s) of minimum and maximum temperature
     \begin{tabularx}{\linewidth}{l X l}
         \textbf{Variable}      & \textbf{Description}                                    & \textbf{Data Type}                 \\
         \midrule
-        $month$                & Month of the year                                       & Timestamp (numeric)                \\
-        $year$                 & Year                                                    & Timestamp (numeric)                \\
+        $month$                & Month of the year                                       & Numeric                            \\
+        $year$                 & Year                                                    & Numeric                            \\
         $number\_of\_holidays$ & Number of holidays and weekend days during month        & Numeric                            \\
         $number\_of\_days$     & Number of days during month                             & Numeric                            \\
         \midrule
-        $cluster$              & Customer cluster                                        & Customer information (Categorical) \\
-        $building\_type$       & Type of building                                        & Customer information (Categorical) \\
-        $heating\_type$        & Type of heating system                                  & Customer information (Categorical) \\
-        $contract\_type$       & Type of contract                                        & Customer information (Categorical) \\
+        $cluster$              & Customer cluster                                        & Customer information (categorical) \\
+        $SI$                   & Seasonal index                                          & Consumption index (numeric)        \\
+        $building\_type$       & Type of building                                        & Customer information (categorical) \\
+        $heating\_type$        & Type of heating system                                  & Customer information (categorical) \\
+        $contract\_type$       & Type of contract                                        & Customer information (categorical) \\
         \midrule
         $temperature$          & Hourly air temperature (\unit{\degreeCelsius})          & Weather condition (numeric)        \\
         $dew\_point\_temp$     & Hourly dew point temperature (\unit{\degreeCelsius})    & Weather condition (numeric)        \\
@@ -107,8 +180,8 @@ Could be relevant to include some variable(s) of minimum and maximum temperature
         $sunshine$             & Hourly sunshine amount (s)                              & Weather condition (numeric)        \\
         $air\_pressure$        & Air pressure (hPa)                                      & Weather condition (numeric)        \\
         $visibility$           & Visibility (m)                                          & Weather condition (numeric)        \\
-        $THI$                  & Temperature humidity index                              & Index (numeric)                    \\
-        $WCT$                  & Wind chill temperature index                            & Index (numeric)                    \\
+        $THI$                  & Temperature humidity index                              & Weather index (numeric)            \\
+        $WCT$                  & Wind chill temperature index                            & Weather index (numeric)            \\
         \midrule
         $lag\_1$               & Consumption for the previous month (kWh)                & Historical consumption (numeric)   \\
         $lag\_12$              & Consumption for the same month last year (kWh)          & Historical consumption (numeric)   \\
@@ -118,17 +191,12 @@ Could be relevant to include some variable(s) of minimum and maximum temperature
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{figures/variable_correlation_map.png}
+    \includegraphics[width=1\linewidth]{figures/weather_correlation_map.pdf}
     \caption{Correlation map of weather variables [placeholder].}
-    \label{fig:placeholder}
+    \label{fig:weather-correlation-map}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/weather_variables_plot.png}
-    \caption{[placeholder].}
-    \label{fig:placeholder2}
-\end{figure}
+\subsubsection{Calendar Information}
 
 \begin{figure}[H]
     \centering
@@ -137,28 +205,9 @@ Could be relevant to include some variable(s) of minimum and maximum temperature
     \label{fig:placeholder3}
 \end{figure}
 
-[Describe how the consumption data is preprocessed. Adding lag features, deleting any customers that have less than 10 kWh consumption at any point]
+\subsection{Feature Selection?}
 
-\subsection{Customer Clustering Using K-Means}
-
-[Somewhere I need to specify that by customer, I actually mean customer + facility combination (one customer can have several facilities, and these are treated uniquely)]
-
-Since there are many customers in the electricity consumption data, it is relevant to group customers with similar consumption patterns. The idea is to identify groups where the similarity within the group is higher than that among the groups \cite{khan_ensemble_2021}. K-Means clustering is one of the most popular algorithms for solving this problem in a simple way. K-Means is an unsupervised learning algorithm, where the main idea is to select $k$ centroids, one for each cluster, and place them as far from each other as possible. The next step is to associate each point in the dataset with the closest centroid. After associating all points, the $k$ centroids are recalculated by averaging the points within each cluster. This process is repeated until the centroids no longer move. Formally, the algorithm aims at minimizing the squared error function $W(S,C)$ defined in \autoref{equ:k-means} \cite{kodinariya_review_2013}.
-
-\begin{equation}\label{equ:k-means}
-    W(S,C) = \sum_{k=1}^{K} \sum_{i \in S_k}^{} \left\| y_i - c_k \right\|^2
-\end{equation}
-
-In the equation, $S$ is a partition of $k$ clusters represented by observations in the form of vectors $y_i$. Each cluster $S_k$ is non-empty and non-overlapping, and has a centroid $c_k$ ($k = 1,2,\dots,K)$.
-
-In these experiments, K-Means clustering is applied to define customer groups based on their electricity consumption. The elbow method is used to find an optimal number of $k$, i.e. the number of clusters. The elbow method is a visual method, where different values of $k$ are plotted against the variance within the clusters \cite{cui_introduction_2020}. As the value of $k$ increases, the average variance becomes smaller. The goal is to find a value of $k$ for which the variance stops decreasing sharply, that is, the elbow of the graph. \autoref{fig:elbow_plot} shows the elbow plot for determining the optimal number of customer groups, in this case $k=3$. This results in three customer groups; low consumption, medium consumption, and high consumption. Each customer in the dataset is assigned a label based on the cluster it belongs to, and this label becomes an input feature for the forecasting models. [Could be relevant to specify how many customers are in each cluster]
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{figures/elbow_plot.png}
-    \caption{Elbow plot for finding the optimal number of customer profile clusters $k$.}
-    \label{fig:elbow_plot}
-\end{figure}
+[describe train/test split and feature selection, put big table here]
 
 \section{Ensemble Learning}
 
@@ -185,6 +234,15 @@ These metrics express the performance in error percentage, making them intuitive
     MAPE = \frac{1}{n} \times \sum \left| \frac{Y_t - \hat{Y}_t}{Y_t} \right| \times 100
 \end{equation}
 
+\begin{equation}\label{equ:rmse}
+    RMSE = \sqrt{\frac{1}{n} \times \sum (Y_t - \hat{Y}_t)^2}
+\end{equation}
+
+\begin{equation}\label{equ:mae}
+    MAE = \frac{1}{n} \times \sum \left| Y_t - \hat{Y}_t \right|
+\end{equation}
+
+\begin{comment}
 \begin{equation}\label{equ:cvrmse}
     CVRMSE = (\sqrt{\frac{1}{n} \times \sum (Y_t - \hat{Y}_t)^2}) / \ddot{Y} \times 100
 \end{equation}
@@ -192,6 +250,7 @@ These metrics express the performance in error percentage, making them intuitive
 \begin{equation}\label{equ:nmae}
     NMAE = (\frac{1}{n} \times \sum \left| Y_t - \hat{Y}_t \right|) / \ddot{Y} \times 100
 \end{equation}
+\end{comment}
 
 In the equations, $Y_t$ denotes the actual observed value at time $t$, while $\hat{Y}_t$ denotes the predicted value at time $t$. $\ddot{Y}$ represents the mean of all observed values, and $n$ is the total number of prediction instances.
 
