@@ -16,7 +16,7 @@ This study utilizes electricity consumption data from Umeå Energi, along with e
 
 \subsection{Electricity Consumption Data}
 
-The Umeå Energi dataset contains monthly electricity consumption from 14 286 Swedish households, consisting of 4 years of measurements retrieved from 2022-01-01 to 2025-11-30. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined or less than 10 kWh consumption measurements during the selected time period are removed from the dataset, leaving 13 692 households. All customers are private customers located in Umeå in the northern part of Sweden, meaning the data represents household electricity consumption in a cold climate. The dataset is summarized in \autoref{tab:dataset-statistics}, and \autoref{fig:kwh_histogram_2022_2025} shows the distribution of the electricity consumption for all households during the selected time span.
+The Umeå Energi dataset contains monthly electricity consumption from 14 286 Swedish households, consisting of 4 years of measurements retrieved from January 1st 2022 to November 30th 2025. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined or less than 10 kWh consumption measurements during the time period are removed from the dataset, leaving 13 692 households with complete measurements. All customers are private customers located in Umeå in the northern part of Sweden, meaning the data represents household electricity consumption in a cold climate. The dataset is summarized in \autoref{tab:dataset-statistics}, and \autoref{fig:kwh_histogram_2022_2025} shows the distribution of the electricity consumption for all households during the full time period.
 
 \begin{table}[H]%[ht]
     \centering
@@ -66,7 +66,7 @@ Three input features are constructed from the historical electricity consumption
 
 \subsubsection{Household Information}
 
-In addition to the historical electricity consumption, the Umeå Energi data contains information about the households. Households are labeled by type of residence, type of heating system, and type of contract agreement with Umeå Energi. The type of residence is either house, apartment, or vacation home. Heating can be electrical, non-electrical, or district heating. Contract agreements may be variable, fixed, or default assigned contracts. The share of households in each category is found in \autoref{tab:household-specifications}. These features are not directly maintained by Umeå Energi, but instead, the labeling is done by Umeå Energi based on certain properties of the customer, which may not always be 100\% accurate. However, it provides a good estimation of the household properties. In order to use the properties as input to the forecasting models, the string values are encoded as integers.
+In addition to the historical electricity consumption, the Umeå Energi data contains information about the households. Households are labeled by type of residence, type of heating system, and type of contract agreement with Umeå Energi. The type of residence is either house, apartment, or vacation home. Heating can be electrical, non-electrical, or district heating. Contract agreements may be variable, fixed, or default assigned contracts. The share of households in each category is found in \autoref{tab:household-specifications}. These features are not directly maintained by Umeå Energi, but instead, the labeling is done by Umeå Energi based on certain properties of the customer, which may not always be 100\% accurate. However, it provides a good estimation of the household properties. In order to use the properties as input to the forecasting models, the string values are encoded as integers. [skriv om att dessa kan ändras under tiden]
 
 \begin{table}[H]%[ht]
     \centering
@@ -117,15 +117,15 @@ In these experiments, K-Means clustering is applied to define customer groups ba
     \begin{tabularx}{\linewidth}{l r r r r}
         \textbf{Cluster}   & \textbf{Households} & \textbf{Mean (kWh)} & \textbf{Median (kWh)} & \textbf{SD (kWh)} \\
         \midrule
-        Low consumption    & 1804                & 365                 & 173                   & 515               \\
-        Medium consumption & 4458                & 410                 & 227                   & 549               \\
-        High consumption   & 7305                & 524                 & 230                   & 724               \\
+        Low consumption    & 1 804               & 365                 & 173                   & 515               \\
+        Medium consumption & 4 458               & 410                 & 227                   & 549               \\
+        High consumption   & 7 305               & 524                 & 230                   & 724               \\
     \end{tabularx}
 \end{table}
 
 \subsubsection{Seasonal Index}
 
-[dont know if i will actually be using this, but if so, write here.  To represent the seasonal component of monthly forecasting, a seasonal index is calculated based on the electricity consumption.]
+[dont know if i will actually be using this, but if so, write here.  To represent the seasonal component of monthly forecasting, a seasonal index is calculated based on the electricity consumption. försöka använda detta i samband med clustering]
 
 \subsubsection{Variable Interactions}
 
@@ -140,13 +140,71 @@ Interactions between the variables are investigated using a correlation map, as 
 
 \subsection{External Variables}
 
-Along with the historical electricity consumption data from Umeå Energi, weather variables are retrieved from SMHI and calendar information is retrieved from Dagsmart API. These external variables are intended to improve the forecasts by including environmental factors that may affect consumption patterns.
+Along with the historical electricity consumption data from Umeå Energi, weather variables are retrieved from SMHI\footnote{Swedish Meteorological and Hydrological Institute, SMHI. \url{https://www.smhi.se/data} (Accessed 2026-03-17)} and calendar information is retrieved from Dagsmart API\footnote{Swedish calendar data API, Dagsmart API. \url{https://dagsmart.se/api/} (Accessed 2026-03-16)}. These external variables are intended to improve the forecasts by including environmental factors that may affect consumption patterns.
 
 \subsubsection{Weather Data}
 
-SMHI weather data is retrieved from 2022-01-01 to 2025-11-30 for the Umeå Airport measurement station. Variables pertaining to solar attributes are retrieved for the Umeå Sol station. Snow depth and surface condition variables are from Umeå Röbäcksdalen. [need to discuss how these values are aggregated (avg vs sum or other way). right now, weather values are from 2022 to 2025, but consumption data from 2023 to 2025 (if we don't count the history from 2022)]
+Weather data is retrieved from SMHI's open data for the January 1st 2022 to November 30th 2025 time period. Nine variables are selected from the Umeå Airport measurement station, while three variables pertaining to solar attributes are retrieved from the Umeå Sol station, and snow depth is retrieved from Umeå Röbäcksdalen. All variables are obtained as hourly measurements, except snow depth which is retrieved at daily intervals. \autoref{tab:weather-variables} details the weather variables. [Across all variables, 4.9\% of the measurements are missing, where most missing values are from the lowest cloud base variable (87.0\% of the missing values).] These measurements are aggregated to monthly values using mean. \autoref{fig:weather-plot-monthly} shows the monthly values of each weather variable plotted over the entire time range. [maybe put plot in appendix?] [need to discuss how these values are aggregated (avg vs sum or other way)]. The seasonal component is apparent for many of the weather variables, while some variables such as wind speed and air pressure lack a seasonal pattern.
+
+\begin{table}[H]%[ht]
+    \centering
+    \caption{Weather variables retrieved from SMHI.}
+    \label{tab:weather-variables}
+    \small
+    \begin{tabularx}{\linewidth}{l X l}
+        \textbf{Variable}     & \textbf{Description}                                 & \textbf{Data Type}          \\
+        \midrule
+        $temperature$         & Hourly air temperature (\unit{\degreeCelsius})       & Weather condition (numeric) \\
+        $dew\_point\_temp$    & Hourly dew point temperature (\unit{\degreeCelsius}) & Weather condition (numeric) \\
+        $snow\_depth$         & Daily snow depth (m)                                 & Weather condition (numeric) \\
+        $humidity$            & Hourly relative humidity (\%)                        & Weather condition (numeric) \\
+        $wind\_direction$     & Hourly wind direction (\unit{\degreeCelsius})        & Weather condition (numeric) \\
+        $wind\_speed$         & Hourly wind speed (m/s)                              & Weather condition (numeric) \\
+        $lowest\_cloud$       & Hourly lowest cloud base (m)                         & Weather condition (numeric) \\
+        $global\_radiation$   & Hourly global irradiance (Sweden) (W/m$^2$)          & Weather condition (numeric) \\
+        $longwave\_radiation$ & Hourly long wave irradiance (W/m$^2$)                & Weather condition (numeric) \\
+        $sunshine$            & Hourly sunshine amount (s)                           & Weather condition (numeric) \\
+        $air\_pressure$       & Air pressure (hPa)                                   & Weather condition (numeric) \\
+        $visibility$          & Visibility (m)                                       & Weather condition (numeric) \\
+    \end{tabularx}
+\end{table}
+
+jag vill inte ha en sån här tabell :(
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/weather_plot.pdf}
+    \caption{Weather variables monthly values between January 2022 and November 2025.}
+    \label{fig:weather-plot-monthly}
+\end{figure}
+
+%totalt saknas 16646 värden, där moln är 14475 av dessa (totala antalet measurements är 34320*10)
+
 
 Could be relevant to include some variable(s) of minimum and maximum temperature? As in \cite{lazzari_user_2022}
+
+Although weather factors have been proven to be useful for predicting electricity consumption, the link between weather and electricity consumption can be indistinct. Weather indices incorporating temperature, humidity, and wind speed can provide a better representation of the perceived environmental effects and the impact on electricity consumption \cite{moon_advancing_2024}. Two indices, temperature humidity index (THI) and wind chill temperature (WCT), are calculated as in \autoref{equ:THI} and \autoref{equ:WCT}. In the equations, $temp$ is temperature, $humi$ is humidity, and $ws$ is wind speed.
+
+\begin{equation}\label{equ:THI}
+    THI = (1.8 \times temp + 32) - [(0.55 - 0.0055 \times humi) \times (1.8 \times temp - 26)]
+\end{equation}
+
+\begin{equation}\label{equ:WCT}
+    WCT = 13.12 + 0.6215 \times temp - 11.37 \times ws^{0.16} + 0.3965 \times temp \times ws^{0.16}
+\end{equation}
+
+\subsubsection{Calendar Information}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/holidays_per_month.png}
+    \caption{[placeholder].}
+    \label{fig:placeholder3}
+\end{figure}
+
+\subsection{Feature Selection?}
+
+[describe train/test split and feature selection, put big table here]
 
 %\setlength{\tabcolsep}{8pt}
 \begin{table}[H]%[ht]
@@ -188,26 +246,6 @@ Could be relevant to include some variable(s) of minimum and maximum temperature
         $rolling\_mean\_3$     & Average consumption for the previous three months (kWh) & Historical consumption (numeric)   \\
     \end{tabularx}
 \end{table}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/weather_correlation_map.pdf}
-    \caption{Correlation map of weather variables [placeholder].}
-    \label{fig:weather-correlation-map}
-\end{figure}
-
-\subsubsection{Calendar Information}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/holidays_per_month.png}
-    \caption{[placeholder].}
-    \label{fig:placeholder3}
-\end{figure}
-
-\subsection{Feature Selection?}
-
-[describe train/test split and feature selection, put big table here]
 
 \section{Ensemble Learning}
 
