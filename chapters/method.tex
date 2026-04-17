@@ -144,32 +144,30 @@ Along with the historical electricity consumption data from Umeå Energi, weathe
 
 \subsubsection{Weather Data}
 
-Weather data is retrieved from SMHI's open data for the January 1st 2022 to November 30th 2025 time period. Nine variables are selected from the Umeå Airport measurement station, while three variables pertaining to solar attributes are retrieved from the Umeå Sol station, and snow depth is retrieved from Umeå Röbäcksdalen. All variables are obtained as hourly measurements, except snow depth which is retrieved at daily intervals. \autoref{tab:weather-variables} details the weather variables. [Across all variables, 4.9\% of the measurements are missing, where most missing values are from the lowest cloud base variable (87.0\% of the missing values).] These measurements are aggregated to monthly values using mean. \autoref{fig:weather-plot-monthly} shows the monthly values of each weather variable plotted over the entire time range. [maybe put plot in appendix?] [need to discuss how these values are aggregated (avg vs sum or other way)]. The seasonal component is apparent for many of the weather variables, while some variables such as wind speed and air pressure lack a seasonal pattern.
+Weather data is retrieved from SMHI's open data for the January 1st 2022 to November 30th 2025 time period. Nine variables are selected from the Umeå Airport measurement station, while three variables pertaining to solar attributes are retrieved from the Umeå Sol station, and snow depth is retrieved from Umeå Röbäcksdalen. All variables are obtained as hourly measurements, except snow depth which is retrieved at daily intervals. \autoref{tab:weather-variables} details the weather variables and their measurement units. [Across all variables, 4.9\% of the measurements are missing, where most missing values are from the lowest cloud base variable (87.0\% of the missing values).] These measurements are aggregated to monthly values using mean. \autoref{fig:weather-plot-monthly} shows the monthly values of each weather variable plotted over the entire time range. [maybe put plot in appendix?] [need to discuss how these values are aggregated (avg vs sum or other way)]. The seasonal component is apparent for many of the weather variables, while some variables such as wind speed and air pressure lack a seasonal pattern. [conclusions from this]
 
 \begin{table}[H]%[ht]
     \centering
     \caption{Weather variables retrieved from SMHI.}
     \label{tab:weather-variables}
     \small
-    \begin{tabularx}{\linewidth}{l X l}
-        \textbf{Variable}     & \textbf{Description}                                 & \textbf{Data Type}          \\
+    \begin{tabularx}{\linewidth}{l l l}
+        \textbf{Variable}     & \textbf{Description}                          & \textbf{Resolution} \\
         \midrule
-        $temperature$         & Hourly air temperature (\unit{\degreeCelsius})       & Weather condition (numeric) \\
-        $dew\_point\_temp$    & Hourly dew point temperature (\unit{\degreeCelsius}) & Weather condition (numeric) \\
-        $snow\_depth$         & Daily snow depth (m)                                 & Weather condition (numeric) \\
-        $humidity$            & Hourly relative humidity (\%)                        & Weather condition (numeric) \\
-        $wind\_direction$     & Hourly wind direction (\unit{\degreeCelsius})        & Weather condition (numeric) \\
-        $wind\_speed$         & Hourly wind speed (m/s)                              & Weather condition (numeric) \\
-        $lowest\_cloud$       & Hourly lowest cloud base (m)                         & Weather condition (numeric) \\
-        $global\_radiation$   & Hourly global irradiance (Sweden) (W/m$^2$)          & Weather condition (numeric) \\
-        $longwave\_radiation$ & Hourly long wave irradiance (W/m$^2$)                & Weather condition (numeric) \\
-        $sunshine$            & Hourly sunshine amount (s)                           & Weather condition (numeric) \\
-        $air\_pressure$       & Air pressure (hPa)                                   & Weather condition (numeric) \\
-        $visibility$          & Visibility (m)                                       & Weather condition (numeric) \\
+        $temperature$         & Air temperature (\unit{\degreeCelsius})       & Hourly              \\
+        $dew\_point\_temp$    & Dew point temperature (\unit{\degreeCelsius}) & Hourly              \\
+        $snow\_depth$         & Snow depth (m)                                & Daily               \\
+        $humidity$            & Relative humidity (\%)                        & Hourly              \\
+        $wind\_direction$     & Wind direction (\unit{\degreeCelsius})        & Hourly              \\
+        $wind\_speed$         & Wind speed (m/s)                              & Hourly              \\
+        $lowest\_cloud$       & Lowest cloud base (m)                         & Hourly              \\
+        $global\_radiation$   & Global irradiance (Sweden) (W/m$^2$)          & Hourly              \\
+        $longwave\_radiation$ & Long wave irradiance (W/m$^2$)                & Hourly              \\
+        $sunshine$            & Sunshine amount (s)                           & Hourly              \\
+        $air\_pressure$       & Air pressure (hPa)                            & Hourly              \\
+        $visibility$          & Visibility (m)                                & Hourly              \\
     \end{tabularx}
 \end{table}
-
-jag vill inte ha en sån här tabell :(
 
 \begin{figure}[H]
     \centering
@@ -183,7 +181,7 @@ jag vill inte ha en sån här tabell :(
 
 Could be relevant to include some variable(s) of minimum and maximum temperature? As in \cite{lazzari_user_2022}
 
-Although weather factors have been proven to be useful for predicting electricity consumption, the link between weather and electricity consumption can be indistinct. Weather indices incorporating temperature, humidity, and wind speed can provide a better representation of the perceived environmental effects and the impact on electricity consumption \cite{moon_advancing_2024}. Two indices, temperature humidity index (THI) and wind chill temperature (WCT), are calculated as in \autoref{equ:THI} and \autoref{equ:WCT}. In the equations, $temp$ is temperature, $humi$ is humidity, and $ws$ is wind speed.
+Although weather factors have been proven to be useful for predicting electricity consumption, the link between weather and electricity consumption can be indistinct. Weather indices incorporating temperature, humidity, and wind speed can provide a better representation of the perceived environmental effects and the impact on electricity consumption \cite{moon_advancing_2024}. Two indices, temperature humidity index (THI) and wind chill temperature (WCT), are calculated as in \autoref{equ:THI} and \autoref{equ:WCT}. In the equations, $temp$ is temperature, $humi$ is humidity, and $ws$ is wind speed. These indices are included as input features for the forecasting models.
 
 \begin{equation}\label{equ:THI}
     THI = (1.8 \times temp + 32) - [(0.55 - 0.0055 \times humi) \times (1.8 \times temp - 26)]
@@ -195,24 +193,25 @@ Although weather factors have been proven to be useful for predicting electricit
 
 \subsubsection{Calendar Information}
 
+In addition to weather data, calendar information is included as external factors. During holidays, energy consumption behaviors change due to differences in social patterns. Energy consumption is not only dependent on the decision-making of individuals, it also relies on the cultural context of social and economic activities \cite{roman_holidays_2015}. Holiday information is retrieved from Dagsmart, an open Swedish calendar information API. All holidays and weekend days during the years 2022 through 2025 are obtained, and these are compiled to a \emph{number of holidays} feature that indicates the number of holidays for each month in the dataset. In \autoref{fig:holidays-per-month} the number of holidays per month is visualized, showing that December is month with the most holidays. The fewest holidays are during the rest of the winter and autumn months. An additional \emph{number of days} feature is constructed for each month in the dataset, since the number of days varies (e.g., February is missing several days of consumption compared to months with 31 days).
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/holidays_per_month.png}
-    \caption{[placeholder].}
-    \label{fig:placeholder3}
+    \caption{Number of Swedish holidays per month during the years 2022 through 2025.}
+    \label{fig:holidays-per-month}
 \end{figure}
 
-\subsection{Feature Selection?}
+\subsection{Feature Selection}
 
-[describe train/test split and feature selection, put big table here]
+The historical consumption, weather, and calendar variables are compiled to a complete feature set for the forecasting models. A feature selection is made from the weather variables, based on the correlation map found in \autoref{fig:weather-correlation-map}. Variables with a high correlation to several other variables are excluded from the feature set, in this case [variables]. This is due to highly correlated features accounting for each other's impact to the model output [formulera bättre], and the SHAP method assuming that features are uncorrelated. The complete selected feature set is found in \autoref{tab:input-variables}. The data is split into training and test data such that the years 2023 and 2024 are the training set, and January through November 2025 is the test data (see \autoref{tab:train-test-split}).
 
-%\setlength{\tabcolsep}{8pt}
 \begin{table}[H]%[ht]
     \centering
     \caption{Selected input variables.}
     \label{tab:input-variables}
     \small
-    \begin{tabularx}{\linewidth}{l X l}
+    \begin{tabularx}{\linewidth}{l >{\raggedright\arraybackslash}X l}
         \textbf{Variable}      & \textbf{Description}                                    & \textbf{Data Type}                 \\
         \midrule
         $month$                & Month of the year                                       & Numeric                            \\
@@ -244,6 +243,19 @@ Although weather factors have been proven to be useful for predicting electricit
         $lag\_1$               & Consumption for the previous month (kWh)                & Historical consumption (numeric)   \\
         $lag\_12$              & Consumption for the same month last year (kWh)          & Historical consumption (numeric)   \\
         $rolling\_mean\_3$     & Average consumption for the previous three months (kWh) & Historical consumption (numeric)   \\
+    \end{tabularx}
+\end{table}
+
+\begin{table}[H]%[ht]
+    \centering
+    \caption{Train-test split of the dataset.}
+    \label{tab:train-test-split}
+    \small
+    \begin{tabularx}{\linewidth}{l l r}
+        \textbf{Data} & \textbf{Time range}           & \textbf{Percentage} \\
+        \midrule
+        Training data & January 2023 to December 2024 & 69\%                \\
+        Test data     & January 2025 to November 2025 & 31\%                \\
     \end{tabularx}
 \end{table}
 
