@@ -4,3 +4,43 @@
     \caption{Correlation map of weather variables [placeholder].}
     \label{fig:weather-correlation-map}
 \end{figure}
+
+\begin{table}[H]%[ht]
+    \centering
+    \caption{Selected input variables.}
+    \label{tab:input-variables}
+    \small
+    \begin{tabularx}{\linewidth}{l >{\raggedright\arraybackslash}X l}
+        \textbf{Variable}      & \textbf{Description}                                          & \textbf{Data Type}                 \\
+        \midrule
+        $month$                & Month of the year                                             & Numeric                            \\
+        $year$                 & Year                                                          & Numeric                            \\
+        $number\_of\_holidays$ & Number of holidays and weekend days during month              & Numeric                            \\
+        $number\_of\_days$     & Number of days during month                                   & Numeric                            \\
+        \midrule
+        $cluster$              & Customer cluster                                              & Customer information (categorical) \\
+        $SI$                   & Seasonal index                                                & Consumption index (numeric)        \\
+        $building\_type$       & Type of building                                              & Customer information (categorical) \\
+        $heating\_type$        & Type of heating system                                        & Customer information (categorical) \\
+        $contract\_type$       & Type of contract                                              & Customer information (categorical) \\
+        \midrule
+        $temperature$          & Monthly average air temperature (\unit{\degreeCelsius})       & Weather condition (numeric)        \\
+        $dew\_point\_temp$     & Monthly average dew point temperature (\unit{\degreeCelsius}) & Weather condition (numeric)        \\
+        $snow\_depth$          & Monthly average snow depth (m)                                & Weather condition (numeric)        \\
+        $humidity$             & Monthly average relative humidity (\%)                        & Weather condition (numeric)        \\
+        $wind\_direction$      & Monthly average wind direction (\unit{\degreeCelsius})        & Weather condition (numeric)        \\
+        $wind\_speed$          & Monthly average wind speed (m/s)                              & Weather condition (numeric)        \\
+        $lowest\_cloud$        & Monthly average lowest cloud base (m)                         & Weather condition (numeric)        \\
+        $global\_radiation$    & Monthly average global irradiance (Sweden) (W/m$^2$)          & Weather condition (numeric)        \\
+        $longwave\_radiation$  & Monthly average long wave irradiance (W/m$^2$)                & Weather condition (numeric)        \\
+        $sunshine$             & Monthly average sunshine amount (s)                           & Weather condition (numeric)        \\
+        $air\_pressure$        & Monthly average air pressure (hPa)                            & Weather condition (numeric)        \\
+        $visibility$           & Monthly average visibility (m)                                & Weather condition (numeric)        \\
+        $THI$                  & Temperature humidity index                                    & Weather index (numeric)            \\
+        $WCT$                  & Wind chill temperature index                                  & Weather index (numeric)            \\
+        \midrule
+        $lag\_1$               & Consumption for the previous month (kWh)                      & Historical consumption (numeric)   \\
+        $lag\_12$              & Consumption for the same month last year (kWh)                & Historical consumption (numeric)   \\
+        $rolling\_mean\_3$     & Average consumption for the previous three months (kWh)       & Historical consumption (numeric)   \\
+    \end{tabularx}
+\end{table}

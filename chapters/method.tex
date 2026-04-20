@@ -10,13 +10,22 @@ TODO list:
     \item Maybe relevant to measure time for training models?
 \end{itemize}
 
+[gör ett överskådligt diagram för metoden någonstans, och beskriv generellt vad metoden går ut på (``to answer the research questions...'')]
+
+\begin{figure}[H]%[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/methodology_diagram.pdf}
+    \caption{[].}
+    \label{fig:methodology-diagram}
+\end{figure}
+
 \section{Data Preparation and Analysis}
 
 This study utilizes electricity consumption data from Umeå Energi, along with external variables in the form of weather data and holiday information. This section describes the data, presents analytical insights as part of enhancing the explainability of the forecasts, and details how the data is preprocessed before performing forecasts.
 
 \subsection{Electricity Consumption Data}
 
-The Umeå Energi dataset contains monthly electricity consumption from 14 286 Swedish households, consisting of 4 years of measurements retrieved from January 1st 2022 to November 30th 2025. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined or less than 10 kWh consumption measurements during the time period are removed from the dataset, leaving 13 692 households with complete measurements. All customers are private customers located in Umeå in the northern part of Sweden, meaning the data represents household electricity consumption in a cold climate. The dataset is summarized in \autoref{tab:dataset-statistics}, and \autoref{fig:kwh_histogram_2022_2025} shows the distribution of the electricity consumption for all households during the full time period.
+The Umeå Energi dataset contains monthly electricity consumption from 14 286 Swedish households, consisting of 4 years of measurements retrieved from January 1st 2022 to November 30th 2025. This data is provided by Swedish electricity company Umeå Energi. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined or less than 10 kWh consumption measurements during the time period are removed from the dataset, leaving 13 692 households with complete measurements. All customers are private customers located in Umeå in the northern part of Sweden, meaning the data represents household electricity consumption in a cold climate. The dataset is summarized in \autoref{tab:dataset-statistics}, and \autoref{fig:kwh_histogram_2022_2025} shows the distribution of the electricity consumption for all households during the entire time period.
 
 \begin{table}[H]%[ht]
     \centering
@@ -172,7 +181,7 @@ Weather data is retrieved from SMHI's open data for the January 1st 2022 to Nove
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/weather_plot.pdf}
-    \caption{Weather variables monthly values between January 2022 and November 2025.}
+    \caption{Weather variables' monthly values between January 2022 and November 2025.}
     \label{fig:weather-plot-monthly}
 \end{figure}
 
@@ -204,47 +213,7 @@ In addition to weather data, calendar information is included as external factor
 
 \subsection{Feature Selection}
 
-The historical consumption, weather, and calendar variables are compiled to a complete feature set for the forecasting models. A feature selection is made from the weather variables, based on the correlation map found in \autoref{fig:weather-correlation-map}. Variables with a high correlation to several other variables are excluded from the feature set, in this case [variables]. This is due to highly correlated features accounting for each other's impact to the model output [formulera bättre], and the SHAP method assuming that features are uncorrelated. The complete selected feature set is found in \autoref{tab:input-variables}. The data is split into training and test data such that the years 2023 and 2024 are the training set, and January through November 2025 is the test data (see \autoref{tab:train-test-split}).
-
-\begin{table}[H]%[ht]
-    \centering
-    \caption{Selected input variables.}
-    \label{tab:input-variables}
-    \small
-    \begin{tabularx}{\linewidth}{l >{\raggedright\arraybackslash}X l}
-        \textbf{Variable}      & \textbf{Description}                                    & \textbf{Data Type}                 \\
-        \midrule
-        $month$                & Month of the year                                       & Numeric                            \\
-        $year$                 & Year                                                    & Numeric                            \\
-        $number\_of\_holidays$ & Number of holidays and weekend days during month        & Numeric                            \\
-        $number\_of\_days$     & Number of days during month                             & Numeric                            \\
-        \midrule
-        $cluster$              & Customer cluster                                        & Customer information (categorical) \\
-        $SI$                   & Seasonal index                                          & Consumption index (numeric)        \\
-        $building\_type$       & Type of building                                        & Customer information (categorical) \\
-        $heating\_type$        & Type of heating system                                  & Customer information (categorical) \\
-        $contract\_type$       & Type of contract                                        & Customer information (categorical) \\
-        \midrule
-        $temperature$          & Hourly air temperature (\unit{\degreeCelsius})          & Weather condition (numeric)        \\
-        $dew\_point\_temp$     & Hourly dew point temperature (\unit{\degreeCelsius})    & Weather condition (numeric)        \\
-        $snow\_depth$          & Daily snow depth (m)                                    & Weather condition (numeric)        \\
-        $humidity$             & Hourly relative humidity (\%)                           & Weather condition (numeric)        \\
-        $wind\_direction$      & Hourly wind direction (\unit{\degreeCelsius})           & Weather condition (numeric)        \\
-        $wind\_speed$          & Hourly wind speed (m/s)                                 & Weather condition (numeric)        \\
-        $lowest\_cloud$        & Hourly lowest cloud base (m)                            & Weather condition (numeric)        \\
-        $global\_radiation$    & Hourly global irradiance (Sweden) (W/m$^2$)             & Weather condition (numeric)        \\
-        $longwave\_radiation$  & Hourly long wave irradiance (W/m$^2$)                   & Weather condition (numeric)        \\
-        $sunshine$             & Hourly sunshine amount (s)                              & Weather condition (numeric)        \\
-        $air\_pressure$        & Air pressure (hPa)                                      & Weather condition (numeric)        \\
-        $visibility$           & Visibility (m)                                          & Weather condition (numeric)        \\
-        $THI$                  & Temperature humidity index                              & Weather index (numeric)            \\
-        $WCT$                  & Wind chill temperature index                            & Weather index (numeric)            \\
-        \midrule
-        $lag\_1$               & Consumption for the previous month (kWh)                & Historical consumption (numeric)   \\
-        $lag\_12$              & Consumption for the same month last year (kWh)          & Historical consumption (numeric)   \\
-        $rolling\_mean\_3$     & Average consumption for the previous three months (kWh) & Historical consumption (numeric)   \\
-    \end{tabularx}
-\end{table}
+The historical consumption, weather, and calendar variables are compiled to a complete feature set for the forecasting models. A feature selection is made from the weather variables, based on the correlation map found in \autoref{fig:weather-correlation-map}. Variables with a high correlation to several other variables are excluded from the feature set, in this case [variables]. This is due to highly correlated features accounting for each other's impact to the model output [formulera bättre], and the SHAP method assuming that features are uncorrelated \cite{salih_perspective_2025}. The complete selected feature set is found in \autoref{tab:input-variables}. The data is split into training and test data such that the years 2023 and 2024 are the training set, and January through November 2025 is the test data (see \autoref{tab:train-test-split}).
 
 \begin{table}[H]%[ht]
     \centering
@@ -275,21 +244,23 @@ LightGBM is another gradient boosting algorithm that focuses on efficiency for c
 
 CatBoost is a gradient boosting algorithm that uses a technique called \emph{ordered boosting} to reduce prediction shift caused by target leakage which occurs in other gradient boosting algorithms. CatBoost also encodes categorical features uniquely, by applying a technique called \emph{ordered target statistics} to handle high cardinality features \cite{prokhorenkova_catboost_2018}. Because of this, CatBoost is able to achieve high accuracy, especially when the data contains a significant number of categorical features \cite{moon_advancing_2024}. [Possibly a diagram showing its structure]
 
-\section{Evaluation Metrics}
-To evaluate the predictive performance of the forecasting models, three statistical metrics are used; mean absolute percentage error (MAPE), coefficient of variation of the root mean squared error (CVRMSE), and normalized mean absolute error (NMAE). MAPE is one of the most common metrics to evaluate forecasting accuracy, due to its scale-independence and interpretability. It defines the average of the absolute percentage errors, as in \autoref{equ:mape}. One disadvantage to be aware of is that MAPE yields infinite or undefined values when the actual values are zero or close to zero \cite{kim_new_2016}. This is handled by removing any households from the dataset that have less than 10 kWh consumption during some month. [Maybe use RMSE and MAE instead? Those give answers in kWh, which could also be insightful. \cite{nti_electricity_2020} says MAPE, RMSE and MAE are the most common.]
+[GridSearchCV to do grid search]
 
-These metrics express the performance in error percentage, making them intuitive to interpret.
+\section{Evaluation Metrics}
+To evaluate the predictive performance of the forecasting models, three statistical metrics are used; mean absolute percentage error (MAPE), root mean squared error (RMSE), and mean absolute error (MAE). MAPE is one of the most common metrics to evaluate forecasting accuracy, due to its scale-independence and interpretability. It defines the average of the absolute percentage errors, as in \autoref{equ:mape}. One disadvantage to be aware of is that MAPE yields infinite or undefined values when the actual values are zero or close to zero \cite{kim_new_2016}. This experiment handles this by removing any households from the dataset that have less than 10 kWh consumption during some month. RMSE and MAE, as defined in \autoref{equ:rmse} and \autoref{equ:mae}, are utilized to give insights on the size of the errors in kWh. These two metrics are also among the most commonly used in the electricity consumption forecasting field \cite{nti_electricity_2020}.
+
+%To evaluate the predictive performance of the forecasting models, three statistical metrics are used; mean absolute percentage error (MAPE), coefficient of variation of the root mean squared error (CVRMSE), and normalized mean absolute error (NMAE). MAPE is one of the most common metrics to evaluate forecasting accuracy, due to its scale-independence and interpretability. It defines the average of the absolute percentage errors, as in \autoref{equ:mape}. One disadvantage to be aware of is that MAPE yields infinite or undefined values when the actual values are zero or close to zero \cite{kim_new_2016}. This is handled by removing any households from the dataset that have less than 10 kWh consumption during some month. [Maybe use RMSE and MAE instead? Those give answers in kWh, which could also be insightful. \cite{nti_electricity_2020} says MAPE, RMSE and MAE are the most common.] These metrics express the performance in error percentage, making them intuitive to interpret.
 
 \begin{equation}\label{equ:mape}
-    MAPE = \frac{1}{n} \times \sum \left| \frac{Y_t - \hat{Y}_t}{Y_t} \right| \times 100
+    MAPE = \frac{1}{n} \times \sum \left| \frac{y_t - \hat{y}_t}{y_t} \right| \times 100
 \end{equation}
 
 \begin{equation}\label{equ:rmse}
-    RMSE = \sqrt{\frac{1}{n} \times \sum (Y_t - \hat{Y}_t)^2}
+    RMSE = \sqrt{\frac{1}{n} \times \sum (y_t - \hat{y}_t)^2}
 \end{equation}
 
 \begin{equation}\label{equ:mae}
-    MAE = \frac{1}{n} \times \sum \left| Y_t - \hat{Y}_t \right|
+    MAE = \frac{1}{n} \times \sum \left| y_t - \hat{y}_t \right|
 \end{equation}
 
 \begin{comment}
@@ -302,18 +273,22 @@ These metrics express the performance in error percentage, making them intuitive
 \end{equation}
 \end{comment}
 
-In the equations, $Y_t$ denotes the actual observed value at time $t$, while $\hat{Y}_t$ denotes the predicted value at time $t$. $\ddot{Y}$ represents the mean of all observed values, and $n$ is the total number of prediction instances.
+In the equations, $y_t$ denotes the actual observed value at time $t$, while $\hat{y}_t$ denotes the predicted value at time $t$.
+%$\ddot{Y}$ represents the mean of all observed values, and 
+The total number of prediction instances is denoted by $n$.
 
+\begin{comment}
 To evaluate the models in a more comprehensive way, the harmonic mean (HM) is calculated based on these three metrics. The harmonic mean will favor models that perform well in all three metrics, while models that perform exceptionally well in one metric but poorly in the others will be valued less. This is due to the harmonic mean being effective at mitigating extreme outliers, making it suitable for combining differing metrics \cite{moon_advancing_2024}. The HM is calculated as in \autoref{equ:harmonic-mean}.
 
 \begin{equation}\label{equ:harmonic-mean}
     HM = \frac{3}{(1/MAPE) + (1/CVRMSE) + (1/NMAE)}
 \end{equation}
+\end{comment}
 
 \section{Explainable AI}
 
-To enhance the interpretability of the forecasts and investigate feature importances, a SHAP analysis is performed. [Explain SHAP for ensemble models specifically, like in \cite{moon_advancing_2024}] [beeswarm plot, feature importance plot]
+To enhance the interpretability of the forecasts and investigate the influence of model features, a SHAP analysis is performed. The SHAP methodology [Explain SHAP for ensemble models specifically, like in \cite{moon_advancing_2024}] [beeswarm plot, feature importance plot]
 
 \section{Experimental Setup}
 
-Experiments are performed in the Python language.
+Experiments are performed in the Python language. The \emph{scikit-learn} package provides the RF and GBM models, while XGBoost, LightGBM, and CatBoost are obtained from [deras egna repon typ?]. [borde jag nämna pandas, seaborn...?] The \emph{shap} package is used for the explainable AI analysis. Experiments are run in a virtual environment using a [GPU].
