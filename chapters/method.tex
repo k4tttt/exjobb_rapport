@@ -1,21 +1,21 @@
 TODO list:
 
 \begin{itemize}
-    \item Make correlation maps for the features.
-          %\item Boxplot and histogram for general consumption, boxplots per month (like in \cite{khan_ensemble_2021} and 30 in \cite{moon_advancing_2024}), and possibly by week
-    \item It is also possible to make diagrams for the decomposition of the time series \cite{chakraborty_scenario-based_2021}.
+    %\item Make correlation maps for the features.
+    %\item Boxplot and histogram for general consumption, boxplots per month (like in \cite{khan_ensemble_2021} and 30 in \cite{moon_advancing_2024}), and possibly by week
+    \item It is possible to make diagrams for the decomposition of the time series \cite{chakraborty_scenario-based_2021}.
     \item Could investigate correlation between external variables and consumption like in \cite{deb_forecasting_2016}
           %\item Could I incorporate seasonal index? \cite{cao_support_2016} shows how to calculate SI
           %\item Could I do group clustering for consumers? \cite{khan_ensemble_2021}
     \item Maybe relevant to measure time for training models?
 \end{itemize}
 
-[gör ett överskådligt diagram för metoden någonstans, och beskriv generellt vad metoden går ut på (``to answer the research questions...'')]
+This study aims to develop monthly electricity consumption forecasts for residential households, with a focus on forecast explainability. A variety of input variables, including historical electricity consumption, household information, weather variables, and calendar information, are used to provide diverse information to the forecasting models. Five decision tree-based ensemble learning models are utilized for the forecasting, and their predictive performance as well as their explainability is assessed and compared. The explainable AI method \emph{SHAP} is used to investigate the effect and importance of the model features. \autoref{fig:methodology-diagram} shows the general architecture of building the explainable electricity consumption forecasts.
 
-\begin{figure}[H]%[ht]
+\begin{figure}[h!tbp]%[ht]
     \centering
     \includegraphics[width=1\linewidth]{figures/methodology_diagram.pdf}
-    \caption{[].}
+    \caption{Architecture of modelling explainable electricity consumption forecasts [fix this figure].}
     \label{fig:methodology-diagram}
 \end{figure}
 
@@ -59,14 +59,14 @@ The Umeå Energi dataset contains monthly electricity consumption from 14 286 Sw
 
 \begin{figure}[H]%[ht]
     \centering
-    \includegraphics[width=1\linewidth]{figures/avg_consumption.png}
+    \includegraphics[width=1\linewidth]{figures/avg_consumption.pdf}
     \caption{Average household electricity consumption from January 2022 to November 2025.}
     \label{fig:avg_consumption_2022_2025}
 \end{figure}
 
 \begin{figure}[H]%[ht]
     \centering
-    \includegraphics[width=1\linewidth]{figures/avg_consumption_per_month.png}
+    \includegraphics[width=1\linewidth]{figures/avg_consumption_month.pdf}
     \caption{Average household electricity consumption by month from January 2022 to November 2025.}
     \label{fig:avg_consumption_per_month}
 \end{figure}
@@ -113,7 +113,7 @@ In these experiments, K-Means clustering is applied to define customer groups ba
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{figures/elbow_plot.png}
+    \includegraphics[width=0.75\linewidth]{figures/elbow_plot.pdf}
     \caption{Elbow plot for finding the optimal number of customer profile clusters $k$.}
     \label{fig:elbow_plot}
 \end{figure}
@@ -206,7 +206,7 @@ In addition to weather data, calendar information is included as external factor
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{figures/holidays_per_month.png}
+    \includegraphics[width=1\linewidth]{figures/holidays_per_month.pdf}
     \caption{Number of Swedish holidays per month during the years 2022 through 2025.}
     \label{fig:holidays-per-month}
 \end{figure}
@@ -228,7 +228,7 @@ The historical consumption, weather, and calendar variables are compiled to a co
     \end{tabularx}
 \end{table}
 
-\section{Ensemble Learning}
+\section{Ensemble Learning Forecasting Models}
 
 Forecasting is performed using different decision tree-based ensemble learning models. Decision trees classify data items by asking a sequence of questions about the items' features. The nodes of the tree contain questions, and for each possible answer, every internal node points to one child node. The sorting of an item into a class begins from the root of the tree, and according to the item's answer to the questions, it follows the path to a leaf node \cite{kingsford_what_2008}. [Possibly a diagram of a decision tree] One large advantage with decision trees is that they are considerably easier to interpret than neural networks, as they follow logical rules instead of having connections with numeric weights between nodes. Decision trees perform well for a few highly relevant attributes, but not as well if there are many attributes with complex interactions. Ensembles of decision trees can be employed to increase accuracy when the training data is more complex and changing \cite{kotsiantis_decision_2013}. Decision tree-ensembles are considered among the most reliable and precise methods for regression and classification tasks, and they have been shown to be effective for predicting energy consumption \cite{moon_advancing_2024}. However, one disadvantage is that the interpretability decreases when multiple classifiers are involved, making it more difficult to understand the reasoning behind the ensemble's decision \cite{kotsiantis_decision_2013}. This creates a need for model explainability outside the ensemble's inner workings, which in this thesis is addressed by applying explainable AI. [move to theory?]
 
@@ -285,9 +285,11 @@ To evaluate the models in a more comprehensive way, the harmonic mean (HM) is ca
 \end{equation}
 \end{comment}
 
-\section{Explainable AI}
+\section{Explainable AI Analysis}
 
-To enhance the interpretability of the forecasts and investigate the influence of model features, a SHAP analysis is performed. The SHAP methodology [Explain SHAP for ensemble models specifically, like in \cite{moon_advancing_2024}] [beeswarm plot, feature importance plot]
+To enhance the interpretability of the forecasts and investigate the influence of model features, a SHAP analysis is performed. The SHAP methodology [Explain SHAP for ensemble models specifically, like in \cite{moon_advancing_2024}, explain why SHAP gives better insights than just feature importances (\url{https://machinelearningmastery.com/a-gentle-introduction-to-shap-for-tree-based-models/})] [beeswarm plot, feature importance plot]
+
+This experiment uses the SHAP \emph{TreeExplainer}, specifically designed for decision tree models.
 
 \section{Experimental Setup}
 
