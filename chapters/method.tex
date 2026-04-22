@@ -14,7 +14,7 @@ This study aims to develop monthly electricity consumption forecasts for residen
 
 \begin{figure}[h!tbp]%[ht]
     \centering
-    \includegraphics[width=1\linewidth]{figures/methodology_diagram.pdf}
+    \includegraphics[width=0.9\linewidth]{figures/methodology_diagram.pdf}
     \caption{Architecture of modelling explainable electricity consumption forecasts [fix this figure].}
     \label{fig:methodology-diagram}
 \end{figure}
@@ -230,19 +230,30 @@ The historical consumption, weather, and calendar variables are compiled to a co
 
 \section{Ensemble Learning Forecasting Models}
 
-Forecasting is performed using different decision tree-based ensemble learning models. Decision trees classify data items by asking a sequence of questions about the items' features. The nodes of the tree contain questions, and for each possible answer, every internal node points to one child node. The sorting of an item into a class begins from the root of the tree, and according to the item's answer to the questions, it follows the path to a leaf node \cite{kingsford_what_2008}. [Possibly a diagram of a decision tree] One large advantage with decision trees is that they are considerably easier to interpret than neural networks, as they follow logical rules instead of having connections with numeric weights between nodes. Decision trees perform well for a few highly relevant attributes, but not as well if there are many attributes with complex interactions. Ensembles of decision trees can be employed to increase accuracy when the training data is more complex and changing \cite{kotsiantis_decision_2013}. Decision tree-ensembles are considered among the most reliable and precise methods for regression and classification tasks, and they have been shown to be effective for predicting energy consumption \cite{moon_advancing_2024}. However, one disadvantage is that the interpretability decreases when multiple classifiers are involved, making it more difficult to understand the reasoning behind the ensemble's decision \cite{kotsiantis_decision_2013}. This creates a need for model explainability outside the ensemble's inner workings, which in this thesis is addressed by applying explainable AI. [move to theory?]
+Forecasting is performed using different decision tree-based ensemble learning models. Decision trees classify data items by asking a sequence of questions about the items' features. The nodes of the tree contain questions, and for each possible answer, every internal node points to one child node. The sorting of an item into a class begins from the root of the tree, and according to the item's answer to the questions, it follows the path to a leaf node \cite{kingsford_what_2008}. An example of a decision tree structure is found in \autoref{fig:decision-tree}. One large advantage with decision trees is that they are considerably easier to interpret than neural networks, as they follow logical rules instead of having connections with numeric weights between nodes. Decision trees perform well for a few highly relevant attributes, but not as well if there are many attributes with complex interactions. Ensembles of decision trees can be employed to increase accuracy when the training data is more complex and changing \cite{kotsiantis_decision_2013}. Decision tree ensembles are considered among the most reliable and precise methods for regression and classification tasks, and they have been shown to be effective for predicting energy consumption \cite{moon_advancing_2024}. However, one disadvantage is that the interpretability decreases when multiple classifiers are involved, making it more difficult to understand the reasoning behind the ensemble's decision \cite{kotsiantis_decision_2013}. This creates a need for model explainability outside the ensemble's inner workings, which in this thesis is addressed by applying explainable AI.
 
-Five decision tree-based ensemble models are selected as forecasting models, as in \cite{moon_advancing_2024}; random forest (RF), gradient boosting machine (GBM), extreme gradient boosting machine (XGBoost), light gradient boosting machine (LightGBM), and categorical boosting (CatBoost). [GBM and CatBoost were best, so focus on them first]
+\begin{figure}[h!tbp]%[ht]
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/decision_tree.pdf}
+    \caption{A decision tree.}
+    \label{fig:decision-tree}
+\end{figure}
 
-Random Forest \cite{breiman_random_2001}
+Five decision tree-based ensemble models are selected as forecasting models, as in Moon et al.'s work \cite{moon_advancing_2024}; random forest (RF), gradient boosting machine (GBM), extreme gradient boosting machine (XGBoost), light gradient boosting machine (LightGBM), and categorical boosting (CatBoost).
 
-Gradient boosting machines are a family of ML algorithms where the learning process consecutively fits a new tree with the goal of reducing the errors of the previous one. This is done by constructing new base-learners that are maximally correlated to a decreasing loss function. The loss function can be of various kinds, which makes GBM highly flexible for different data-driven tasks. It is up to the model designer to choose the most appropriate loss function \cite{natekin_gradient_2013}. GBM is able to learn complex patterns and interactions in the data due to its iterative learning process \cite{moon_advancing_2024}. [Possibly a diagram showing its structure]
+Random forest is a decision tree ensemble learning algorithm where the trees depend on a set of random feature splits at each node. This means that every tree produces its own prediction according to its set of data. The individual predictions are then combined into a final prediction via majority voting. RF is an extension of the bagging method, efficient for large datasets and robust to outliers and overfitting, making it suitable for this application. Additionally, RF is faster than other bagging or boosting techniques \cite{breiman_random_2001}.
 
-XGBoost \cite{chen_xgboost_2016}
+Gradient boosting machines are a family of ML algorithms where the learning process consecutively fits a new tree with the goal of reducing the errors of the previous one. This is done by constructing new base-learners that are maximally correlated to a decreasing loss function. The loss function can be of various kinds, which makes GBM highly flexible for different data-driven tasks. It is up to the model designer to choose the most appropriate loss function \cite{natekin_gradient_2013}. GBM is able to learn complex patterns and interactions in the data due to its iterative learning process \cite{moon_advancing_2024}.
 
-LightGBM is another gradient boosting algorithm that focuses on efficiency for cases with many input features and when the amount of data is large.  \cite{ke_lightgbm_2017}
+XGBoost is a specialization of the gradient boosting algorithm with several optimizations, creating a scalable tree boosting system. The optimizations include a sparsity-aware algorithm for handling missing values, approximate learning via a weighted quantile sketch algorithm, and efficient cache access patterns reducing runtime. This results in a fast and robust boosting model using minimal resources \cite{chen_xgboost_2016}.
 
-CatBoost is a gradient boosting algorithm that uses a technique called \emph{ordered boosting} to reduce prediction shift caused by target leakage which occurs in other gradient boosting algorithms. CatBoost also encodes categorical features uniquely, by applying a technique called \emph{ordered target statistics} to handle high cardinality features \cite{prokhorenkova_catboost_2018}. Because of this, CatBoost is able to achieve high accuracy, especially when the data contains a significant number of categorical features \cite{moon_advancing_2024}. [Possibly a diagram showing its structure]
+LightGBM is another gradient boosting algorithm that focuses on efficiency for cases with many input features and when the amount of data is large. LightGBM uses two novel techniques to improve performance and efficiency, \emph{gradient-based one-side sampling} (GOSS) and \emph{exclusive feature bundling} (EFB). GOSS excludes data points with smaller gradients that contain less information, with the goal filtering out noisy data while retaining information gain. EFB bundles mutually exclusive features (that rarely have nonzero values at the same time) to create a smaller feature space with nearly exclusive features \cite{ke_lightgbm_2017}.
+
+CatBoost is a gradient boosting algorithm that uses a technique called \emph{ordered boosting} to reduce prediction shift caused by target leakage which occurs in other gradient boosting algorithms. CatBoost also encodes categorical features uniquely, by applying a technique called \emph{ordered target statistics} to handle high cardinality features \cite{prokhorenkova_catboost_2018}. Because of this, CatBoost is able to achieve high accuracy, especially when the data contains a significant number of categorical features \cite{moon_advancing_2024}.
+
+[maybe specify advantages and disadvantages with these models more clearly, like moon et al. might also have to justify why I use these models more]
+
+\subsection{Configuration of Models [?]}
 
 [GridSearchCV to do grid search]
 
