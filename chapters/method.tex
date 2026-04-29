@@ -75,7 +75,9 @@ Three input features are constructed from the historical electricity consumption
 
 \subsubsection{Household Information}
 
-In addition to the historical electricity consumption, the Umeå Energi data contains information about the households. Households are labeled by type of residence, type of heating system, and type of contract agreement with Umeå Energi. The type of residence is either house, apartment, or vacation home. Heating can be electrical, non-electrical, or district heating. Contract agreements may be variable, fixed, or default assigned contracts. The share of households in each category is found in \autoref{tab:household-specifications}. These features are not directly maintained by Umeå Energi, but instead, the labeling is done by Umeå Energi based on certain properties of the customer, which may not always be 100\% accurate. However, it provides a good estimation of the household properties. In order to use the properties as input to the forecasting models, the string values are encoded as integers. [skriv om att dessa kan ändras under tiden]
+In addition to the historical electricity consumption, the Umeå Energi dataset contains information about the households. Households are labeled by type of residence, type of heating system, and type of contract agreement with Umeå Energi. The type of residence is either house, apartment, or vacation home. Heating can be electrical, non-electrical, or district heating. Contract agreements may be variable, fixed, or default assigned contracts. The share of households in each category is found in \autoref{tab:household-specifications}. Any given household may change between categories over time (e.g., change its type of heating system), and therefore, the household information is updated per month. Subsequently, \autoref{tab:household-specifications} is not presented in a number of households per category, but rather, the share of observations that occupy a given category.
+
+These features are not directly maintained by Umeå Energi, and instead, the labeling is done by Umeå Energi based on certain properties of the customer, which may cause the labeling to be inaccurate in some cases. However, it provides a good estimation of the household properties. In order to use the properties as input to the forecasting models, the string values are encoded as integers [except I should not do it for CatBoost].
 
 \begin{table}[H]%[ht]
     \centering
@@ -213,24 +215,26 @@ In addition to weather data, calendar information is included as external factor
 
 \subsection{Feature Selection}
 
-The historical consumption, weather, and calendar variables are compiled to a complete feature set for the forecasting models. A feature selection is made from the weather variables, based on the correlation map found in \autoref{fig:weather-correlation-map}. Variables with a high correlation to several other variables are excluded from the feature set, in this case [variables]. This is due to highly correlated features accounting for each other's impact to the model output [formulera bättre], and the SHAP method assuming that features are uncorrelated \cite{salih_perspective_2025}. The complete selected feature set is found in \autoref{tab:input-variables}. The data is split into training and test data such that the years 2023 and 2024 are the training set, and January through November 2025 is the test data (see \autoref{tab:train-test-split}).
+The historical consumption, weather, and calendar variables are compiled to a complete feature set for the forecasting models. A feature selection is made from the weather variables, based on the correlation map found in \autoref{fig:weather-correlation-map}. Variables with a high correlation to several other variables are excluded from the feature set, in this case [variables]. This is due to highly correlated features accounting for each other's impact to the model output [formulera bättre], and the SHAP method assuming that features are uncorrelated \cite{salih_perspective_2025}. The complete selected feature set is found in \autoref{tab:input-variables}. A subset of 2 000 random households are selected for the model training and evaluation. The data is then split into training and test data such that the years 2023 and 2024 are the training set, and January through November 2025 is the test data (see \autoref{tab:train-test-split}).
+
+Categorical features in the dataset are label encoded to integer values for all models except CatBoost. This means that each categorical value is represented by a unique integer, instead of its original string value. Label encoding is one of the simplest encoding techniques, but works well for tree-based models [borde göra one-hot encoding istället] \cite{hancock_survey_2020} okej fast AI säger att label encoding är bättre för tree models, kan testa båda och skriva om det
 
 \begin{table}[H]%[ht]
     \centering
     \caption{Train-test split of the dataset.}
     \label{tab:train-test-split}
     \small
-    \begin{tabularx}{\linewidth}{l l r}
-        \textbf{Data} & \textbf{Time range}           & \textbf{Percentage} \\
+    \begin{tabularx}{\linewidth}{l l r r}
+        \textbf{Data} & \textbf{Time range}           & \textbf{Percentage} & \textbf{Data points} \\
         \midrule
-        Training data & January 2023 to December 2024 & 69\%                \\
-        Test data     & January 2025 to November 2025 & 31\%                \\
+        Training data & January 2023 to December 2024 & 69\%                & 48 000               \\
+        Test data     & January 2025 to November 2025 & 31\%                & 22 000               \\
     \end{tabularx}
 \end{table}
 
 \section{Ensemble Learning Forecasting Models}
 
-Forecasting is performed using different decision tree-based ensemble learning models. Decision trees classify data items by asking a sequence of questions about the items' features. The nodes of the tree contain questions, and for each possible answer, every internal node points to one child node. The sorting of an item into a class begins from the root of the tree, and according to the item's answer to the questions, it follows the path to a leaf node \cite{kingsford_what_2008}. An example of a decision tree structure is found in \autoref{fig:decision-tree}. One large advantage with decision trees is that they are considerably easier to interpret than neural networks, as they follow logical rules instead of having connections with numeric weights between nodes. Decision trees perform well for a few highly relevant attributes, but not as well if there are many attributes with complex interactions. Ensembles of decision trees can be employed to increase accuracy when the training data is more complex and changing \cite{kotsiantis_decision_2013}. Decision tree ensembles are considered among the most reliable and precise methods for regression and classification tasks, and they have been shown to be effective for predicting energy consumption \cite{moon_advancing_2024}. However, one disadvantage is that the interpretability decreases when multiple classifiers are involved, making it more difficult to understand the reasoning behind the ensemble's decision \cite{kotsiantis_decision_2013}. This creates a need for model explainability outside the ensemble's inner workings, which in this thesis is addressed by applying explainable AI.
+Forecasting is performed using different decision tree-based ensemble learning models. Decision trees classify data items by asking a sequence of questions about the items' features. The nodes of the tree contain questions, and for each possible answer, every internal node points to one child node. The sorting of an item into a class begins from the root of the tree, and according to the item's answer to the questions, it follows the path to a leaf node \cite{kingsford_what_2008}. An example of a decision tree structure is found in \autoref{fig:decision-tree}. One large advantage with decision trees is that they are considerably easier to interpret than neural networks, as they follow logical rules instead of having connections with numeric weights between nodes. Decision trees perform well for a few highly relevant attributes, but not as well if there are many attributes with complex interactions. Ensembles of decision trees can be employed to increase accuracy when the training data is more complex and changing \cite{kotsiantis_decision_2013}. Decision tree ensembles are considered among the most reliable and precise methods for regression and classification tasks, and they have been shown to be effective for predicting energy consumption \cite{moon_advancing_2024}. However, one disadvantage is that the interpretability decreases when multiple classifiers are involved, making it more difficult to understand the reasoning behind the ensemble's decision \cite{kotsiantis_decision_2013}. This creates a need for model explainability outside the ensemble's inner workings, which in this thesis is addressed by applying explainable AI analysis.
 
 \begin{figure}[h!tbp]%[ht]
     \centering
@@ -239,7 +243,7 @@ Forecasting is performed using different decision tree-based ensemble learning m
     \label{fig:decision-tree}
 \end{figure}
 
-Five decision tree-based ensemble models are selected as forecasting models, as in Moon et al.'s work \cite{moon_advancing_2024}; random forest (RF), gradient boosting machine (GBM), extreme gradient boosting machine (XGBoost), light gradient boosting machine (LightGBM), and categorical boosting (CatBoost).
+Five decision tree-based ensemble models are selected as forecasting models, as in Moon et al.'s work \cite{moon_advancing_2024}; random forest (RF), gradient boosting machine (GBM), extreme gradient boosting machine (XGBoost), light gradient boosting machine (LightGBM), and categorical boosting (CatBoost). [these models are selected because...]
 
 Random forest is a decision tree ensemble learning algorithm where the trees depend on a set of random feature splits at each node. This means that every tree produces its own prediction according to its set of data. The individual predictions are then combined into a final prediction via majority voting. RF is an extension of the bagging method, efficient for large datasets and robust to outliers and overfitting, making it suitable for this application. Additionally, RF is faster than other bagging or boosting techniques \cite{breiman_random_2001}.
 
@@ -253,9 +257,45 @@ CatBoost is a gradient boosting algorithm that uses a technique called \emph{ord
 
 [maybe specify advantages and disadvantages with these models more clearly, like moon et al. might also have to justify why I use these models more]
 
-\subsection{Configuration of Models [?]}
+\subsection{Configuration of Models}
 
-[GridSearchCV to do grid search]
+To configure the models, a search for the best hyperparameters is performed via exhaustive grid search. The optimization consists of a five-fold time series cross-validation process over the hyperparameters specified in \autoref{tab:hyperparameters}, using the scikit-learn packages GridSearchCV and TimeSeriesSplit. A subset of 30\% of the training dataset is used for the grid search. For XGBoost, the grid search is minimized to 50 random combinations of the search space, in order to reduce execution time.
+
+\begin{table}[H]%[ht]
+    \centering
+    \caption{Hyperparameters for decision tree ensemble models.}
+    \label{tab:hyperparameters}
+    \small
+    \begin{tabularx}{\linewidth}{l p{7cm}}
+        \textbf{Model} & \textbf{Hyperparameters}        \\
+        \midrule
+        RF             & Trees count: 128
+        \newline Features per split: auto, sqrt, log2    \\
+        \midrule
+        GBM            & Iteration count: 100, 250, 500
+        \newline Learning rate: 0.01, 0.05, 0.1
+        \newline Depth: 5, 10
+        \newline Loss type: quantile, Huber              \\
+        \midrule
+        XGBoost        & Iterations: 250, 500, 1000
+        \newline Learning rate: 0.01, 0.05, 0.1
+        \newline Depth: 6, 8, 10
+        \newline Subsampling rate: 0.5, 0.75, 1.0
+        \newline Feature sample by tree/level/node: 0.5, 0.75, 1.0
+        \newline Booster type: gbdt, dart                \\
+        \midrule
+        LightGBM       & Iterations: 1000, 1500
+        \newline Learning rate: 0.01, 0.05, 0.1
+        \newline Leaves: 64
+        \newline Subsample: 0.5
+        \newline Feature sample by tree: 1.0
+        \newline Booster type: gbdt, dart                \\
+        \midrule
+        CatBoost       & Learning rate: 0.03, 0.1
+        \newline Max tree depth: 4, 6, 10
+        \newline L2 regularization levels: 1, 3, 5, 7, 9 \\
+    \end{tabularx}
+\end{table}
 
 \section{Evaluation Metrics}
 To evaluate the predictive performance of the forecasting models, three statistical metrics are used; mean absolute percentage error (MAPE), root mean squared error (RMSE), and mean absolute error (MAE). MAPE is one of the most common metrics to evaluate forecasting accuracy, due to its scale-independence and interpretability. It defines the average of the absolute percentage errors, as in \autoref{equ:mape}. One disadvantage to be aware of is that MAPE yields infinite or undefined values when the actual values are zero or close to zero \cite{kim_new_2016}. This experiment handles this by removing any households from the dataset that have less than 10 kWh consumption during some month. RMSE and MAE, as defined in \autoref{equ:rmse} and \autoref{equ:mae}, are utilized to give insights on the size of the errors in kWh. These two metrics are also among the most commonly used in the electricity consumption forecasting field \cite{nti_electricity_2020}.
@@ -304,4 +344,6 @@ This experiment uses the SHAP \emph{TreeExplainer}, specifically designed for de
 
 \section{Experimental Setup}
 
-Experiments are performed in the Python language. The \emph{scikit-learn} package provides the RF and GBM models, while XGBoost, LightGBM, and CatBoost are obtained from [deras egna repon typ?]. [borde jag nämna pandas, seaborn...?] The \emph{shap} package is used for the explainable AI analysis. Experiments are run in a virtual environment using a [GPU].
+Experiments are performed in the Python language. To process and analyze the data, the \emph{pandas}, \emph{seaborn}, and \emph{matplotlib} packages are utilized. The \emph{scikit-learn} package provides the RF and GBM models, as well as GridSearchCV for the exhaustive grid search. XGBoost, LightGBM, and CatBoost models are obtained from [deras egna repon typ?]. The \emph{shap} Python package is used for the explainable AI analysis.
+
+Experiments are run in a Windows virtual environment with a [GPU]. GPU acceleration is used when performing grid search, training models, and performing SHAP analysis.

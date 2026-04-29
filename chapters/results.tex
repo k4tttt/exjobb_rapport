@@ -1,11 +1,37 @@
 [some introductory text to the chapter]
 
 \section{Performance of Forecasting Models}
+The performance of the five decision tree-based ensemble models is assessed via MAPE, RMSE, and MAE metrics. \autoref{tab:performance} shows the scores for each model,
+
+The large discrepancy between RMSE and MAE scores in terms of kWh suggests that the dataset contains many large outliers. Since RMSE squares the errors before averaging, large errors are penalized more, compared to MAE where all errors are treated equally via the absolute value.
+
+Results indicate that the inclusion of external factors does help with improving the forecast accuracy in terms of MAPE, but that MAE and especially RMSE scores may actually worsen, a pattern that is apparent among all models. MAPE is more sensitive to errors on small consumption values, while RMSE is more sensitive to high consumption values and outliers. This suggests that the external factors help with increasing forecast accuracy for households with a lower and more stable consumption, while households with a high or varied consumption do not benefit from the external factors
+
+    [gör ett ordentligt test där jag tar bort kunder med hög konsumtion, och skriv om att detta minskar mae och särskilt rmse jättemycket. ta reda på hur många outliers som finns, och argumentera för varför man kanske borde utesluta dem]
+
+\begin{table}[H]
+    \centering
+    \caption{[].}
+    \label{tab:performance}
+    \small
+    \begin{tabularx}{\linewidth}{l *{6}{R}}
+                            & \multicolumn{3}{c}{\textbf{Internal features}} & \multicolumn{3}{c}{\textbf{Total features}}                                                               \\
+        \cmidrule(lr){2-4} \cmidrule(lr){5-7}
+        \textbf{Model}      & \textbf{MAPE}                                  & \textbf{RMSE}                               & \textbf{MAE} & \textbf{MAPE} & \textbf{RMSE} & \textbf{MAE} \\
+        \midrule
+        RF                  &                                                &                                             &              &               &               &              \\
+        GBM                 &                                                &                                             &              &               &               &              \\
+        XGBoost             &                                                &                                             &              &               &               &              \\
+        LightGBM            &                                                &                                             &              &               &               &              \\
+        CatBoost            &                                                &                                             &              &               &               &              \\
+        (Linear regression) &                                                &                                             &              &               &               &              \\
+    \end{tabularx}
+\end{table}
 
 \begin{table}[H]%[ht]
     \centering
     \caption{[].}
-    \label{tab:performance}
+    \label{tab:performance2}
     \small
     \begin{tabularx}{\linewidth}{l r r r}
         \textbf{Model}      & \textbf{MAPE} & \textbf{RMSE} & \textbf{MAE} \\
@@ -31,7 +57,7 @@
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/Fig4a_XAI_Feature_Importance_RF.pdf}
-    \caption{Feature importances for RF.}
+    \caption{Feature importances for RF [5000 customer sample but default model parameters].}
     \label{fig:feature-importances-rf}
 \end{figure}
 
