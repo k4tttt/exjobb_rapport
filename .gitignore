@@ -10,3 +10,4 @@
 *.toc
 .vscode
 *.synctex(busy)
+/maybe_figures

@@ -15,18 +15,34 @@ Results indicate that the inclusion of external factors does help with improving
     \label{tab:performance}
     \small
     \begin{tabularx}{\linewidth}{l *{6}{R}}
-                            & \multicolumn{3}{c}{\textbf{Internal features}} & \multicolumn{3}{c}{\textbf{Total features}}                                                               \\
+                       & \multicolumn{3}{c}{\textbf{Internal features}} & \multicolumn{3}{c}{\textbf{Total features}}                                                                                      \\
         \cmidrule(lr){2-4} \cmidrule(lr){5-7}
-        \textbf{Model}      & \textbf{MAPE}                                  & \textbf{RMSE}                               & \textbf{MAE} & \textbf{MAPE} & \textbf{RMSE} & \textbf{MAE} \\
+        \textbf{Model} & \textbf{MAPE (\%)}                             & \textbf{RMSE (kWh)}                         & \textbf{MAE (kWh)} & \textbf{MAPE (\%)} & \textbf{RMSE (kWh)} & \textbf{MAE (kWh)} \\
         \midrule
-        RF                  &                                                &                                             &              &               &               &              \\
-        GBM                 &                                                &                                             &              &               &               &              \\
-        XGBoost             &                                                &                                             &              &               &               &              \\
-        LightGBM            &                                                &                                             &              &               &               &              \\
-        CatBoost            &                                                &                                             &              &               &               &              \\
-        (Linear regression) &                                                &                                             &              &               &               &              \\
+        RF             & 16.34                                          & 142.47                                      & 65.93              & 16.33              & 171.47              & 74.68              \\
+        GBM            & 15.67                                          & 144.07                                      & 64.49              & 15.07              & 154.97              & 66.67              \\
+        XGBoost        & 15.40                                          & 144.12                                      & 63.94              & 14.96              & 153.55              & 65.46              \\
+        LightGBM       & 15.67                                          & 150.21                                      & 66.09              & 15.18              & 159.54              & 67.03              \\
+        CatBoost       & 15.73                                          & 152.85                                      & 65.74              & 16.05              & 150.07              & 66.52              \\
+        %(Linear regression) &                                                &                                             &              &               &               &              \\
     \end{tabularx}
 \end{table}
+
+A pattern occurring for all models is that on average, the models overestimate the electricity consumption during the winter months in the beginning of the year, as illustrated in \autoref{fig:avg-actual-vs-predicted} and \autoref{fig:scatter-plots}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/avg_predicted_vs_actual_consumption.pdf}
+    \caption{[placeholder].}
+    \label{fig:avg-actual-vs-predicted}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/scatter_plots.pdf}
+    \caption{[placeholder].}
+    \label{fig:scatter-plots}
+\end{figure}
 
 \begin{table}[H]%[ht]
     \centering
@@ -34,26 +50,71 @@ Results indicate that the inclusion of external factors does help with improving
     \label{tab:performance2}
     \small
     \begin{tabularx}{\linewidth}{l r r r}
-        \textbf{Model}      & \textbf{MAPE} & \textbf{RMSE} & \textbf{MAE} \\
+        \textbf{Model}    & \textbf{MAPE} & \textbf{RMSE} & \textbf{MAE} \\
         \midrule
-        RF                  &               &               &              \\
-        GBM                 &               &               &              \\
-        XGBoost             &               &               &              \\
-        LightGBM            &               &               &              \\
-        CatBoost            &               &               &              \\
-        (Linear regression) &               &               &              \\
+        Linear regression &               &               &              \\
     \end{tabularx}
 \end{table}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/gbm_avg_actual_vs_predicted.png}
-    \caption{[placeholder].}
-    \label{fig:gbm-avg-actual-vs-predicted}
-\end{figure}
+[maybe try LSTM and ANN for comparison too]
+
+The linear regression model used for comparison is based on historical consumption and temperature. The model uses the past 24 months of electricity consumption and monthly average temperature to predict the following month's consumption.
 
 \section{Explainable AI Analysis of Forecasts}
 
+ [RF uses approximate SHAP values because the calculation would never finish otherwise]
+
+\begin{figure}[H]
+    \centering
+    \makebox[\linewidth][c]{%
+        \hspace{-1.5cm}
+        \includegraphics[width=1.25\linewidth]{figures/fi_shap_rf.png}
+    }
+    \caption{Feature importance and SHAP summary for RF.}
+    \label{fig:fi-shap-rf}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \makebox[\linewidth][c]{%
+        \hspace{-1.5cm}
+        \includegraphics[width=1.25\linewidth]{figures/fi_shap_gbm.png}
+    }
+    \caption{Feature importance and SHAP summary for GBM.}
+    \label{fig:fi-shap-gbm}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \makebox[\linewidth][c]{%
+        \hspace{-1.5cm}
+        \includegraphics[width=1.25\linewidth]{figures/fi_shap_xgboost.png}
+    }
+    \caption{Feature importance and SHAP summary for XGBoost.}
+    \label{fig:fi-shap-xgboost}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \makebox[\linewidth][c]{%
+        \hspace{-1.5cm}
+        \includegraphics[width=1.25\linewidth]{figures/fi_shap_lgbm.png}
+    }
+    \caption{Feature importance and SHAP summary for LightGBM.}
+    \label{fig:fi-shap-lgbm}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \makebox[\linewidth][c]{%
+        \hspace{-1.5cm}
+        \includegraphics[width=1.25\linewidth]{figures/fi_shap_catboost.png}
+    }
+    \caption{Feature importance and SHAP summary for CatBoost.}
+    \label{fig:fi-shap-catboost}
+\end{figure}
+
+\begin{comment}
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/Fig4a_XAI_Feature_Importance_RF.pdf}
@@ -92,6 +153,35 @@ Results indicate that the inclusion of external factors does help with improving
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/Fig4b_XAI_SHAP_Summary_RF.pdf}
-    \caption{SHAP summary for RF.}
+    \caption{SHAP summary for RF [2000 sample with approximate shap values].}
     \label{fig:shap-summary-rf}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/Fig4b_XAI_SHAP_Summary_GBM.pdf}
+    \caption{SHAP summary for GBM [2000 sample].}
+    \label{fig:shap-summary-gmb}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/Fig4b_XAI_SHAP_Summary_XGBoost.pdf}
+    \caption{SHAP summary for XGBoost [2000 sample].}
+    \label{fig:shap-summary-xgboost}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/Fig4b_XAI_SHAP_Summary_LightGBM.pdf}
+    \caption{SHAP summary for Light GBM [2000 sample].}
+    \label{fig:shap-summary-lgmb}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/Fig4b_XAI_SHAP_Summary_CatBoost.pdf}
+    \caption{SHAP summary for CatBoost [2000 sample].}
+    \label{fig:shap-summary-catboost}
+\end{figure}
+\end{comment}
