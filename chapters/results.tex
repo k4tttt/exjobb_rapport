@@ -11,7 +11,7 @@ Results indicate that the inclusion of external factors does help with improving
 
 \begin{table}[H]
     \centering
-    \caption{[].}
+    \caption{Performance of forecasting models.}
     \label{tab:performance}
     \small
     \begin{tabularx}{\linewidth}{l *{6}{R}}
@@ -28,19 +28,32 @@ Results indicate that the inclusion of external factors does help with improving
     \end{tabularx}
 \end{table}
 
-A pattern occurring for all models is that on average, the models overestimate the electricity consumption during the winter months in the beginning of the year, as illustrated in \autoref{fig:avg-actual-vs-predicted} and \autoref{fig:scatter-plots}.
+A pattern occurring for all models is that on average, the models overestimate the electricity consumption during the winter months in the beginning of the year, as illustrated in \autoref{fig:avg-actual-vs-predicted}. During the summer, the average predictions lie closer to the actual average consumption of the households. The scatter plots in \autoref{fig:scatter-plots} show that the overestimation of electricity consumption is a general trend for all models except XGBoost. For those models, it is clear that predictions above 2000 kWh are commonly overestimated, while the errors for predictions under 2000 kWh are more evenly distributed around the perfect prediction line. This again points towards the effect of outliers on the performance of the models.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_predicted_vs_actual_consumption.pdf}
-    \caption{[placeholder].}
+    \caption{Average actual vs predicted electricity consumption for all models.}
     \label{fig:avg-actual-vs-predicted}
 \end{figure}
 
+To address the effect of outliers, further analysis and experiments were performed. [väljer 2000 kwh som månadsgräns pga ovan anledning, tar bort hushåll från de 2000 samplade  (det är 267 st som försvinner), kör grid search och evaluering igen. nya scores:
+        Feature Group: Internal - Random Forest
+        MAPE: 15.988235679584031
+        RMSE: 70.67135758056408
+        MAE: 38.36681881466653
+
+        Feature Group: Total - Random Forest
+        MAPE: 15.317828002032128
+        RMSE: 69.41995834582238
+        MAE: 37.034172696289936]
+
+TODO: analysera mer om dessa outliers. alla bör ju ha eluppvärmning tex?
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{figures/scatter_plots.pdf}
-    \caption{[placeholder].}
+    \includegraphics[width=1\linewidth]{figures/scatter_plots.png}
+    \caption{Scatter plots showing prediction error distribution for each model.}
     \label{fig:scatter-plots}
 \end{figure}
 
@@ -50,9 +63,9 @@ A pattern occurring for all models is that on average, the models overestimate t
     \label{tab:performance2}
     \small
     \begin{tabularx}{\linewidth}{l r r r}
-        \textbf{Model}    & \textbf{MAPE} & \textbf{RMSE} & \textbf{MAE} \\
+        \textbf{Model}    & \textbf{MAPE (\%)} & \textbf{RMSE (kWh)} & \textbf{MAE (kWh)} \\
         \midrule
-        Linear regression &               &               &              \\
+        Linear regression & 18.47              & 161.43              & 71.98              \\
     \end{tabularx}
 \end{table}
 
