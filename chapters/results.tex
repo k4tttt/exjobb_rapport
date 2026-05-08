@@ -1,13 +1,11 @@
 [some introductory text to the chapter]
 
 \section{Performance of Forecasting Models}
-The performance of the five decision tree-based ensemble models is assessed via MAPE, RMSE, and MAE metrics. \autoref{tab:performance} shows the scores for each model,
+The performance of the five decision tree-based ensemble models is assessed via MAPE, RMSE, and MAE metrics. \autoref{tab:performance} shows the scores for each model, separated by internal features and total features. Scores under the internal feature category represent the models' performance when only trained using the historical electricity consumption, while total features refers to the combination of internal and external features. The best performing model is XGBoost, with 14.96\% errors on the total feature set. RF shows the worst performance with 16.33\% errors and considerably higher RMSE and MAE scores on the total feature set, compared to the other models.
 
-The large discrepancy between RMSE and MAE scores in terms of kWh suggests that the dataset contains many large outliers. Since RMSE squares the errors before averaging, large errors are penalized more, compared to MAE where all errors are treated equally via the absolute value.
+Results indicate that the inclusion of external factors does help with improving the forecast accuracy in terms of MAPE, but that MAE and especially RMSE scores may actually worsen, a pattern that is apparent among all models. MAPE is more sensitive to errors on small consumption values, while RMSE is more sensitive to high consumption values and outliers. This suggests that the external factors help with increasing forecast accuracy for households with a lower and more stable consumption, while households with a high or varied consumption do not benefit from the external factors.
 
-Results indicate that the inclusion of external factors does help with improving the forecast accuracy in terms of MAPE, but that MAE and especially RMSE scores may actually worsen, a pattern that is apparent among all models. MAPE is more sensitive to errors on small consumption values, while RMSE is more sensitive to high consumption values and outliers. This suggests that the external factors help with increasing forecast accuracy for households with a lower and more stable consumption, while households with a high or varied consumption do not benefit from the external factors
-
-    [gör ett ordentligt test där jag tar bort kunder med hög konsumtion, och skriv om att detta minskar mae och särskilt rmse jättemycket. ta reda på hur många outliers som finns, och argumentera för varför man kanske borde utesluta dem]
+All models show a large discrepancy between RMSE and MAE scores in terms of kWh, suggesting that the dataset contains many large outliers [move to discussion possibly]. Since RMSE squares the errors before averaging, large errors are penalized more, compared to MAE where all errors are treated equally via the absolute value.
 
 \begin{table}[H]
     \centering
@@ -28,7 +26,7 @@ Results indicate that the inclusion of external factors does help with improving
     \end{tabularx}
 \end{table}
 
-A pattern occurring for all models is that on average, the models overestimate the electricity consumption during the winter months in the beginning of the year, as illustrated in \autoref{fig:avg-actual-vs-predicted}. During the summer, the average predictions lie closer to the actual average consumption of the households. The scatter plots in \autoref{fig:scatter-plots} show that the overestimation of electricity consumption is a general trend for all models except XGBoost. For those models, it is clear that predictions above 2000 kWh are commonly overestimated, while the errors for predictions under 2000 kWh are more evenly distributed around the perfect prediction line. This again points towards the effect of outliers on the performance of the models.
+A pattern occurring for all models is that on average, the models overestimate the electricity consumption during the winter months in the beginning of the year, as illustrated in \autoref{fig:avg-actual-vs-predicted}. During the summer, the average predictions lie closer to the actual average consumption of the households. The scatter plots in \autoref{fig:scatter-plots} show that the overestimation of electricity consumption is a general trend for all models except XGBoost, indicated by the regression lines with larger slopes than the perfect prediction line. For those models, it is clear that predictions in the several thousand kWh range are commonly overestimated, while the errors for lower kWh predictions are more evenly distributed around the perfect prediction line. %This again points towards the effect of outliers on the performance of the models.
 
 \begin{figure}[H]
     \centering
@@ -37,19 +35,6 @@ A pattern occurring for all models is that on average, the models overestimate t
     \label{fig:avg-actual-vs-predicted}
 \end{figure}
 
-To address the effect of outliers, further analysis and experiments were performed. [väljer 2000 kwh som månadsgräns pga ovan anledning, tar bort hushåll från de 2000 samplade  (det är 267 st som försvinner), kör grid search och evaluering igen. nya scores:
-        Feature Group: Internal - Random Forest
-        MAPE: 15.988235679584031
-        RMSE: 70.67135758056408
-        MAE: 38.36681881466653
-
-        Feature Group: Total - Random Forest
-        MAPE: 15.317828002032128
-        RMSE: 69.41995834582238
-        MAE: 37.034172696289936]
-
-TODO: analysera mer om dessa outliers. alla bör ju ha eluppvärmning tex?
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/scatter_plots.png}
@@ -57,10 +42,14 @@ TODO: analysera mer om dessa outliers. alla bör ju ha eluppvärmning tex?
     \label{fig:scatter-plots}
 \end{figure}
 
+\subsection{Comparison with Baseline Model}
+
+The baseline linear regression model used for comparison uses historical consumption and temperature as input variables. The past 24 months of electricity consumption and monthly average temperature is used to predict the following month's consumption. Evaluation of the linear regression model was performed using the same 2000 household sample as for the ensemble models, and the results are found in \autoref{tab:comparison-performance}. The linear regression model performs worse than the best ensemble models by roughly 3.5\% in percentage errors. RMSE and MAE scores are also worse for the linear model, especially when compared to ensemble models using only internal features.
+
 \begin{table}[H]%[ht]
     \centering
     \caption{[].}
-    \label{tab:performance2}
+    \label{tab:comparison-performance}
     \small
     \begin{tabularx}{\linewidth}{l r r r}
         \textbf{Model}    & \textbf{MAPE (\%)} & \textbf{RMSE (kWh)} & \textbf{MAE (kWh)} \\
@@ -71,11 +60,17 @@ TODO: analysera mer om dessa outliers. alla bör ju ha eluppvärmning tex?
 
 [maybe try LSTM and ANN for comparison too]
 
-The linear regression model used for comparison is based on historical consumption and temperature. The model uses the past 24 months of electricity consumption and monthly average temperature to predict the following month's consumption.
-
 \section{Explainable AI Analysis of Forecasts}
 
- [RF uses approximate SHAP values because the calculation would never finish otherwise]
+All five ensemble learning models are analyzed via the SHAP method. Firstly, the models were trained using their optimal hyperparameters, and feature importance metrics were retrieved for the trained models. Secondly, a tree SHAP analysis was performed to calculate the Shapley values for all features. For the RF model, approximate SHAP values were used due to the full calculation being time-consuming for this particular model. \autoref{fig:fi-shap-rf} - \autoref{fig:fi-shap-catboost} show the resulting feature importance plots (left) and SHAP summary plots (right) [change to a) and b)] for each model.
+
+Both the feature importance and SHAP analysis show that the $lag\_1$ and $lag\_12$ historical consumption features are highly influential for all models. The SHAP summary plots, showing the effect of individual feature values on the prediction, demonstrate that these features have a clear relationship where low feature values contribute to a lower predicted value, and high feature values contribute to higher predictions. Most models prioritize the $lag\_1$ feature over $lag\_12$ in their decision-making, except for RF. The $rolling\_mean\_3$ feature is ranked relatively high for all models, but the SHAP summary plots show that the variable may have a more complex relationship to the model output in some models. For GBM, XGBoost, and LightGBM, high values of the $rolling\_mean\_3$ feature contribute both to decreasing and increasing predicted values.
+
+Interestingly, for the XGBoost model, the $WCT$ feature is ranked the highest in feature importance. However, the more detailed SHAP summary plot shows that $lag\_1$ and $lag\_12$ are the most influential, while $WCT$ is ranked in the middle.
+
+Among the external variables, wind direction and sunshine amount are consistently ranked highly for all models.
+
+The two calendar information features, $number\_of\_holidays$ and $number\_of\_days$, are commonly ranked among the less important features for the models, along with the $year$ timestamp variable. The $month$ variable, indicating the month of the year, is however ranked highly for several models.
 
 \begin{figure}[H]
     \centering

@@ -49,9 +49,12 @@ The Umeå Energi dataset contains monthly electricity consumption from 14 286 Sw
     \end{tabularx}
 \end{table}
 
-\begin{figure}[H]%[ht]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{figures/kwh_histogram.pdf}
+    \makebox[\linewidth][c]{%
+        \hspace{-1cm}
+        \includegraphics[width=1.25\linewidth]{figures/kwh_histogram.pdf}
+    }
     \caption{Histogram over the monthly electricity consumption distribution from January 2022 to November 2025.}
     \label{fig:kwh_histogram_2022_2025}
 \end{figure}
@@ -141,7 +144,7 @@ In these experiments, K-Means clustering is applied to define customer groups ba
 
 \subsubsection{Variable Interactions}
 
-Interactions between the variables are investigated using a correlation map, as shown in \autoref{fig:variable-correlation-map}. This correlation map includes the internal historical consumption features and SI, as well as external features in the form of weather indices (THI, WCT [see section x]) and calendar information (number of holidays, number of days). The three historical consumption variables show a high correlation with each other, while they have a low correlation with all the external variables and the seasonal index. [conclusions from this?]
+Interactions between the variables are investigated using a correlation map, as shown in \autoref{fig:variable-correlation-map}. This correlation map includes the internal historical consumption features and SI, as well as external features in the form of weather indices (THI, WCT [see section x]) and calendar information (number of holidays, number of days). The three historical consumption variables show a high correlation with each other, while they have a low correlation with all the external variables. [conclusions from this?]
 
 \begin{figure}[H]%[ht]
     \centering
@@ -156,7 +159,9 @@ Along with the historical electricity consumption data from Umeå Energi, weathe
 
 \subsubsection{Weather Data}
 
-Weather data is retrieved from SMHI's open data for the January 1st 2022 to November 30th 2025 time period. Nine variables are selected from the Umeå Airport measurement station, while three variables pertaining to solar attributes are retrieved from the Umeå Sol station, and snow depth is retrieved from Umeå Röbäcksdalen. All variables are obtained as hourly measurements, except snow depth which is retrieved at daily intervals. \autoref{tab:weather-variables} details the weather variables and their measurement units. [Across all variables, 4.9\% of the measurements are missing, where most missing values are from the lowest cloud base variable (87.0\% of the missing values).] These measurements are aggregated to monthly values using mean. \autoref{fig:weather-plot-monthly} shows the monthly values of each weather variable plotted over the entire time range. [maybe put plot in appendix?] [need to discuss how these values are aggregated (avg vs sum or other way)]. The seasonal component is apparent for many of the weather variables, while some variables such as wind speed and air pressure lack a seasonal pattern. [conclusions from this]
+Weather data is retrieved from SMHI's open data for the January 1st 2022 to November 30th 2025 time period. Nine variables are selected from the Umeå Airport measurement station, while three variables pertaining to solar attributes are retrieved from the Umeå Sol station, and snow depth is retrieved from Umeå Röbäcksdalen. All variables are obtained as hourly measurements, except snow depth which is retrieved at daily intervals. \autoref{tab:weather-variables} details the weather variables and their measurement units. Across all variables, 4.9\% of the measurements are missing, where most missing values occur in the lowest cloud base variable that has 42\% missing values.
+
+The measurements of all variables are aggregated to monthly values using mean. \autoref{fig:weather-plot-monthly} shows the monthly values of each weather variable plotted over the entire time range. [maybe put plot in appendix?] [need to discuss how these values are aggregated (avg vs sum or other way)]. The seasonal component is apparent for many of the weather variables, while some variables such as wind speed and air pressure lack a seasonal pattern. [conclusions from this]
 
 \begin{table}[H]%[ht]
     \centering
