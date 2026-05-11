@@ -1,6 +1,8 @@
-[holiday indicators are probably more useful for short-term forecasting (like daily forecasting, you would know if you are forecasting a holiday or a weekday which may be important. but this effect smooths out over an entire month)]
+[General introduction to discussion]
 
-[household energy prediction is unique because of outliers, the same problem is not prominent when predicting for an entire city e.g. future research is (probably) needed to better handle the outlier situation of household prediction, since this topic is underexplored in research]
+\section{Performance of Forecasting Models}
+
+ [household energy prediction is unique because of outliers, the same problem is not prominent when predicting for an entire city e.g. future research is (probably) needed to better handle the outlier situation of household prediction, since this topic is underexplored in research]
 
 To investigate the effect of outliers, further analysis and experiments were performed. A maximum monthly consumption threshold of 2000 kWh was selected, due to the majority of observations registering below 2000 kWh, as shown in \autoref{fig:kwh_histogram_2022_2025}. 267 households exceeding this threshold were removed from the sample of 2000 households used for the experiments. The grid search, training, and evaluation process was repeated for each model with the modified data. The resulting scores are found in \autoref{tab:performance-no-outliers}.
 
@@ -41,8 +43,24 @@ The removal of high-consuming households results in a small improvement in MAPE,
 
 TODO: analysera mer om dessa outliers. alla bör ju ha eluppvärmning tex?
 
-The removed households largely belong to the house category (89\%) and vacation home category (10\%), and the majority have electrical heating (70\%).
+The removed households almost exclusively belonged to the house category (89\%) and vacation home category (10\%), and the majority had electrical heating (70\%).
 
-    [discuss how SHAP gives better insights than FI, XGBoost example]
+\section{Explainable AI Forecast Analysis}
+ [discuss how SHAP gives better insights than FI, XGBoost example]
 
-    [limitations]
+The results from the XAI analysis of the forecasts provides insights into the ensemble models' decision-making, as well as perspectives on the methodologies used. A notable observation is that the simple feature importance measure did not always rank the variables' importance in the same way as the more detailed SHAP analysis. For example, the feature importance plot for XGBoost ranked $WCT$ as the most important feature, while the SHAP summary plot showed that several other variables had a more determining impact on the model's predictions.
+
+One pattern evident in all models is that the calendar information had little impact on the forecasts. Previous works have identified holiday indicators as important for electricity consumption forecasting, since consumption patterns change between weekdays and holidays \cite{roman_holidays_2015}. Studies on short-term forecasting highlight holidays as anomalies that need to be handled in a special way, for example by introducing holidays features or by modelling holidays in a special way \cite{moon_advancing_2024,kang_off_2022,trull_one-day-ahead_2021}. However, the results in this experiment indicate that monthly forecasts are not affected by holidays in the same way as the short-term forecasts. This could be due to the effect of holidays smoothing out over the entire month, whereas in the case of e.g. day-ahead forecasting, the entire forecast would be either for a holiday or for a weekday.
+
+    [comparisons with previous works]
+
+\section{Limitations}
+
+ [a big limitation is the insufficient handling of outliers, since there were many. This impacted the model performance greatly. But I just did not know what to do lol]
+
+One limitation with this study is the method of constructing certain features, particularly external ones. All weather variables are aggregated to monthly values using mean. Some weather variables may provide more information using another aggregation method, for example, the monthly total amount of solar radiation may be a better variable than the mean solar radiation. Additionally, the process of aggregating hourly values to a single monthly value can discard valuable information. For example, Lazzari et al. \cite{lazzari_user_2022} found that minimum and maximum temperature were more important than mean temperature, possibly due to minimum and maximum temperatures having a higher variation. This indicates the existence of potential improvements by creating additional features from the weather variables than just the monthly mean. The same potential exists for the construction of more informational holiday indicators. This study only used the simple number of holidays and total number of days per month, while a better indicator could be categorizing months based on holidays.
+
+Another limitation is the grouping of households performed via clustering. The clusters identified via the K-Means method did not show drastically different properties from each other, and the variation in electricity consumption within each cluster was high.
+    [clustering was maybe not so successful. Is there a better way to divide the households into consumption groups? And how do we handle outliers in a better way?]
+
+    [the experiments assume that all information is available. This is meant to work in a real-life scenario, where all information might not be available, for example how should new customers be handled? How should the weather data be implemented? Forecasts two weeks ahead exist, but should that be the assumption for the entire month?]
