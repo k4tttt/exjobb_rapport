@@ -22,7 +22,8 @@ All models show a large discrepancy between RMSE and MAE scores in terms of kWh,
         XGBoost        & 15.40                                          & 144.12                                      & 63.94              & 14.96              & 153.55              & 65.46              \\
         LightGBM       & 15.67                                          & 150.21                                      & 66.09              & 15.18              & 159.54              & 67.03              \\
         CatBoost       & 15.73                                          & 152.85                                      & 65.74              & 16.05              & 150.07              & 66.52              \\
-        %(Linear regression) &                                                &                                             &              &               &               &              \\
+        %\midrule
+        %Linear regression &                                                &                                             &                    & 18.47              & 161.43              & 71.98              \\
     \end{tabularx}
 \end{table}
 
@@ -31,7 +32,7 @@ A pattern occurring for all models is that on average, the models overestimate t
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_predicted_vs_actual_consumption.pdf}
-    \caption{Average actual vs predicted electricity consumption for all models.}
+    \caption{Average actual versus predicted electricity consumption for all models.}
     \label{fig:avg-actual-vs-predicted}
 \end{figure}
 
@@ -44,25 +45,35 @@ A pattern occurring for all models is that on average, the models overestimate t
 
 \subsection{Comparison with Baseline Model}
 
-The baseline linear regression model used for comparison uses historical consumption and temperature as input variables. The past 24 months of electricity consumption and monthly average temperature is used to predict the following month's consumption. Evaluation of the linear regression model was performed using the same 2000 household sample as for the ensemble models, and the results are found in \autoref{tab:comparison-performance}. The linear regression model performs worse than the best ensemble models by roughly 3.5\% in percentage errors. RMSE and MAE scores are also worse for the linear model, especially when compared to ensemble models using only internal features.
+The baseline linear regression model used for comparison uses historical consumption and temperature as input variables. The past 24 months of electricity consumption and monthly average temperature was used to predict the following month's consumption. Evaluation of the linear regression model was performed using the same 2000 household sample as for the ensemble models, and the results are found in \autoref{tab:comparison-performance}. The linear regression model performs worse than the best ensemble models by roughly 3.5\% in percentage errors. RMSE and MAE scores are also worse for the linear model, especially when compared to ensemble models using only internal features.
 
 \begin{table}[H]%[ht]
     \centering
-    \caption{[].}
+    \caption{Performance of best ensemble model versus linear regression.}
     \label{tab:comparison-performance}
     \small
     \begin{tabularx}{\linewidth}{l r r r}
-        \textbf{Model}    & \textbf{MAPE (\%)} & \textbf{RMSE (kWh)} & \textbf{MAE (kWh)} \\
+        \textbf{Model}          & \textbf{MAPE (\%)} & \textbf{RMSE (kWh)} & \textbf{MAE (kWh)} \\
         \midrule
-        Linear regression & 18.47              & 161.43              & 71.98              \\
+        Best ensemble (XGBoost) & 14.96              & 153.55              & 65.46              \\
+        Linear regression       & 18.47              & 161.43              & 71.98              \\
     \end{tabularx}
 \end{table}
+
+\autoref{fig:avg-actual-vs-predicted-lr} shows the average predicted monthly electricity consumption for linear regression and all ensemble models. The linear regression model shows the same tendency to overestimate the consumption during the beginning of the year as the ensemble models, while also showing a pattern of underestimating the consumption during the summer.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/avg_predicted_vs_actual_consumption_lr.pdf}
+    \caption{Average actual versus predicted electricity consumption for ensemble models and linear regression.}
+    \label{fig:avg-actual-vs-predicted-lr}
+\end{figure}
 
 [maybe try LSTM and ANN for comparison too]
 
 \section{Explainable AI Analysis of Forecasts}
 
-All five ensemble learning models are analyzed via the SHAP method. Firstly, the models were trained using their optimal hyperparameters, and feature importance metrics were retrieved for the trained models. Secondly, a tree SHAP analysis was performed to calculate the Shapley values for all features. For the RF model, approximate SHAP values were used due to the full calculation being time-consuming for this particular model. \autoref{fig:fi-shap-rf} - \autoref{fig:fi-shap-catboost} show the resulting feature importance plots (left) and SHAP summary plots (right) [change to a) and b)] for each model.
+All five ensemble learning models are analyzed via the SHAP method. Firstly, the models were trained using their optimal hyperparameters, and feature importance metrics were retrieved for the trained models. Secondly, a tree SHAP analysis was performed to calculate the Shapley values for all features. For the RF model, approximate SHAP values were used due to the full calculation being time-consuming for this particular model. \cref{fig:fi-shap-rf,fig:fi-shap-gbm,fig:fi-shap-xgboost,fig:fi-shap-lgbm,fig:fi-shap-catboost} show the resulting feature importance plots (left) and SHAP summary plots (right) [change to a) and b)] for each model.
 
 Both the feature importance and SHAP analysis show that the $lag\_1$ and $lag\_12$ historical consumption features are highly influential for all models. The SHAP summary plots, showing the effect of individual feature values on the prediction, demonstrate that these features have a clear relationship where low feature values contribute to a lower predicted value, and high feature values contribute to higher predictions. Most models prioritize the $lag\_1$ feature over $lag\_12$ in their decision-making, except for RF. The $rolling\_mean\_3$ feature is ranked relatively high for all models, but the SHAP summary plots show that the variable may have a more complex relationship to the model output in some models. For GBM, XGBoost, and LightGBM, high values of the $rolling\_mean\_3$ feature contribute both to decreasing and increasing predicted values.
 
