@@ -18,7 +18,7 @@ The scope of energy consumption forecasting problems can generally be divided in
 
 \section{Ensemble Learning}
 
-Ensemble learning is a family of methods that combine several machine learning algorithms to make decisions. It can be seen as the ML interpretation of ``wisdom of the crowd'', that is, the idea that aggregating the opinions of several individuals is better than selecting the opinion of one individual. Multiple weak learners make predictive results that are fused together via voting mechanisms, in order to achieve better performance than from any single algorithm. Any type of machine learning algorithm, e.g. decision tree, neural network, or regression model, can be used as an ensemble learner \cite{sagi_ensemble_2018,dong_survey_2020}.
+Ensemble learning is a family of methods that combine several machine learning algorithms to make decisions. It can be seen as the ML interpretation of ``wisdom of the crowd'', that is, the idea that aggregating the opinions of several individuals is better than selecting the opinion of one individual. Multiple weak learners make predictive results that are fused together via voting mechanisms, in order to achieve better performance than from any single algorithm. Any type of machine learning algorithm, e.g. decision trees, neural networks, or regression models, can be used as ensemble learners \cite{sagi_ensemble_2018,dong_survey_2020}.
 
 [maybe a diagram giving an overview of the ensemble ``steps'']
 
@@ -30,6 +30,8 @@ Three common strategies for constructing ensembles are bagging, boosting, and st
 In boosting, several models with individually weak predictions are aggregated to obtain a model with high accuracy. Models are trained sequentially to correct the errors of previous models. The main objective with this technique is reducing model bias \cite{moon_advancing_2024,ribeiro_ensemble_2020,schapire_strength_1990}. Two examples of boosting algorithms are Gradient Boosting Machines (GBM), which uses gradient descent to minimize the loss function, and XGBoost, which is an extension of GBM focused on resource optimization and prevention of overfitting \cite{ribeiro_ensemble_2020}.
 
 Stacking utilizes different learning algorithms called base learners to make initial predictions. These outputs are then combined via a meta-learner to make the ultimate predictions. The goal is to capture a wider range of patterns using the strength of different models, while minimizing the generalization errors \cite{moon_advancing_2024,ribeiro_ensemble_2020,divina_stacking_2018}. Accuracy improvements mainly happen when there is diversity among the individual models, since differences in generalization principles generally lead to different results \cite{ribeiro_ensemble_2020}.
+
+[maybe write something short about the strengths in practice with ensemble learning (but already have some of this)]
 
 \section{Explainable Artificial Intelligence}
 
