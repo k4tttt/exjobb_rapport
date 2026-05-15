@@ -110,25 +110,25 @@ manually as follows:
 \pagestyle{fancy}
 \setcounter{page}{1}
 
-\chapter{Introduction}
+\chapter{Introduction}\label{cha:introduction}
 \input{chapters/introduction.tex}
 
-\chapter{Theory}
+\chapter{Theory}\label{cha:theory}
 \input{chapters/theory.tex}
 
-\chapter{Previous Work}
+\chapter{Previous Work}\label{cha:previous-work}
 \input{chapters/previous_work.tex}
 
-\chapter{Methodology}
+\chapter{Methodology}\label{cha:methodology}
 \input{chapters/method.tex}
 
-\chapter{Results}
+\chapter{Results}\label{cha:results}
 \input{chapters/results.tex}
 
-\chapter{Discussion}
+\chapter{Discussion}\label{cha:discussion}
 \input{chapters/discussion.tex}
 
-\chapter{Conclusion}
+\chapter{Conclusion}\label{cha:conclusion}
 \input{chapters/conclusion.tex}
 
 \begin{comment}
@@ -288,6 +288,6 @@ before the first chapter.
 \appendix
 
 \chapter{First Appendix}
-\input{chapters/appendix.tex}
+\input{chapters/appendix.tex}\label{cha:appendix}
 
 \end{document}

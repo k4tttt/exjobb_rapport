@@ -1,15 +1,4 @@
-TODO list:
-
-\begin{itemize}
-    %\item Make correlation maps for the features.
-    %\item Boxplot and histogram for general consumption, boxplots per month (like in \cite{khan_ensemble_2021} and 30 in \cite{moon_advancing_2024}), and possibly by week
-    \item Should change entire method to past tense
-    \item It is possible to make diagrams for the decomposition of the time series \cite{chakraborty_scenario-based_2021}.
-          %\item Could investigate correlation between external variables and consumption like in \cite{deb_forecasting_2016}
-          %\item Could I incorporate seasonal index? \cite{cao_support_2016} shows how to calculate SI
-          %\item Could I do group clustering for consumers? \cite{khan_ensemble_2021}
-    \item Maybe relevant to measure time for training models?
-\end{itemize}
+[Should change entire method to past tense]
 
 This study aims to develop monthly electricity consumption forecasts for residential households, with a focus on forecast explainability. A variety of input variables, including historical electricity consumption, household information, weather variables, and calendar information, are used to provide diverse information to the forecasting models. Five decision tree-based ensemble learning models are utilized for the forecasting, and their predictive performance as well as their explainability is assessed and compared. The explainable AI method \emph{SHAP} is used to investigate the effect and importance of the model features. \autoref{fig:methodology-diagram} shows the general architecture of building the explainable electricity consumption forecasts.
 
@@ -222,7 +211,7 @@ In addition to weather data, calendar information is included as external factor
 
 \subsection{Feature Selection}
 
-The historical consumption, weather, and calendar variables are compiled to a complete feature set for the forecasting models. A feature selection is made from the weather variables, based on the correlation maps found in \autoref{fig:weather-correlation-map} and \autoref{fig:variable-correlation-map}. Variables with a high correlation to several other variables are excluded from the feature set, in this case global radiation, long wave radiation, dew point temperature, and visibility. This is due to highly correlated features accounting for each other's impact to the model output [formulera bättre], and the SHAP method assuming that features are uncorrelated \cite{salih_perspective_2025}. The complete selected feature set is found in \autoref{tab:input-variables}. A subset of 2 000 random households are selected for the model training and evaluation. The data is then split into training and test data such that the years 2023 and 2024 are the training set, and January through November 2025 is the test data (see \autoref{tab:train-test-split}).
+The historical consumption, weather, and calendar variables are compiled to a complete feature set for the forecasting models. A feature selection is made from the weather variables, based on the correlation maps found in \autoref{fig:weather-correlation-map} and \autoref{fig:variable-correlation-map}. Variables with a high correlation to several other variables are excluded from the feature set, in this case global radiation, long wave radiation, dew point temperature, and visibility. This is due to highly correlated features accounting for each other's impact to the model output [formulera bättre], and the SHAP method assuming that features are uncorrelated \cite{salih_perspective_2025}. The complete selected feature set is found in \autoref{tab:input-variables}. A subset of 2 000 random households are selected for the model training and evaluation, representing 15\% of the total number of households. The data is then split into training and test data such that the years 2023 and 2024 are the training set, and January through November 2025 is the test data (see \autoref{tab:train-test-split}).
 
 Categorical features in the dataset are label encoded to integer values for all models except CatBoost. This means that each categorical value is represented by a unique integer, instead of its original string value. Label encoding is one of the simplest encoding techniques, but works well for tree-based models [borde göra one-hot encoding istället] \cite{hancock_survey_2020} okej fast AI säger att label encoding är bättre för tree models, kan testa båda och skriva om det
 
