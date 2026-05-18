@@ -1,20 +1,20 @@
 This chapter presents relevant theoretical background for the concepts and methodologies used in this research.
 
 \section{Time Series Forecasting}
-A time series is a set of chronologically arranged observations, generally under the assumption that time is a discrete variable \cite{kirchgassner_introduction_2012}. In a time series with $T$ real value samples $x_1,\dots,x_T$, the value at time $i$ is represented by $x_i$ ($1 \leq i \leq T$). The problem of time series forecasting can be defined as predicting the values of $x_{w+1},\dots,x_{w+h}$, where $w$ is the historical window, i.e., the number of values considered in order to produce the prediction, and $h$ is the prediction horizon, i.e, the number of future values to be predicted. Prediction happens given the previous samples $x_1,\dots,x_w$ ($w+h \leq T$), with the goal of minimizing the error between the predicted value $\hat{x}_{w+i}$ and the actual value $x_{w+i}$ ($1 \leq i \leq h$) \cite{divina_stacking_2018}.
+A time series is a set of chronologically arranged observations, generally under the assumption that time is a discrete variable \cite{kirchgassner_introduction_2012}. In a time series with $T$ real value samples $x_1, \dots, x_T$, the value at time $i$ is represented by $x_i$ ($1 \leq i \leq T$). The problem of time series forecasting can be defined as predicting the values of $x_{w+1}, \dots, x_{w+h}$, where $w$ is the historical window, and $h$ is the prediction horizon. The historical window corresponds to the number of past observations used to generate the forecast, and the prediction horizon defines the number of future time steps to be predicted. Prediction happens given the previous samples $x_1, \dots, x_w$ ($w+h \leq T$), with the goal of minimizing the error between the predicted value $\hat{x}_{w+i}$ and the actual value $x_{w+i}$ ($1 \leq i \leq h$) \cite{divina_stacking_2018}.
 
-A time series may be univariate or multivariate, where univariate refers to a series with a single observation recorded over time, and multivariate refers to a series with a group of variables with interactions.
+A time series may be univariate or multivariate, where univariate refers to a series with a single observation recorded over time, and multivariate refers to a series with a group of variables that may exhibit interactions.
 %In order to draw inferences from a time series, a model representing the data needs to be set up
 Analysis of time series often begins with obtaining the underlying patterns of the observed data. The next step is fitting a model to represent the data for future predictions, which can be a complex task. The analysis of the time series is usually performed by decomposing it into three components \cite{deb_review_2017,brockwell_introduction_2002}:
 \begin{enumerate}
     \item \emph{Trend} \hyp{} The general movement of the variable during the observation period. Trend does not take irregularities and seasonality into account.
     \item \emph{Seasonality} \hyp{} The periodic fluctuation of the variable. It includes stable effects, along with time, magnitude, and direction.
-    \item \emph{Residual} \hyp{} The remaining, largely unexplainable part of the time series. In some instances, this can be high enough to mask the trend and seasonality.
+    \item \emph{Residual} \hyp{} The remaining variation, a largely unexplainable part of the time series. In some instances, this can be high enough to mask the trend and seasonality.
 \end{enumerate}
 
 Both linear and nonlinear techniques may be used for solving time series problems. In linear methods, the idea is that strong correlations in the data allow for linear combinations to determine the next observation. However, the random component of the time series may prevent precise predictions. Nonlinear methods are applied in the machine learning domain to forecast future values based on a model describing the data. Machine learning solutions to forecasting problems have gained popularity, due to the fact that they are suitable both for linear and nonlinear problems \cite{divina_stacking_2018}. Time series analysis has been extensively applied to the problem of energy consumption forecasting, especially since real-time monitoring of buildings has become more common, and the availability of recorded data has increased \cite{deb_review_2017}.
 
-The scope of energy consumption forecasting problems can generally be divided into three categories; short-term forecasting (1 hour to 1 week), medium-term forecasting (1 month to 1 year), and long-term forecasting (1 year and above) \cite{mat_daut_building_2017}. [maybe move this to introduction for context]
+Based on the forecasting horizon, energy consumption forecasting problems are generally divided into three categories; short-term forecasting (1 hour to 1 week), medium-term forecasting (1 month to 1 year), and long-term forecasting (1 year and above) \cite{mat_daut_building_2017}. This thesis explores medium-term forecasting with a horizon of 1 month.
 
 \section{Ensemble Learning}
 
@@ -30,8 +30,6 @@ Three common strategies for constructing ensembles are bagging, boosting, and st
 In boosting, several models with individually weak predictions are aggregated to obtain a model with high accuracy. Models are trained sequentially to correct the errors of previous models. The main objective with this technique is reducing model bias \cite{moon_advancing_2024,ribeiro_ensemble_2020,schapire_strength_1990}. Two examples of boosting algorithms are Gradient Boosting Machines (GBM), which uses gradient descent to minimize the loss function, and XGBoost, which is an extension of GBM focused on resource optimization and prevention of overfitting \cite{ribeiro_ensemble_2020}.
 
 Stacking utilizes different learning algorithms called base learners to make initial predictions. These outputs are then combined via a meta-learner to make the ultimate predictions. The goal is to capture a wider range of patterns using the strength of different models, while minimizing the generalization errors \cite{moon_advancing_2024,ribeiro_ensemble_2020,divina_stacking_2018}. Accuracy improvements mainly happen when there is diversity among the individual models, since differences in generalization principles generally lead to different results \cite{ribeiro_ensemble_2020}.
-
-[maybe write something short about the strengths in practice with ensemble learning (but already have some of this)]
 
 \section{Explainable Artificial Intelligence}
 

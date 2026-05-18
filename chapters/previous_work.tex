@@ -1,24 +1,26 @@
-Research in the field of electricity consumption forecasting has established many methods for producing forecasts. These methods can roughly be divided into two categories; conventional methods and AI-based methods. Conventional methods such as time series analysis and regression methods have previously been widely applied to solve the problem of electricity consumption forecasting. Nowadays, AI-based methods are more popular due to their strength in solving nonlinear problems, something that the conventional methods struggle with \cite{mat_daut_building_2017}.
+Research in the field of electricity consumption forecasting has established many methods for producing forecasts. These methods can roughly be divided into two categories; conventional methods and AI-based methods. Conventional methods such as time series analysis and regression methods have previously been widely applied to solve the problem of electricity consumption forecasting. Nowadays, AI-based methods are more popular due to their strength in solving nonlinear problems, something that the conventional methods struggle with \cite{mat_daut_building_2017}. Overall, two of the most widely applied models in the field are artificial neural networks (ANN) and support vector machines (SVM), along with the statistical autoregressive integrated moving average (ARIMA) model \cite{nti_electricity_2020}.
 
-[Two comprehensive reviews on electricity consumption forecasting have been identified:
+%Hybrid models that combine different algorithms have been highlighted as a potential way to increase forecast accuracy \cite{mat_daut_building_2017,deb_review_2017,nti_electricity_2020}.
 
-\begin{itemize}
-    \item An extensive review and comparison of both statistical and ML/DL techniques for forecasting is found in \cite{deb_review_2017}. They also review combinations of different techniques, i.e. hybrid models. Claims that ANN has more advantages than statistical models, and has better performance for nonlinear problems. Highlights that hybrid models can be beneficial to capture complexities in building energy and operational data.
-    \item Another review of statistical, AI, and hybrid methods for forecasting is found in \cite{mat_daut_building_2017}. They also highlight the strength in AI models for dealing with nonlinear patterns. Claims that hybrids between AI and Swarm Intelligence (SI) methods show potential for increased accuracy. Provides a clear overview of different studies regarding prediction time intervals, included features, building types etc.]
-\end{itemize}
+% [Two comprehensive reviews on electricity consumption forecasting have been identified:
+
+% \begin{itemize}
+%     \item An extensive review and comparison of both statistical and ML/DL techniques for forecasting is found in \cite{deb_review_2017}. They also review combinations of different techniques, i.e. hybrid models. Claims that ANN has more advantages than statistical models, and has better performance for nonlinear problems. Highlights that hybrid models can be beneficial to capture complexities in building energy and operational data.
+%     \item Another review of statistical, AI, and hybrid methods for forecasting is found in \cite{mat_daut_building_2017}. They also highlight the strength in AI models for dealing with nonlinear patterns. Claims that hybrids between AI and Swarm Intelligence (SI) methods show potential for increased accuracy. Provides a clear overview of different studies regarding prediction time intervals, included features, building types etc.]
+% \end{itemize}
 
 %\section{Conventional Approaches}
 %probably not relevant since i wont be using it
 
-\section{Machine Learning Approaches?}
+% \section{Machine Learning Approaches?}
 
-[Forecasting daily cooling energy using ANN (for three university buildings): \cite{deb_forecasting_2016}]
+%  [Forecasting daily cooling energy using ANN (for three university buildings): \cite{deb_forecasting_2016}]
 
 \section{Monthly Forecasting}
 
-[Could possibly use \cite{dong_applying_2005} as an ``early'' example of monthly forecasting. They use SVM, but do not handle seasonality in any certain way.]
+%[Could possibly use \cite{dong_applying_2005} as an ``early'' example of monthly forecasting. They use SVM, but do not handle seasonality in any certain way.]
 
-Forecasting electricity consumption in the monthly scope requires handling complex non-linear patterns and seasonal tendencies \cite{cao_support_2016}. Monthly consumption is affected by factors such as economy, temperature, and season, which makes the consumption exhibit a mixture of trend, periodicity, and randomness \cite{tang_gm11_2022}. Additionally, when predicting the consumption of small-scale users, like in this thesis, the power demand is more sensitive to random factors. Human behavior may change periodically, both due to social factors such as holidays and summer vacations, and due to natural factors like the seasons \cite{sun_monthly_2019}. 
+Forecasting electricity consumption in the monthly scope requires handling complex non-linear patterns and seasonal tendencies \cite{cao_support_2016}. Monthly consumption is affected by factors such as economy, temperature, and season, which makes the consumption exhibit a mixture of trend, periodicity, and randomness \cite{tang_gm11_2022}. Additionally, when predicting the consumption of small-scale users, like in this thesis, the power demand is more sensitive to random factors. Human behavior may change periodically, both due to social factors such as holidays and summer vacations, and due to natural factors like the change in seasons \cite{sun_monthly_2019}.
 
 To address the seasonality of monthly forecasting, models incorporating seasonal indexing (SI) have been proposed. Cao and Wu \cite{cao_support_2016} aimed to improve monthly electricity consumption forecasts using support vector regression (SVR) in combination with SI and a novel evolutionary algorithm called fruit fly optimization (FOA). They calculated the seasonal index for each month, which was then used to adjust the predicted values according to the seasonal tendencies. FOA was applied to find the best values for parameters of the SVR model. Their results showed that both SI and FOA was able to effectively improve the forecasting accuracy, suggesting that the hybrid approach is a viable option for monthly forecasting.
 
@@ -46,7 +48,7 @@ Maarif et al. \cite{maarif_energy_2023} investigated the effect of 9 different f
 
 Januja et al. \cite{janjua_enhancing_2024} maybe, but not reputable journal.
 
-Another hourly electricity consumption forecasting study was performed by Lazzari et al. \cite{lazzari_user_2022}. They provided a novel perspective by incorporating user behavior to enhance the accuracy of residential energy consumption forecasting. User behavior clusters were identified, and the day-ahead behavior was predicted using an XGBoost model. The predicted behavior, along with historical consumption, was then provided to an ANN model responsible for predicting the hourly day-ahead consumption. Compared to an ANN without the user behavior input, the proposed model was able to reduce MAPE and NRMSE by 7\% and 9\% respectively. A feature importance analysis using SHAP showed that calendar variables, namely week and season, had the greatest importance for the model. Temperature, notably minimum and maximum daily temperature, also had a large influence on model output. 
+Another hourly electricity consumption forecasting study was performed by Lazzari et al. \cite{lazzari_user_2022}. They provided a novel perspective by incorporating user behavior to enhance the accuracy of residential energy consumption forecasting. User behavior clusters were identified, and the day-ahead behavior was predicted using an XGBoost model. The predicted behavior, along with historical consumption, was then provided to an ANN model responsible for predicting the hourly day-ahead consumption. Compared to an ANN without the user behavior input, the proposed model was able to reduce MAPE and NRMSE by 7\% and 9\% respectively. A feature importance analysis using SHAP showed that calendar variables, namely week and season, had the greatest importance for the model. Temperature, notably minimum and maximum daily temperature, also had a large influence on model output.
 
 Moon et al. \cite{moon_advancing_2024} utilized ensemble learning and XAI methods for short-term residential building electricity consumption forecasting. They performed an extensive comparison between five ensemble learning models and ten deep learning models. It was found that the decision tree-based ensemble methods were superior in handling diverse and noisy data, rendering them useful for electricity consumption forecasting. They highlight robustness, interpretability, and efficiency as advantageous characteristics in ensemble models. They argue that ensemble models can handle data that is not extensively preprocessed and that they require less data than deep learning models. A feature importance and SHAP analysis was performed on several ensemble models, revealing that temperature-humidity index and wind chill temperature had significant importance for the forecasting. The SHAP analysis combined with the decision tree-based models provided interpretive insights about complex interactions in the data.
 
@@ -54,3 +56,10 @@ XAI approaches have also been applied to long-term forecasting \cite{machlev_exp
 \cite{chakraborty_scenario-based_2021} predicted long-term cooling energy consumption for residential and commercial buildings under different climate change scenarios. They used SHAP to explain the results and concluded that the XAI method increased the interpretability of the XGBoost prediction model. Another long-term study was conducted by Wenninger et al. \cite{wenninger_explainable_2022}, who predicted the annual energy consumption for German households, and proposed a novel QLattice model for enhanced explainability. They found that the QLattice model was appropriate for the task of energy consumption forecasting, even though XGBoost achieved slightly better predictive performance. However, a significant strength with the QLattice algorithm is its transparent design, which was found to greatly increase the model explainability compared to established models such as ANN, XGBoost, and Support Vector Regression (SVR).
 
     [With this, it is clear that there is a gap in research on XAI for medium-term forecasting. And in general, the consensus is that more research in the XAI field in the energy sector is needed (?)]
+
+\section{Residential Electricity Consumption Forecasting}
+
+
+ [Forecasting for residential buildings is special and underexplored, but important] \cite{nti_electricity_2020}
+
+\cite{kong_short-term_2019}
