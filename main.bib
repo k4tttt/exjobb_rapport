@@ -940,4 +940,36 @@
   file       = {PDF:C\:\\Users\\uetyrwon\\Zotero\\storage\\U37CRJAB\\Rengasamy et al. - 2022 - Feature importance in machine learning models A fuzzy information fusion approach.pdf:application/pdf}
 }
 
+% LTeX: SETTINGS@article{mitchell_gputreeshap_2022,
+  title      = {{GPUTreeShap}: massively parallel exact calculation of {SHAP} scores for tree ensembles},
+  volume     = {8},
+  issn       = {2376-5992},
+  shorttitle = {{GPUTreeShap}},
+  url        = {https://peerj.com/articles/cs-880},
+  doi        = {10.7717/peerj-cs.880},
+  abstract   = {SHapley Additive exPlanation (SHAP) values (Lundberg \& Lee, 2017) provide a game theoretic interpretation of the predictions of machine learning models based on Shapley values (Shapley, 1953). While exact calculation of SHAP values is computationally intractable in general, a recursive polynomial-time algorithm called TreeShap (Lundberg et al., 2020) is available for decision tree models. However, despite its polynomial time complexity, TreeShap can become a significant bottleneck in practical machine learning pipelines when applied to large decision tree ensembles. Unfortunately, the complicated TreeShap algorithm is difficult to map to hardware accelerators such as GPUs. In this work, we present GPUTreeShap, a reformulated TreeShap algorithm suitable for massively parallel computation on graphics processing units. Our approach first preprocesses each decision tree to isolate variable sized sub-problems from the original recursive algorithm, then solves a bin packing problem, and finally maps sub-problems to single-instruction, multiple-thread (SIMT) tasks for parallel execution with specialised hardware instructions. With a single NVIDIA Tesla V100-32 GPU, we achieve speedups of up to 19× for SHAP values, and speedups of up to 340× for SHAP interaction values, over a state-of-the-art multi-core CPU implementation executed on two 20-core Xeon E5-2698 v4 2.2 GHz CPUs. We also experiment with multi-GPU computing using eight V100 GPUs, demonstrating throughput of 1.2 M rows per second—equivalent CPU-based performance is estimated to require 6850 CPU cores.},
+  language   = {en},
+  urldate    = {2026-05-18},
+  journal    = {PeerJ Computer Science},
+  publisher  = {PeerJ Inc.},
+  author     = {Mitchell, Rory and Frank, Eibe and Holmes, Geoffrey},
+  month      = apr,
+  year       = {2022},
+  pages      = {e880},
+  file       = {Full Text PDF:C\:\\Users\\uetyrwon\\Zotero\\storage\\HVMFTNDF\\Mitchell et al. - 2022 - GPUTreeShap massively parallel exact calculation of SHAP scores for tree ensembles.pdf:application/pdf}
+}
+
+% LTeX: SETTINGS@misc{zhu_comparative_2024,
+  title    = {Comparative {Study} on the {Performance} of {Categorical} {Variable} {Encoders} in {Classification} and {Regression} {Tasks}},
+  url      = {https://arxiv.org/abs/2401.09682v1},
+  abstract = {Categorical variables often appear in datasets for classification and regression tasks, and they need to be encoded into numerical values before training. Since many encoders have been developed and can significantly impact performance, choosing the appropriate encoder for a task becomes a time-consuming yet important practical issue. This study broadly classifies machine learning models into three categories: 1) ATI models that implicitly perform affine transformations on inputs, such as multi-layer perceptron neural network; 2) Tree-based models that are based on decision trees, such as random forest; and 3) the rest, such as kNN. Theoretically, we prove that the one-hot encoder is the best choice for ATI models in the sense that it can mimic any other encoders by learning suitable weights from the data. We also explain why the target encoder and its variants are the most suitable encoders for tree-based models. This study conducted comprehensive computational experiments to evaluate 14 encoders, including one-hot and target encoders, along with eight common machine-learning models on 28 datasets. The computational results agree with our theoretical analysis. The findings in this study shed light on how to select the suitable encoder for data scientists in fields such as fraud detection, disease diagnosis, etc.},
+  language = {en},
+  urldate  = {2026-05-18},
+  journal  = {arXiv.org},
+  author   = {Zhu, Wenbin and Qiu, Runwen and Fu, Ying},
+  month    = jan,
+  year     = {2024},
+  file     = {Full Text PDF:C\:\\Users\\uetyrwon\\Zotero\\storage\\66S8E79S\\Zhu et al. - 2024 - Comparative Study on the Performance of Categorical Variable Encoders in Classification and Regressi.pdf:application/pdf}
+}
+
 % LTeX: SETTINGS

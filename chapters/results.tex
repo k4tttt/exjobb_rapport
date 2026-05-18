@@ -1,5 +1,6 @@
-[some introductory text to the chapter]
 [måste fixa tempus här]
+
+This chapter presents the results to the experiments performed aiming to answer the research questions. Firstly, the performance of the forecasting models is presented, as well as a comparison with the baseline model. Secondly, results of the explainable AI analysis is presented.
 
 \section{Performance of Forecasting Models}
 The performance of the five decision tree-based ensemble models was assessed via MAPE, RMSE, and MAE metrics. \autoref{tab:performance} shows the scores for each model, separated by internal features and total features. Scores under the internal feature category represent the models' performance when trained solely using the historical electricity consumption, while total features refers to the combination of internal and external features. The best performing model was XGBoost, with 14.96\% errors on the total feature set. RF showed the worst performance with 16.33\% errors and considerably higher RMSE and MAE scores on the total feature set, compared to the other models. Looking at the difference between inclusion and exclusion of external features, adding the external features results in a higher forecast accuracy in terms of MAPE. On the contrary, MAE and RMSE scores worsen for the total feature group in almost all cases.
@@ -65,8 +66,6 @@ The baseline linear regression model used for comparison utilized historical con
     \caption{Average actual versus predicted electricity consumption for ensemble models and linear regression.}
     \label{fig:avg-actual-vs-predicted-lr}
 \end{figure}
-
-[maybe try LSTM and ANN for comparison too]
 
 \section{Explainable AI Analysis of Forecasts}
 
