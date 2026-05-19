@@ -267,15 +267,6 @@ Categorical features in the dataset are label encoded to integer values for all 
 
 \section{Ensemble Learning Forecasting Models}
 
-Forecasting is performed using different decision tree-based ensemble learning models. Decision trees classify data items by asking a sequence of questions about the items' features. The nodes of the tree contain questions, and for each possible answer, every internal node points to one child node. The sorting of an item into a class begins from the root of the tree, and according to the item's answer to the questions, it follows the path to a leaf node \cite{kingsford_what_2008}. An example of a decision tree structure is found in \autoref{fig:decision-tree}. One large advantage with decision trees is that they are considerably easier to interpret than neural networks, as they follow logical rules instead of having connections with numeric weights between nodes. Decision trees perform well for a few highly relevant attributes, but not as well if there are many attributes with complex interactions. Ensembles of decision trees can be employed to increase accuracy when the training data is more complex and changing \cite{kotsiantis_decision_2013}. Decision tree ensembles are considered among the most reliable and precise methods for regression and classification tasks, and they have been shown to be effective for predicting energy consumption \cite{moon_advancing_2024}. However, one disadvantage is that the interpretability decreases when multiple classifiers are involved, making it more difficult to understand the reasoning behind the ensemble's decision \cite{kotsiantis_decision_2013}. This creates a need for model explainability outside the ensemble's inner workings, which in this thesis is addressed by applying explainable AI analysis.
-
-\begin{figure}[h!tbp]%[ht]
-    \centering
-    \includegraphics[width=0.5\linewidth]{figures/decision_tree.pdf}
-    \caption{A decision tree.}
-    \label{fig:decision-tree}
-\end{figure}
-
 Five decision tree-based ensemble models are selected as forecasting models; random forest (RF), gradient boosting machine (GBM), extreme gradient boosting machine (XGBoost), light gradient boosting machine (LightGBM), and categorical boosting (CatBoost). These models are selected due to their reliability, precision, and robustness in regression and classification tasks, and their ability to capture nonlinear relationships \cite{moon_advancing_2024}.
 
 Random forest is a decision tree ensemble learning algorithm where the trees depend on a set of random feature splits at each node. This means that every tree produces its own prediction according to its set of data. The individual predictions are then combined into a final prediction via majority voting. RF is an extension of the bagging method, efficient for large datasets and robust to outliers and overfitting, making it suitable for this application. Additionally, RF is faster than other bagging or boosting techniques \cite{breiman_random_2001}.
