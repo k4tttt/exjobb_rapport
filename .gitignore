@@ -8,6 +8,7 @@
 *.blg
 *.out
 *.toc
+*.nlo
 .vscode
 *.synctex(busy)
 /maybe_figures

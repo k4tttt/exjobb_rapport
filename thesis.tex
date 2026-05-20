@@ -10,7 +10,6 @@
 %\usepackage{lmodern}             % Optional fonts. (not necessary)
 
 %\usepackage{tabularx}
-
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{xurl}
@@ -24,6 +23,9 @@
 \usepackage{graphicx}
 
 \usepackage[capitalise,noabbrev]{cleveref}
+% \usepackage{nomencl}
+% \makenomenclature
+\usepackage{acronym}
 \usepackage{comment}
 
 \hypersetup{
@@ -36,6 +38,7 @@
 
 \emergencystretch=2em
 \newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+%\renewcommand{\nomname}{List of Abbreviations}
 
 \title{Monthly Electricity Consumption Forecasting Using an Explainable AI Framework}
 %\subtitle{If you have a subtitle}
@@ -73,9 +76,8 @@
     \end{itemize}
 \end{abstract}
 
-
-
 \cleardoublepage
+
 
 \chapter*{Acknowledgements}
 \begin{comment}
@@ -99,11 +101,31 @@ manually as follows:
 
 \cleardoublepage
 
-% kan vara värt att ha en "list of abbreviations" (efter acknowledgements)
+% hallå eller
+
+% \nomenclature{\(c\)}{Speed of light in a vacuum}
+% \nomenclature{\(h\)}{Planck constant}
+
+% \printnomenclature
+
+
+% \cleardoublepage
 
 \tableofcontents
 
 % table of figures and tables?
+
+\cleardoublepage
+
+% \chapter*{List of Abbreviations}
+% \begin{acronym}
+%     \acro{ml}[ML]{Machine Learning}
+%     \acro{rf}[RF]{Random Forest}
+%     \acro{gbm}[GBM]{Gradient Boosting Machine}
+%     \acro{mape}[MAPE]{Mean Absolute Percentage Error}
+%     \acro{rmse}[RMSE]{Root Mean Square Error}
+%     \acro{xai}[XAI]{Explainable Artificial Intelligence}
+% \end{acronym}
 
 \cleardoublepage
 
