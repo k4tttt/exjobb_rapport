@@ -25,7 +25,7 @@
 \usepackage[capitalise,noabbrev]{cleveref}
 % \usepackage{nomencl}
 % \makenomenclature
-\usepackage{acronym}
+\usepackage[nohyperlinks]{acronym} % nolist also?
 \usepackage{comment}
 
 \hypersetup{
@@ -74,6 +74,7 @@
         \item Clean up references
         \item Fix limitations section
         \item List of abbreviations
+        \item Fix residential forecasting background
         \item (Center page content?)
     \end{itemize}
 \end{abstract}
@@ -119,15 +120,35 @@ manually as follows:
 
 \cleardoublepage
 
-% \chapter*{List of Abbreviations}
-% \begin{acronym}
-%     \acro{ml}[ML]{Machine Learning}
-%     \acro{rf}[RF]{Random Forest}
-%     \acro{gbm}[GBM]{Gradient Boosting Machine}
-%     \acro{mape}[MAPE]{Mean Absolute Percentage Error}
-%     \acro{rmse}[RMSE]{Root Mean Square Error}
-%     \acro{xai}[XAI]{Explainable Artificial Intelligence}
-% \end{acronym}
+\chapter*{List of Abbreviations}
+\begin{acronym}
+     \acro{ai}[AI]{Artificial Intelligence}
+     \acro{ml}[ML]{Machine Learning}
+     \acro{mape}[MAPE]{Mean Absolute Percentage Error}
+     \acro{rmse}[RMSE]{Root Mean Square Error}
+     \acro{nrmse}[NRMSE]{Normalized Root Mean Square Error}
+     \acro{mae}[MAE]{Mean Absolute Error}
+     \acro{xai}[XAI]{Explainable Artificial Intelligence}
+     \acro{shap}[SHAP]{SHapley Additive exPlanations}
+     \acro{rf}[RF]{Random Forest}
+     \acro{gbm}[GBM]{Gradient Boosting Machine}
+     \acro{ann}[ANN]{Artificial Neural Network}
+     \acro{arima}[ARIMA]{Auto-Regressive Integrated Moving Average}
+     %\acro{gbr}[GBR]{Gradient Boosted Regression Trees}
+     \acro{lstm}[LSTM]{Long Short Term Memory}
+     \acro{gru}[GRU]{Gated Recurrent Unit}
+     %\acro{tcn}[TCN]{Temporal Convolutional Network}
+     \acro{svr}[SVR]{Support Vector Regression}
+     \acro{svm}[SVM]{Support Vector Machine}
+     \acro{knn}[KNN]{K-Nearest Neighbors}
+     %\acro{foa}[FOA]{Fruit Fly Optimization}
+     %\acro{bpnn}[BPNN]{Back-Propagation Neural Network}
+     \acro{thi}[THI]{Temperature-Humidity Index}
+     \acro{wct}[WCT]{Wind-Chill-Temperature}
+     \acro{si}[SI]{Seasonal Index}
+     \acro{fi}[FI]{Feature Importance}
+     %\acro{kwh}[kWh]{Kilowatt-Hour}
+\end{acronym}
 
 \cleardoublepage
 
