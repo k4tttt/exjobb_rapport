@@ -1,13 +1,11 @@
-[måste fixa tempus här]
+This chapter presents the results to \emph{experiment 1} and \emph{experiment 2} performed with the aim of answering the research questions. Firstly, the performance of the forecasting models is presented, as well as a comparison with the baseline model. Secondly, results of the explainable AI analysis is presented.
 
-This chapter presents the results to the experiments performed aiming to answer the research questions. Firstly, the performance of the forecasting models is presented, as well as a comparison with the baseline model. Secondly, results of the explainable AI analysis is presented.
-
-\section{Performance of Forecasting Models}
+\section{Experiment 1: Performance of Forecasting Models}
 The performance of the five decision tree-based ensemble models was assessed via MAPE, RMSE, and MAE metrics. \autoref{tab:performance} shows the scores for each model, separated by internal features and total features. Scores under the internal feature category represent the models' performance when trained solely using the historical electricity consumption, while total features refers to the combination of internal and external features. The best performing model was XGBoost, with 14.96\% errors on the total feature set. RF showed the worst performance with 16.33\% errors and considerably higher RMSE and MAE scores on the total feature set, compared to the other models. Looking at the difference between inclusion and exclusion of external features, adding the external features results in a higher forecast accuracy in terms of MAPE. On the contrary, MAE and RMSE scores worsen for the total feature group in almost all cases.
 
-\begin{table}[H]
+\begin{table}[h!tbp]%[H]
     \centering
-    \caption{Performance of forecasting models.}
+    \caption{Performance of the ensemble forecasting models for \emph{experiment 1}, evaluated by internal versus total features.}
     \label{tab:performance}
     \small
     \begin{tabularx}{\linewidth}{l *{6}{R}}
@@ -27,17 +25,17 @@ The performance of the five decision tree-based ensemble models was assessed via
 
 A pattern occurring for all models is that on average, the models overestimate the electricity consumption during the winter months in the beginning of the year, as illustrated in \autoref{fig:avg-actual-vs-predicted}. During the summer, the average predictions lie closer to the actual average consumption of the households. The scatter plots in \autoref{fig:scatter-plots} show that the overestimation of electricity consumption is a general trend for all models except XGBoost, indicated by the regression lines with larger slopes than the perfect prediction line. For those models, it is clear that predictions in the several thousand kWh range are commonly overestimated, while the errors for lower kWh predictions are more evenly distributed around the perfect prediction line. %This again points towards the effect of outliers on the performance of the models.
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]%[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_predicted_vs_actual_consumption.pdf}
-    \caption{Average actual versus predicted electricity consumption for all models.}
+    \caption{Graph representing the average actual versus predicted electricity consumption for all ensemble models in \emph{experiment 1}.}
     \label{fig:avg-actual-vs-predicted}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]%[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/scatter_plots.png}
-    \caption{Scatter plots showing prediction error distribution for each model.}
+    \caption{Scatter plots showing the prediction error distribution for each ensemble model in \emph{experiment 1}.}
     \label{fig:scatter-plots}
 \end{figure}
 
@@ -45,9 +43,9 @@ A pattern occurring for all models is that on average, the models overestimate t
 
 The baseline linear regression model used for comparison utilized historical consumption and temperature as input variables. The past 24 months of electricity consumption and monthly average temperature was used to predict the following month's consumption. Evaluation of the linear regression model was performed using the same 2000 household sample as for the ensemble models, and a resulting comparison between the linear regression model and the best ensemble is found in \autoref{tab:comparison-performance}. The linear regression model performs worse by roughly 3.5\% in percentage errors. RMSE and MAE scores are also worse for the linear model, especially when compared to ensemble models using only internal features.
 
-\begin{table}[H]%[ht]
+\begin{table}[h!tbp]%[H]%[ht]
     \centering
-    \caption{Performance of best ensemble model versus linear regression.}
+    \caption{Performance of the best ensemble model in \emph{experiment 1} (total feature set) versus performance of linear regression.}
     \label{tab:comparison-performance}
     \small
     \begin{tabularx}{\linewidth}{l r r r}
@@ -60,64 +58,64 @@ The baseline linear regression model used for comparison utilized historical con
 
 \autoref{fig:avg-actual-vs-predicted-lr} shows the average predicted monthly electricity consumption for the linear regression model and all ensemble models. The linear regression model shows the same tendency to overestimate the consumption during the beginning of the year as the ensemble models do, while also showing a pattern of underestimating the consumption during the summer.
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]%[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_predicted_vs_actual_consumption_lr.pdf}
-    \caption{Average actual versus predicted electricity consumption for ensemble models and linear regression.}
+    \caption{Graph representing the average actual versus predicted electricity consumption for ensemble models and linear regression in \emph{experiment 1}.}
     \label{fig:avg-actual-vs-predicted-lr}
 \end{figure}
 
-\section{Explainable AI Analysis of Forecasts}
+\section{Experiment 2: Explainable AI Analysis of Forecasts}
 
-After assessing the predictive performance of all five ensemble learning models, the models' predictions were analyzed via the SHAP method. Firstly, the models were trained using their optimal hyperparameters, and feature importance metrics were retrieved for the trained models. Secondly, a tree SHAP analysis was performed to calculate the Shapley values for all features. For the RF model, approximate SHAP values\footnote{SHAP Tree Explainer: \url{https://shap.readthedocs.io/en/latest/generated/shap.TreeExplainer.html\#shap.TreeExplainer.shap_values}. Retrieved 2026-05-15.} were used due to the full calculation being time-consuming for this particular model. \cref{fig:fi-shap-rf,fig:fi-shap-gbm,fig:fi-shap-xgboost,fig:fi-shap-lgbm,fig:fi-shap-catboost} show the resulting feature importance plots (a) and SHAP summary plots (b) for each model.
+After assessing the predictive performance of all five ensemble learning models, the models' predictions were analyzed via the SHAP method. Firstly, the models were trained using their optimal hyperparameters, and feature importance metrics were retrieved for the trained models. Secondly, a tree SHAP analysis was performed to calculate the Shapley values for all features. For the RF model, approximate SHAP values\footnote{SHAP Tree Explainer: \url{https://shap.readthedocs.io/en/latest/generated/shap.TreeExplainer.html\#shap.TreeExplainer.shap_values}. Retrieved 2026-05-15.} were used due to the full calculation being time-consuming for this particular model. \cref{fig:fi-shap-rf,fig:fi-shap-gbm,fig:fi-shap-xgboost,fig:fi-shap-lgbm,fig:fi-shap-catboost} show the resulting feature importance plots (a) and SHAP summary plots (b) for each model. In the SHAP plots, the features are ranked from top to bottom by their mean absolute SHAP values. Every instance of a variable is shown as a unique point, and the points are distributed over the x-axis according to their SHAP values. For high concentrations of SHAP values, the points are stacked vertically. The color of a point indicates whether the raw value of the particular variable instance is relatively high or low. The color distribution along the x-axis reveals the relationship between a variable's raw values and its SHAP values.
 
-\begin{figure}[H]%[h!tbp]
+\begin{figure}[h!tbp]%[H]%[h!tbp]
     \centering
     \makebox[\linewidth][c]{%
         \hspace{-1.5cm}
         \includegraphics[width=1.25\linewidth]{figures/fi_shap_rf.png}
     }
-    \caption{Feature importance (a) and SHAP summary (b) for RF.}
+    \caption{Feature importance plot (a) and SHAP summary (b) for the RF model in \emph{experiment 2}.}
     \label{fig:fi-shap-rf}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]%[H]
     \centering
     \makebox[\linewidth][c]{%
         \hspace{-1.5cm}
         \includegraphics[width=1.25\linewidth]{figures/fi_shap_gbm.png}
     }
-    \caption{Feature importance (a) and SHAP summary (b) for GBM.}
+    \caption{Feature importance plot (a) and SHAP summary (b) for the GBM model in \emph{experiment 2}.}
     \label{fig:fi-shap-gbm}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]%[H]
     \centering
     \makebox[\linewidth][c]{%
         \hspace{-1.5cm}
         \includegraphics[width=1.25\linewidth]{figures/fi_shap_xgboost.png}
     }
-    \caption{Feature importance (a) and SHAP summary (b) for XGBoost.}
+    \caption{Feature importance plot (a) and SHAP summary (b) for the XGBoost model in \emph{experiment 2}.}
     \label{fig:fi-shap-xgboost}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]%[H]
     \centering
     \makebox[\linewidth][c]{%
         \hspace{-1.5cm}
         \includegraphics[width=1.25\linewidth]{figures/fi_shap_lgbm.png}
     }
-    \caption{Feature importance (a) and SHAP summary (b) for LightGBM.}
+    \caption{Feature importance plot (a) and SHAP summary (b) for the LightGBM model in \emph{experiment 2}.}
     \label{fig:fi-shap-lgbm}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]%[H]
     \centering
     \makebox[\linewidth][c]{%
         \hspace{-1.5cm}
         \includegraphics[width=1.25\linewidth]{figures/fi_shap_catboost.png}
     }
-    \caption{Feature importance (a) and SHAP summary (b) for CatBoost.}
+    \caption{Feature importance plot (a) and SHAP summary (b) for the CatBoost model in \emph{experiment 2}.}
     \label{fig:fi-shap-catboost}
 \end{figure}
 
