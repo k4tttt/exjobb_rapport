@@ -17,7 +17,9 @@ This study utilizes electricity consumption and household data from Umeå Energi
 
 Swedish electricity company Umeå Energi supported this research with a tailored dataset containing monthly electricity consumption from 14 286 Swedish households. The data consists of 4 years of measurements retrieved from January 1st 2022 to November 30th 2025. For the purpose of this research, households are defined as unique customer and facility combinations (i.e., one customer may have several facilities, which are regarded as separate households). Households that have any undefined or less than 10 kWh consumption measurements during the time period are removed from the dataset, leaving 13 692 households with complete measurements. All customers are private customers located in Umeå in the northern part of Sweden, meaning the data represents household electricity consumption in a cold climate. The dataset is summarized in \autoref{tab:dataset-statistics}, and \autoref{fig:kwh_histogram_2022_2025} shows the distribution of the electricity consumption for all households during the entire time period.
 
-\begin{table}[H]%[ht]
+\FloatBarrier
+
+\begin{table}[h!tbp]%[H]%[ht]
     \centering
     \caption{Summary of the Umeå Energi electricity consumption data.}
     \label{tab:dataset-statistics}
@@ -38,7 +40,7 @@ Swedish electricity company Umeå Energi supported this research with a tailored
     \end{tabularx}
 \end{table}
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]%[H]
     \centering
     \makebox[\linewidth][c]{%
         \hspace{-1cm}
@@ -48,16 +50,18 @@ Swedish electricity company Umeå Energi supported this research with a tailored
     \label{fig:kwh_histogram_2022_2025}
 \end{figure}
 
-\autoref{fig:kwh_histogram_2022_2025} and \autoref{tab:dataset-statistics} show that a vast majority of households consume electricity in a similar low range per month, but that there are outliers where the monthly consumption exceeds several thousand kWh. \autoref{fig:avg_consumption_2022_2025} shows the average monthly consumption for all households. It is clear that there is a significant seasonal pattern in the consumption, with more electricity being consumed in the winter and less in the summer. This makes sense for the cold climate, since the winter requires more heating for households with electrical heating, while summers are cool enough to not require much electrical cooling. A warmer climate may have the opposite consumption pattern, since warm summers will have a higher need for cooling measures \cite{chakraborty_scenario-based_2021,kang_off_2022}. \autoref{fig:avg_consumption_per_month} illustrates the average consumption by month, showing that consumption varies more during the winter months, while the average consumption is more stable during the summer.
+\autoref{tab:dataset-statistics} and \autoref{fig:kwh_histogram_2022_2025} show that a vast majority of households consume electricity in a similar low range per month, but that there are outliers where the monthly consumption exceeds several thousand kWh. \autoref{fig:avg_consumption_2022_2025} shows the average monthly consumption for all households. It is clear that there is a significant seasonal pattern in the consumption, with more electricity being consumed in the winter and less in the summer. This makes sense for the cold climate, since the winter requires more heating for households with electrical heating, while summers are cool enough to not require much electrical cooling. A warmer climate may have the opposite consumption pattern, since warm summers will have a higher need for cooling measures \cite{chakraborty_scenario-based_2021,kang_off_2022}. \autoref{fig:avg_consumption_per_month} illustrates the average consumption by month, showing that consumption varies more during the winter months, while the average consumption is more stable during the summer.
 
-\begin{figure}[H]%[ht]
+\begin{figure}[h!tbp]%[H]%[ht]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_consumption.pdf}
     \caption{Average household electricity consumption from January 2022 to November 2025.}
     \label{fig:avg_consumption_2022_2025}
 \end{figure}
 
-\begin{figure}[H]%[ht]
+\FloatBarrier
+
+\begin{figure}[h!tbp]%[H]%[ht]
     \centering
     \includegraphics[width=1\linewidth]{figures/avg_consumption_month.pdf}
     \caption{Average household electricity consumption by month from January 2022 to November 2025.}
@@ -73,7 +77,7 @@ In addition to the historical electricity consumption, the Umeå Energi dataset 
 These features are not directly maintained by Umeå Energi, but instead, the labeling is done by Umeå Energi based on certain properties of the customer, which may cause the labeling to be inaccurate in some cases. However, it provides a good estimation of the household properties.
 %In order to use the properties as input to the forecasting models, the string values are encoded as integers. For the CatBoost model, which handles categorical features by design, the original string values for the features are kept.
 
-\begin{table}[H]%[ht]
+\begin{table}[h!tbp]%[H]%[ht]
     \centering
     \caption{Household types in the Umeå Energi dataset.}
     \label{tab:household-specifications}
@@ -107,14 +111,14 @@ In the equation, $S$ is a partition of $k$ clusters represented by observations 
 
 In this thesis, K-Means clustering is applied to define household groups based on their electricity consumption. The elbow method is used to find an optimal number of $k$, i.e. the number of clusters. The elbow method is a visual method, where different values of $k$ are plotted against the variance within the clusters \cite{cui_introduction_2020}. As the value of $k$ increases, the average variance becomes smaller. The goal is to find a value of $k$ for which the variance stops decreasing sharply, that is, the elbow of the graph. \autoref{fig:elbow_plot} shows the elbow plot for determining the optimal number of household groups, in this case $k=3$. This results in three household groups; low consumption, medium consumption, and high consumption. Each household in the dataset is assigned a label based on the cluster it belongs to, and this label becomes an input feature for the forecasting models. \autoref{tab:cluster-profiles} details each cluster regarding size and consumption patterns. The large standard deviation present in each cluster suggests that outlier months with high consumption exist for all identified consumption patterns.
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]
     \centering
     \includegraphics[width=0.75\linewidth]{figures/elbow_plot.pdf}
     \caption{Elbow plot for finding the optimal number of household consumption profile clusters $k$.}
     \label{fig:elbow_plot}
 \end{figure}
 
-\begin{table}[H]%[ht]
+\begin{table}[h!tbp]
     \centering
     \caption{Clustered consumption profiles in the Umeå Energi dataset.}
     \label{tab:cluster-profiles}
@@ -136,7 +140,7 @@ In this thesis, K-Means clustering is applied to define household groups based o
 
 Interactions between the variables are investigated using a correlation map, as shown in \autoref{fig:variable-correlation-map}. This correlation map includes the internal historical consumption features as well as external features in the form of weather indices (THI, WCT see \autoref{equ:THI} and \autoref{equ:WCT}) and calendar information (number of holidays, number of days). The three historical consumption variables show a high correlation with each other, while they have a low correlation with all the external variables, indicating that the external variables may contribute information to the forecasts that internal features are not able to capture.
 
-\begin{figure}[H]%[ht]
+\begin{figure}[h!tbp]%[H]%[ht]
     \centering
     \includegraphics[width=1\linewidth]{figures/variable_correlation_map.pdf}
     \caption{Correlation map of internal variables, weather indices, and holiday indicators.}
@@ -153,7 +157,7 @@ Weather data is retrieved from SMHI's open data for the January 1st 2022 to Nove
 
 The measurements of all variables are aggregated to monthly values using mean. \autoref{fig:weather-plot-monthly} shows the monthly values of each weather variable plotted over the entire time range. The seasonal component is apparent for many of the weather variables, while some variables such as wind speed and air pressure lack a clear seasonal pattern. This creates potential for the different weather variables to contribute to the forecasts in unique ways.
 
-\begin{table}[H]%[ht]
+\begin{table}[h!tbp]%[H]%[ht]
     \centering
     \caption{Weather variables retrieved from SMHI.}
     \label{tab:weather-variables}
@@ -176,7 +180,7 @@ The measurements of all variables are aggregated to monthly values using mean. \
     \end{tabularx}
 \end{table}
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]%[H]
     \centering
     \makebox[\linewidth][c]{%
         \hspace{-0.5cm}
@@ -202,7 +206,7 @@ Although weather factors have been proven to be useful for predicting electricit
 
 In addition to weather data, calendar information is included as external factors. During holidays, energy consumption behaviors change due to differences in social patterns. Energy consumption is not only dependent on the decision-making of individuals, it also relies on the cultural context of social and economic activities \cite{roman_holidays_2015}. Holiday information is retrieved from Dagsmart, an open Swedish calendar information API. All holidays and weekend days during the years 2022 through 2025 are obtained, and these are compiled to a \emph{number of holidays} feature that indicates the number of holidays for each month in the dataset. In \autoref{fig:holidays-per-month}, the number of holidays per month is visualized, showing that December is the month with the most holidays. The fewest holidays are during the rest of the winter and autumn months. An additional \emph{number of days} feature is constructed for each month in the dataset, since the number of days varies (e.g., February is missing several days of consumption compared to months with 31 days).
 
-\begin{figure}[H]
+\begin{figure}[h!tbp]%[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/holidays_per_month.pdf}
     \caption{Number of Swedish holidays per month during the years 2022 through 2025.}
@@ -213,7 +217,7 @@ In addition to weather data, calendar information is included as external factor
 
 The historical consumption, weather, and calendar variables are compiled to a complete feature set for the forecasting models. A feature selection is made from the weather variables, based on the correlation maps found in \autoref{fig:weather-correlation-map} and \autoref{fig:variable-correlation-map}. Variables with a high correlation to several other variables are excluded from the feature set, in this case global radiation, long wave radiation, dew point temperature, and visibility. This is due to highly correlated features accounting for each other's impact to the model output, and the SHAP method assuming that features are uncorrelated \cite{salih_perspective_2025}. The complete selected feature set is found in \autoref{tab:input-variables}. A subset of 2 000 random households are selected for the model training and evaluation, representing 15\% of the total number of households. The data is then split into training and test data such that the years 2023 and 2024 are the training set, and January through November 2025 is the test data (see \autoref{tab:train-test-split}).
 
-\begin{table}[H]%[ht]
+\begin{table}[h!tbp]%[H]%[ht]
     \centering
     \caption{Selected input features for the forecasting models.}
     \label{tab:input-variables}
@@ -253,9 +257,11 @@ The historical consumption, weather, and calendar variables are compiled to a co
     \end{tabularx}
 \end{table}
 
+\FloatBarrier
+
 Categorical features in the dataset are label encoded to integer values for all models except CatBoost. This means that each categorical value is represented by a unique integer, instead of its original string value. Label encoding, or ordinal encoding, is one of the simplest encoding techniques, and it may introduce an ordering among categorical variable values, even if one does not exist. However, for decision tree models in particular, there can be a favorable trade-off between performance and time cost by selecting label encoding \cite{zhu_comparative_2024}. For CatBoost, the original string values are preserved due to the fact that CatBoost is specifically designed to handle categorical features \cite{prokhorenkova_catboost_2018}.
 
-\begin{table}[H]%[ht]
+\begin{table}[h!tbp]%[H]%[ht]
     \centering
     \caption{Train-test split of the dataset.}
     \label{tab:train-test-split}
@@ -286,7 +292,7 @@ CatBoost is a gradient boosting algorithm that uses a technique called \emph{ord
 
 To configure the models, a search for the best hyperparameters is performed via exhaustive grid search. The optimization consists of a five-fold time series cross-validation process over the hyperparameters specified in \autoref{tab:hyperparameters}, using the scikit-learn packages GridSearchCV and TimeSeriesSplit. A subset of 30\% of the training dataset is used for the grid search. For XGBoost, the grid search is minimized to 50 random combinations of the search space, in order to reduce execution time.
 
-\begin{table}[H]%[ht]
+\begin{table}[h!tbp]%[H]%[ht]
     \centering
     \caption{Hyperparameters for decision tree ensemble models.}
     \label{tab:hyperparameters}
@@ -345,7 +351,7 @@ In the equations, $y_t$ denotes the actual observed value at time $t$, while $\h
 
 To enhance the interpretability of the forecasts and investigate the influence of model features, a SHAP analysis is performed for all models. The SHAP methodology consists of calculating the Shapley values for each predictor. Individual predictions are evaluated and then aggregated to create a global interpretation. This experiment uses the SHAP \emph{TreeExplainer}, specifically designed for the structure decision tree models, where the explainer traces the decision paths formed by the series of decision splits made by the models \cite{mitchell_gputreeshap_2022}. For each ensemble model, both the models' built-in feature importances and the calculated SHAP values are obtained. The results are then visualized via a feature importance plot, and a SHAP summary (beeswarm) plot displaying both feature importance ranking and the impact of individual feature values on model output. \autoref{tab:experiments-summary} summarizes the experiments performed to answer the research questions of this thesis.
 
-\begin{table}[H]%[ht]
+\begin{table}[h!tbp]%[H]%[ht]
     \centering
     \caption{Summary of experiments performed to answer the research questions.}
     \label{tab:experiments-summary}
@@ -362,6 +368,8 @@ To enhance the interpretability of the forecasts and investigate the influence o
         and which variables do not benefit the forecasts?
     \end{tabularx}
 \end{table}
+
+\FloatBarrier
 
 \section{Experimental Setup}
 
