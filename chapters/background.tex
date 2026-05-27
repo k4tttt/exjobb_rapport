@@ -136,7 +136,7 @@ XAI approaches have also been applied to long-term forecasting \cite{machlev_exp
 
 Even though XAI techniques have been applied in the field of electricity consumption forecasting, there is a clear gap in the research, especially pertaining to the medium-term horizon of forecasts. This thesis addresses the gap by utilizing the SHAP methodology to interpret the forecast output from five different decision tree ensemble models, using a wide range of input features in the monthly scope.
 
-\section{Monthly Forecasting}
+\section{Monthly Energy Forecasting}
 
 %[Could possibly use \cite{dong_applying_2005} as an ``early'' example of monthly forecasting. They use SVM, but do not handle seasonality in any certain way.]
 
@@ -150,7 +150,7 @@ Tang et al. \cite{tang_gm11_2022} proposed a model specifically designed to hand
 
 Sun et al. \cite{sun_monthly_2019} approached the monthly forecasting problem by seasonal and trend decomposition of the electricity load time series, in combination with Auto-regressive Integrated Moving Average (ARIMA). This technique allowed for control of both the seasonal component's change rate and the trend component's smoothness, as well as increased robustness to outliers. Additionally, they incorporated economic factors into the forecast to improve accuracy. They found that the proposed model was able to increase forecasting accuracy, and determined that both the decomposition approach and inclusion of economic variables were effective to the forecast. For future improvements, they suggested developing detailed consumption categories and human behavior models to better account for human factors and possibly improve accuracy.
 
-\section{Residential Electricity Consumption Forecasting}
+\section{Residential Energy Forecasting}
 
 Another factor that makes this thesis stand out is that it forecasts the electricity consumption for individual residential households. Forecasting for residential buildings is less explored, since most previous works focus on forecasting for the industrial sector, or focus on forecasting the aggregated consumption on a large scale. Although underexplored, household energy forecasts, in particular short- and medium-term forecasts, are important for managing and planning operations and future grids. They are also important for the energy management of individual households, since there exists potential for households to save substantial amounts of energy through better management \cite{zhou_understanding_2016,kong_short-term_2019,nti_electricity_2020}. In contrast to the large-scale forecasts, forecasting for a single household is challenging due to factors of uncertainty. The energy load on a larger scale follows patterns, but the energy consumption of an individual household is often inconsistent \cite{kong_short-term_2019}.
 
