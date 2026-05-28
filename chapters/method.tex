@@ -257,7 +257,7 @@ The historical consumption, weather, and calendar variables were compiled to a c
 
 \FloatBarrier
 
-Categorical features in the dataset were label encoded to integer values for all models except CatBoost. This means that each categorical value is represented by a unique integer, instead of its original string value. Label encoding, or ordinal encoding, is one of the simplest encoding techniques, and can introduce an ordering among categorical variable values, even if one does not exist. However, for decision tree models in particular, there can be a favorable trade-off between performance and time cost by selecting label encoding \cite{zhu_comparative_2024}. For CatBoost, the original string values were preserved due to the fact that CatBoost is specifically designed to handle categorical features \cite{prokhorenkova_catboost_2018}.
+Categorical features in the dataset were label-encoded to integer values for all models except CatBoost. This means that each categorical value is represented by a unique integer, instead of its original string value. Label encoding, or ordinal encoding, is one of the simplest encoding techniques, and can introduce an ordering among categorical variable values, even if one does not exist. However, for decision tree models in particular, there can be a favorable trade-off between performance and time cost by selecting label encoding \cite{zhu_comparative_2024}. For CatBoost, the original string values were preserved due to the fact that CatBoost is specifically designed to handle categorical features \cite{prokhorenkova_catboost_2018}.
 
 \begin{table}[h!tbp]%[H]%[ht]
     \centering
